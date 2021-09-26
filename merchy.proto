@@ -1,25 +1,29 @@
-syntax ="proto3";
+syntax = "proto3";
 
 service InventoryService {
-    rpc GetAllEntry(Empty) returns (EntryList) {}
+    rpc GetAllEntries(Empty) returns (EntryList) {}
     rpc Get (EntryId) returns (Entry){}
     rpc Insert (Entry) returns (Entry) {}
     rpc Update (Entry) returns (Entry) {}
     rpc Remove (EntryId) returns (Empty) {}
 }
 
-message Empty{}
+message Empty {}
 
 message Entry {
-    string id =1;
-    string name=2;
-    int32 price=3;
+    string id = 1;
+    string name = 2;
+    int32 price = 3;
+    int32 amount = 4;
+    string time = 5;
+    string note = 6;
+    string itemId = 7;
 }
 
 message EntryList{
-    repeated Entry entry=1;
+    repeated Entry entry = 1;
 }
 
 message EntryId{
-    string id=1;
+    string id = 1;
 }
