@@ -1,25 +1,25 @@
 syntax ="proto3";
 
 service InventoryService {
-    rpc GetAllMenu(Empty) returns (MenuList) {}
-    rpc Get (MenuId) returns (MenuItem){}
-    rpc Insert (MenuItem) returns (MenuItem) {}
-    rpc Update (MenuItem) returns (MenuItem) {}
-    rpc Remove (MenuId) returns (Empty) {}
+    rpc GetAllEntry(Empty) returns (EntryList) {}
+    rpc Get (EntryId) returns (Entry){}
+    rpc Insert (Entry) returns (Entry) {}
+    rpc Update (Entry) returns (Entry) {}
+    rpc Remove (EntryId) returns (Empty) {}
 }
 
 message Empty{}
 
-message MenuItem {
+message Entry {
     string id =1;
     string name=2;
     int32 price=3;
 }
 
-message MenuList{
-    repeated MenuItem menu=1;
+message EntryList{
+    repeated Entry entry=1;
 }
 
-message MenuId{
+message EntryId{
     string id=1;
 }

@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-ir4(k9_#=+3eozj6km!u*5vbbed2c2ieeq8v7*(+g^&%w09^4y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'sa-project-vyjiq.run.goorm.io'
+]
 
 
 # Application definition
