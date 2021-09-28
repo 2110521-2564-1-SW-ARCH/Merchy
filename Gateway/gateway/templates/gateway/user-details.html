@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link rel="stylesheet" href="{% static 'gateway/styles/base.css' %}" />
+</head>
+
+<body>
+    
+    <h1>User Details</h1>
+    
+    <h2>This is all details of USER FULLNAME</h2>
+    <br>
+    <br>
+    <p>Firstname : {{ fname }} </p>
+    <p>Lastname : {{ lname }} </p>
+    <p>Date of Birth : {{ dob }} </p>
+    <p>Gender : {{ gender }} </p>
+    <p>Email : {{ email }} </p>
+    <p>Roles : {{ role }} </p>
+
+
+</body>
+
+</html>
+
