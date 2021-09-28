@@ -3,4 +3,4 @@ specification.txt
 **/.env
 **/*pycache*
 foke_token
-goorm_manifest
+goorm.manifest
