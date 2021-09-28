@@ -25,17 +25,4 @@ const entrySchema = new Schema({
     }
 })
 
-entrySchema.statics.findByIdProto = async function(id) {
-    const entry = await this.findById(id).populate('Item')
-    if (!entry) return null
-    const {item, ...others} = entry
-    return {...others, name: item.name, itemId: item._id}
-}
-
-entrySchema.statics.findAllProto = async function() {
-    const entries = await this.find().populate('Item')
-    const result = entries.map(({item, ...others}) => ({...others, name: item.name, itemId: item._id}))
-    return result
-}
-
 module.exports = mongoose.model("Entry", entrySchema)
