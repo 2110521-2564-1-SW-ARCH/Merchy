@@ -1,0 +1,67 @@
+{% extends "users/base/base.html" %}
+
+{% block title %}Update User{% endblock %}
+
+{% block content %}
+
+
+<div class="card m-5 shadow mx-auto" style="max-width:1000px">
+    <div class="card-body mx-3">
+        <h5 class="card-title my-3">Update User Detail</h5>
+        <div class="card-text">
+            <form method='POST'>
+                {% csrf_token %}
+                <!-- <ul>
+                     {{ form.as_ul }}   
+                </ul> -->
+
+                {{ form.non_field_errors }}
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form.fname.errors }}
+                            {{ form.fname }}
+                        </div>
+                        <div class="col">
+                            {{ form.lname.errors }}
+                            {{ form.lname }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email.errors }}
+                    {{ form.email }}
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">Role</label>
+                            {{ form.role.errors }}
+                            {{ form.role }}
+                        </div>
+                        <!-- <div class="col">
+                            <label class="form-label">Date of Birth</label>
+                            {{ form.dob.errors }}
+                            {{ form.dob }}
+                        </div> -->
+                        <div class="col">
+                            <label class="form-label">gender</label>
+                            {{ form.gender.errors }}
+                            {{ form.gender }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class='mt-5 mb-3 d-flex justify-content-center'>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        Update !
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
