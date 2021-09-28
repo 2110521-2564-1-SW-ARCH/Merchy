@@ -17,10 +17,9 @@ const entrySchema = new Schema({
     },
     note: {
         type: String,
-        required: true,
     },
-    time: {
-        type: Date,
+    date: {
+        type: String,
         required: true,
     }
 })
