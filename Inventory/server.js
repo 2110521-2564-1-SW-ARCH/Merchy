@@ -19,10 +19,11 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 
 const merchyProto = grpc.loadPackageDefinition(packageDefinition);
 
-const functions = require("./controllers")
+const entryFunctions = require("./controllers/entry")
+const itemFunctions = require("./controllers/item")
 
 const server = new grpc.Server();
-server.addService(merchyProto.InventoryService.service, functions);
+server.addService(merchyProto.InventoryService.service, { ...entryFunctions, ...itemFunctions });
 
 server.bindAsync(`${IP}:${PORT}`, grpc.ServerCredentials.createInsecure(), () => { 
     console.log(`server running at ${IP}:${PORT}`)
