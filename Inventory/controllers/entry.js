@@ -1,18 +1,18 @@
 const Entry = require('../models/Entry');
-const Item = require('../models/Item');
+const grpc = require('@grpc/grpc-js');
 
 module.exports.getAllEntries = async function (_, cb) {
     const entries = await Entry.find().populate('item');
     cb(null, { entries });
 };
 
-module.exports.get = async function ({ request }, cb) {
+module.exports.getEntry = async function ({ request }, cb) {
     const entry = await Entry.findById(request.id).populate('item');
     if (entry) cb(null, entry );
     else cb({ code: grpc.status.NOT_FOUND, details: 'Not found' });
 };
 
-module.exports.insert = async function (
+module.exports.createEntry = async function (
     {
         request: {
             item: { id: itemId },
@@ -28,7 +28,7 @@ module.exports.insert = async function (
     cb(null, createdEntry);
 };
 
-module.exports.update = async function ({ request: { id, ...others } }, cb) {
+module.exports.updateEntry = async function ({ request: { id, ...others } }, cb) {
     const existingEntry = await Entry.findById(id);
     if (existingEntry) {
         const updatedEntry = await Entry.findByIdAndUpdate(id, others, {
@@ -40,13 +40,8 @@ module.exports.update = async function ({ request: { id, ...others } }, cb) {
     }
 };
 
-module.exports.remove = async function ({ request: { id } }, cb) {
+module.exports.deleteEntry = async function ({ request: { id } }, cb) {
     const deletedEntryItem = await Entry.findByIdAndDelete(id);
     if (deletedEntryItem) cb(null, {});
     else cb({ code: grpc.status.NOT_FOUND, details: 'NOT Found' });
-};
-
-module.exports.createItem = async function ({ request }, cb) {
-    const createdItem = await Item.create(request);
-    cb(null, createdItem);
 };
