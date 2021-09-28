@@ -6,22 +6,28 @@ service InventoryService {
     rpc Insert (Entry) returns (Entry) {}
     rpc Update (Entry) returns (Entry) {}
     rpc Remove (EntryId) returns (Empty) {}
+    rpc CreateItem (Item) returns (Item) {}
 }
 
 message Empty {}
 
-message Entry {
+message Item {
     string id = 1;
     string name = 2;
+    string description = 3;
+}
+
+message Entry {
+    string id = 1;
+    Item item = 2;
     int32 price = 3;
     int32 amount = 4;
     string time = 5;
     string note = 6;
-    string itemId = 7;
 }
 
 message EntryList{
-    repeated Entry entry = 1;
+    repeated Entry entries = 1;
 }
 
 message EntryId{
