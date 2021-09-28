@@ -8,9 +8,10 @@ from .forms import RegistationForm
 def landing_page(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
-def all_users(request):
-    users = User.objects.all()
 
+def all_users(request):
+    users = User.objects.all(
+    
     return render(request, 'gateway/users.html', {
             'users': users,
         })
@@ -21,7 +22,7 @@ def user_details(request, user_id):
     return render(request, 'gateway/user-details.html', {
         'fname': selected_user.fname,
         'lname': selected_user.lname,
-        'dob': selected_user.dob,
+        # 'dob': selected_user.dob,
         'gender': selected_user.get_gender_display(),
         'email': selected_user.email,
         'role': selected_user.get_role_display(),
