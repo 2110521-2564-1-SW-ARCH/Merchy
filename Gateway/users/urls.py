@@ -7,5 +7,5 @@ urlpatterns = [
     path('add_user', views.add_user, name='add_user'), # ourdomain.com/users/add_user
     path('update_user/<int:user_id>', views.update_user, name='update_user'), # ourdomain.com/users/update_user/1
     path('del/<int:user_id>', views.del_user, name='del_user'),
-    # path('landing_page', views.landing_page),
+    path('landing_page', views.landing_page, name='landing_page'),
 ]

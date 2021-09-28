@@ -5,8 +5,8 @@ from .forms import RegistationForm
 
 
 # Create your views here.
-# def landing_page(request):
-#     return render(request, 'users/landing-page.html')
+def landing_page(request):
+    return render(request, 'users/landing-page.html')
 
 
 def all_users(request):
