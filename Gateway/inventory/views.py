@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from .forms import EntryForm
 from datetime import datetime
 
@@ -18,47 +19,82 @@ mockup_entries = [
 ]
 
 
-def convertTime(time_string):
-    time_string = time_string.split(' (')[0]
-    return datetime.strptime(time_string, "%a %b %d %Y %H:%M:%S GMT%z")
-
-
 # Create your views here.
 def render_inventory(request):
     if (request.method == 'GET'):
-        response = stub.GetAllEntries(merchy_pb2.Empty())
-        entries = response.entries
-        return render(request, 'inventory/index.html', {'entries': entries})
+        entries = stub.GetAllEntries(merchy_pb2.Empty()).entries
+        items = stub.GetAllItems(merchy_pb2.Empty()).items
+        return render(request, 'inventory/index.html', {'entries': entries, 'items': items})
     elif (request.method == 'POST'):
         print('YAY')
 
 
+# render an entry
 def render_entry(request, entry_id):
-    if (request.method == 'GET'):
-        entry = stub.Get(merchy_pb2.EntryId(id=entry_id))
-        entry = MessageToDict(entry)
-        entry['time'] = convertTime(entry['time'])
-        return render(request, 'inventory/entry.html', entry)
-    elif (request.method == 'POST'):
+    entry = stub.GetEntry(merchy_pb2.EntryId(id=entry_id))
+    entry = MessageToDict(entry)
+    items = stub.GetAllItems(merchy_pb2.Empty()).items
+    return render(request, 'inventory/entry.html', {'entry': entry, 'items': items})
+
+
+def create_entry(request):
+    if(request.method == 'POST'):
         data = request.POST
-        form = EntryForm(data)
-        if form.is_valid():
-            createdEntry = stub.Insert(merchy_pb2.Entry(
-                item={
-                    "id": "6151dbd75d645ab4e25b14c8"
-                },
-                price=data['price'],
-                amount=data['amount'],
-                note=data['note'],
-                time=str(datetime.now())
-            ))
-            print(data['name'])
-        return redirect(f'/inventory/{entry_id}')
+        createdEntry = stub.CreateEntry(merchy_pb2.Entry(
+            item={
+                "id": data['item']
+            },
+            price=float(data['price']),
+            amount=int(data['amount']),
+            note=data['note'],
+            date=data['date']
+        ))
+        return redirect('/inventory')
 
 
 def update_entry(request):
-    return render(request, 'inventory/index.html')
+    if(request.method == 'POST'):
+        data = request.POST
+        updatedEntry = stub.UpdateEntry(merchy_pb2.Entry(
+            id=data['id'],
+            price=float(data['price']),
+            amount=int(data['amount']),
+            date=data['date'],
+            note=data['note']
+        ))
+        return redirect(f'/inventory/{data["id"]}')
 
 
 def delete_entry(request):
-    return render(request, 'inventory/index.html')
+    data = request.POST
+    stub.DeleteEntry(merchy_pb2.EntryId(id=data['id']))
+    return redirect('/inventory')
+
+
+def get_item(request):
+    return HttpResponse('get item')
+
+
+def get_items(request):
+    if(request.method == 'GET'):
+        items = stub.GetAllItems(merchy_pb2.Empty())
+        return HttpResponse(items)
+    return HttpResponse('get items')
+
+
+def create_item(request):
+    if(request.method == 'POST'):
+        created_item = stub.CreateItem(merchy_pb2.Item(
+            name=request.POST['name'],
+            description=request.POST['description']
+        ))
+        return redirect('/inventory')
+    return HttpResponse('create item')
+
+
+def update_item(request):
+    return HttpResponse('update item')
+
+
+def delete_item(request):
+    return HttpResponse('delete item')
