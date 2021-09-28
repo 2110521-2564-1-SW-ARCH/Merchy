@@ -4,11 +4,15 @@
     <h1>
         Your Inventory
     </h1>
+    <div class="d-flex justify-content-end">
+        <button class="me-1" data-bs-toggle="modal" data-bs-target="#createEntryModal">Create Entry</button>
+        <button class="ms-1" data-bs-toggle="modal" data-bs-target="#createItemModal" id="create-item-btn">Create Item</button>
+    </div>
     <table class="table">
         <thead>
             <tr>
                 <th>id</th>
-                <th>time</th>
+                <th>date</th>
                 <th>name</th>
                 <th>amount</th>
                 <th>price</th>
@@ -20,15 +24,87 @@
             {% for entry in entries %}
                 <tr>
                     <td>{{entry.id}}</td>
-                    <td>{{entry.time}}</td>
+                    <td>{{entry.date}}</td>
                     <td>{{entry.item.name}}</td>
                     <td>{{entry.amount}}</td>
                     <td>{{entry.price}}</td>
                     <td>{{entry.note}}</td>
-                    <td><a href="{% url "inventory:entry" entry.id %}">Info</a></td>
+                    <td>
+                        <a href="{% url "inventory:entry" entry.id %}">Info</a>
+                    </td>
                 </tr> 
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<!-- Create Entry Modal -->
+<div class="modal fade" id="createEntryModal" tabindex="-1" aria-labelledby="createEntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEntryModalLabel">Create Entry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if items|length == 0 %}
+                    <h3 class="text-danger text-center">-- Create Item First! --</h3>
+                {% else %}
+                    <form action="{% url 'inventory:create' %}" method="post">
+                        {% csrf_token %}
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" name="date" id="date">
+                        <label for="name" class="form-label">Name</label>
+                        <select class="form-select col-9" name="item" id="item">
+                            {% for item in items %}
+                                <option value="{{item.id}}">{{item.name}}</option>
+                            {% empty %}
+                                <option selected>-- Create Item First! --</option>
+                            {% endfor %}
+                        </select>
+                        <label for="amount" class="form-label">Amount</label>
+                        <input type="number" class="form-control" name="amount" id="amount">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" name="price" id="price">
+                        <label for="note" class="form-label">Note</label>
+                        <input type="text" class="form-control" name="note" id="note">
+                        <button class="d-none" id="submit-entry-btn" role="submit"></button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                {% if items|length > 0 %}
+                    <label for="submit-entry-btn" class="btn btn-primary">Create</label>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Item Modal -->
+<div class="modal fade" id="createItemModal" tabindex="-1" aria-labelledby="createItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createItemModalLabel">Create Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'inventory:create_item' %}" method="post">
+                    {% csrf_token %}
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="description" id="description">
+                    <button class="d-none" id="submit-item-btn" role="submit"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <label for="submit-item-btn" class="btn btn-primary">Create</label>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
