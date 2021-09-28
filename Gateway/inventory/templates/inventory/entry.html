@@ -1,17 +1,41 @@
-Entry Page Yay
-<form action="{% url 'inventory:entry' id %}" method="post">
-    {% csrf_token %}
-    <label for="id">Id</label>
-    <input type="text" name="id" id="id" value="{{id}}">
-    <label for="time">Time</label>
-    <input type="text" name="time" id="time" value="{{time}}">
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" value="{{item.name}}">
-    <label for="amount">Amount</label>
-    <input type="text" name="amount" id="amount" value="{{amount}}">
-    <label for="price">Price</label>
-    <input type="text" name="price" id="price" value="{{price}}">
-    <label for="note">Note</label>
-    <input type="text" name="note" id="note" value="{{note}}">
-    <button role="submit">Update</button>
-</form>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center my-5">
+    <div class="card w-50">
+        <div class="card-body">
+            <h5 class="card-title">Entry {{entry.id}}</h5>
+            <form action="{% url 'inventory:update' %}" method="post">
+                {% csrf_token %}
+                <input type="text" class="form-control d-none" name="id" id="id" value="{{entry.id}}">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" name="date" id="date" value="{{entry.date}}">
+                <label for="name" class="form-label">Name</label>
+                <select class="form-select" name="name" id="name">
+                        {% for item in items %}
+                            {% if item.id == entry.id %}
+                                <option value="{{item.id}}" selected>{{item.name}}</option>
+                            {% else %}
+                                <option value="{{item.id}}">{{item.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" name="amount" id="amount" value="{{entry.amount}}">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" name="price" id="price" value="{{entry.price}}">
+                <label for="note" class="form-label">Note</label>
+                <input type="text" class="form-control" name="note" id="note" value="{{entry.note}}">
+                <button class="btn btn-success my-2" role="submit">Update</button>
+                <label class="btn btn-danger my-2" for="delete-entry-btn">Delete</label>
+                <a href="{% url 'inventory:entries' %}" class="btn btn-secondary my-2">Back</a>
+            </form>
+            <form action="{% url 'inventory:delete'%}" method="post">
+                {% csrf_token %}
+                <input class="d-none" type="text" name="id" value="{{entry.id}}">
+                <button class="d-none" role="submit" id="delete-entry-btn"></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
