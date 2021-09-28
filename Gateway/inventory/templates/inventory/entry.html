@@ -1,0 +1,17 @@
+Entry Page Yay
+<form action="{% url 'inventory:entry' id %}" method="post">
+    {% csrf_token %}
+    <label for="id">Id</label>
+    <input type="text" name="id" id="id" value="{{id}}">
+    <label for="time">Time</label>
+    <input type="text" name="time" id="time" value="{{time}}">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" value="{{item.name}}">
+    <label for="amount">Amount</label>
+    <input type="text" name="amount" id="amount" value="{{amount}}">
+    <label for="price">Price</label>
+    <input type="text" name="price" id="price" value="{{price}}">
+    <label for="note">Note</label>
+    <input type="text" name="note" id="note" value="{{note}}">
+    <button role="submit">Update</button>
+</form>
