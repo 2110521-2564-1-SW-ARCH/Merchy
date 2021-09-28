@@ -1,0 +1,62 @@
+{% extends "gateway/base/base.html" %}
+
+{% block title %}Update User{% endblock %}
+
+{% block content %}
+
+ <div class='container'>
+        <h2>Update User Details</h2>
+        <form action="{% url 'users' %}" method='POST'>
+            {% csrf_token %}
+            <!-- <ul>
+                 {{ form.as_ul }}   
+            </ul> -->
+
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <div class="row">
+                    <div class="col">
+                        {{ form.fname.errors }}
+                        {{ form.fname }}
+                    </div>
+                    <div class="col">
+                        {{ form.lname.errors }}
+                        {{ form.lname }}
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email.errors }}
+                {{ form.email }}
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Role</label>
+                        {{ form.role.errors }}
+                        {{ form.role }}
+                    </div>
+                    <!-- <div class="col">
+                        <label class="form-label">Date of Birth</label>
+                        {{ form.dob.errors }}
+                        {{ form.dob }}
+                    </div> -->
+                    <div class="col">
+                        <label class="form-label">gender</label>
+                        {{ form.gender.errors }}
+                        {{ form.gender }}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit class="btn btn-primary btn-lg">
+                    Register !
+                </button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
