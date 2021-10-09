@@ -22,7 +22,7 @@ def user_details(request, user_id):
     return render(request, 'users/user-details.html', {
         'fname': selected_user.fname,
         'lname': selected_user.lname,
-        # 'dob': selected_user.dob,
+        'dob': selected_user.dob,
         'gender': selected_user.get_gender_display(),
         'email': selected_user.email,
         'role': selected_user.get_role_display(),
@@ -45,21 +45,16 @@ def update_user(request, user_id):
     # fetch the object related to passed id
     selected_user = get_object_or_404(User, id=user_id)
     # pass the object as instance in form
-
-    registration_form = RegistationForm(request.POST or None,
-                                        instance=selected_user)
+    registration_form = RegistationForm(request.POST or None, instance=selected_user)
 
     if request.method == 'POST':
         if registration_form.is_valid():
-            print('Form Valid')
             registration_form.save()
             return redirect("/users")
 
-    context = {
+    return render(request, 'users/update-user.html', {
         'form': registration_form
-    }
-
-    return render(request, 'users/update-user.html', context)
+    })
 
 
 def del_user(request, user_id):
