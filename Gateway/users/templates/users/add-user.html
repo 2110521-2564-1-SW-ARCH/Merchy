@@ -1,4 +1,4 @@
-{% extends "users/base/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Add User{% endblock %}
 
@@ -40,11 +40,11 @@
                             {{ form.role.errors }}
                             {{ form.role }}
                         </div>
-                        <!-- <div class="col">
+                        <div class="col">
                             <label class="form-label">Date of Birth</label>
                             {{ form.dob.errors }}
                             {{ form.dob }}
-                        </div> -->
+                        </div>
                         <div class="col">
                             <label class="form-label">gender</label>
                             {{ form.gender.errors }}
