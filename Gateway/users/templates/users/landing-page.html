@@ -1,13 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
+{% block site_css %}
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Simple line icons-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'users/styles/landing-page.css' %}" />
+{% endblock %}
 
 {% block title %}Update User{% endblock %}
 
 {% block content %}
+
 <header class="masthead d-flex align-items-center">
     <div class="container px-4 px-lg-5 text-center">
-        <h1 class="mb-1">Stylish Portfolio</h1>
-        <h3 class="mb-5"><em>A Free Bootstrap Theme by Start Bootstrap</em></h3>
-        <a class="btn btn-primary btn-xl" href="/users">Find Out More</a>
+        <h1 class="mb-1">Welcome to Merchy</h1>
+        <h3 class="mb-5"><em>A Wonderful place for everyone who love shopping and selling</em></h3>
+        <a class="btn btn-primary btn-xl" href="/users">See all users</a>
     </div>
 </header>
 {% endblock %}
