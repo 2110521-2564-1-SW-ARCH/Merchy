@@ -1,6 +1,7 @@
 specification.txt
-**/node_modules
-**/.env
-**/*pycache*
+node_modules
+.env
+*pycache*
 foke_token
 goorm.manifest
+config.txt
