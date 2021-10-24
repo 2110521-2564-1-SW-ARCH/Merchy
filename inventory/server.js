@@ -23,9 +23,9 @@ const entryFunctions = require("./controllers/entry")
 const itemFunctions = require("./controllers/item")
 
 const server = new grpc.Server();
-server.addService(merchyProto.InventoryService.service, { ...entryFunctions, ...itemFunctions });
+server.addService(merchyProto.InventoryService.service, {...entryFunctions, ...itemFunctions });
 
-server.bindAsync(`${IP}:${PORT}`, grpc.ServerCredentials.createInsecure(), () => { 
-    console.log(`server running at ${IP}:${PORT}`)
+server.bindAsync(`${IP}:${PORT}`, grpc.ServerCredentials.createInsecure(), () => {
+    console.log(`Inventory service running at ${IP}:${PORT}`)
     server.start()
 })
