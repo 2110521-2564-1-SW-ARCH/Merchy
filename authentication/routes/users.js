@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const { isJwtLoggedIn } = require('../middleware')
 
-const {getAllUsers, getUser, addUser, updateUser, deleteUser} = require('../controllers/users')
+const { getAllUsers, getUser, addUser, updateUser, deleteUser } = require('../controllers/users')
+
 
 router.route('/')
     .get(getAllUsers)
@@ -9,7 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .get(getUser)
-    .put(updateUser)
-    .delete(deleteUser)
+    .put(isJwtLoggedIn, updateUser)
+    .delete(isJwtLoggedIn, deleteUser)
 
 module.exports = router

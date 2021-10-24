@@ -8,7 +8,7 @@ require('dotenv').config()
 const User = require('./models/User')
 const app = express()
 
-require('./db')
+// require('./db')
 // CORS
 app.use(cors())
 
@@ -28,16 +28,15 @@ const opts = {
     jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),
 }
 
-passport.use("jwt", new JwtStrategy(opts, function(jwtPayload, done){
-    User.findOne({email: jwtPayload.email}, function(err, user) {
-        if (err) return done(err, false)
-        if (!user) {
-            return done(null, user)
-        } else {
-            return done(null, false, "No User")
-            // or you could create a new account
-        }
-    })
+passport.use("jwt", new JwtStrategy(opts, async function(jwtPayload, done){
+    try {
+        const user = User.findOne({where: {email: jwtPayload.email}})
+        if (user) return done(null,user)
+        else return done(null,false)
+    }
+    catch (err) {
+        return done(err, false)
+    }
 }))
 
 // Serialization
@@ -47,6 +46,10 @@ passport.deserializeUser(User.deserializeUser())
 // Register Routes
 app.use('/api/user', require('./routes/users'))
 app.use('/api', require('./routes/auth'))
+
+app.use((err, req, res, next) => {
+    res.json(err)
+})
 
 const PORT = process.env.PORT || 3001
 
