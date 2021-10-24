@@ -272,3 +272,12 @@
     </div>
   </div>
 </template>
+userexample = {
+  fname: garky,
+  lname: garky,
+  email: gark@gark.com,
+  password: garkgark
+}
+<script>
+
+</script>

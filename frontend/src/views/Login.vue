@@ -14,16 +14,16 @@
           </a>
         </p>
       </div>
-      <form class="mt-8 space-y-6" action="#" method="POST">
+      <form class="mt-8 space-y-6" @submit="loginUser">
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
             <label for="email-address" class="sr-only">Email address</label>
-            <input id="email-address" name="email" type="email" autocomplete="email" required="" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" />
+            <input v-model="email" id="email-address" name="email" type="email" autocomplete="email" required="" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" />
           </div>
           <div>
             <label for="password" class="sr-only">Password</label>
-            <input id="password" name="password" type="password" autocomplete="current-password" required="" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" />
+            <input v-model="password" id="password" name="password" type="password" autocomplete="current-password" required="" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" />
           </div>
         </div>
 
@@ -55,13 +55,56 @@
   </div>
 </template>
 
+// body require for login
+
+// body = {
+//     email: gark@gark.com,
+//     password: garkgark
+// }
+
 <script>
+
 import { LockClosedIcon } from '@heroicons/vue/solid'
+import axios from 'axios';
 
 export default {
-  components: {
-    LockClosedIcon,
-  },
+    components: {
+      LockClosedIcon,
+    },
+    name: 'loginUser',
+    data(){
+        return{
+            user: {},
+            email: '',
+            password: '',
+            token: "",
+            message: ""
+        }
+    },
+    
+    methods:{
+
+        async loginUser(e){
+            e.preventDefault()
+            
+            await axios
+              .post(`http://localhost:4000/api/user/login`, {
+                "email": this.email,
+                "password": this.password
+              })
+                .then((res) => {
+                    console.log(res)
+                    this.user = res.user
+                    this.token = res.token
+                })
+                .catch((error) => {
+                    this.message = "Error!" + error
+                }).finally(() => {
+                    console.log(user, token)
+                });
+        }
+    }
 }
+
 </script>
 
