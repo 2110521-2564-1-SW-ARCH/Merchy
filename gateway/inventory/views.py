@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import EntryForm
 from datetime import datetime
@@ -7,94 +7,70 @@ from datetime import datetime
 import grpc
 import merchy_pb2
 import merchy_pb2_grpc
-from google.protobuf.json_format import MessageToDict
+from google.protobuf.json_format import MessageToDict, MessageToJson
 
-channel = grpc.insecure_channel('127.0.0.1:3002') # should be closed by channel.close()
+channel = grpc.insecure_channel("127.0.0.1:3002")  # should be closed by channel.close()
 stub = merchy_pb2_grpc.InventoryServiceStub(channel)
 
-mockup_entries = [
-    {'id': 0, 'name': 'Food', 'price': 100, 'amount': 3, 'time': '26/09/2021 20:00', 'note': 'KFC' },
-    {'id': 1, 'name': 'Cat', 'price': 500, 'amount': 1, 'time': '27/09/2021 09:00', 'note': 'Persian' },
-    {'id': 2, 'name': 'Collar', 'price': 35, 'amount': 1, 'time': '27/09/2021 12:00', 'note': 'Red' },
-]
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
 
 
-# Create your views here.
-def render_inventory(request):
-    if (request.method == 'GET'):
-        entries = stub.GetAllEntries(merchy_pb2.Empty()).entries
-        items = stub.GetAllItems(merchy_pb2.Empty()).items
-        return render(request, 'inventory/index.html', {'entries': entries, 'items': items})
-    elif (request.method == 'POST'):
-        print('YAY')
+@api_view(["GET", "POST"])
+def entry_list(request):
+    if request.method == "GET":
+        entries = stub.GetAllEntries(merchy_pb2.Empty())
+        entries = MessageToDict(entries)
+        return JsonResponse(entries)
+    elif request.method == "POST":
+        data = JSONParser().parse(request)
+        created_entry = stub.CreateEntry(merchy_pb2.Entry(**data))
+        created_entry = MessageToDict(created_entry)
+        return JsonResponse(created_entry)
 
+@api_view(["GET", "PUT", "DELETE"])
+def entry_detail(request, id):
+    if request.method == "GET":
+        entry = stub.GetEntry(merchy_pb2.EntryId(id=id))
+        entry = MessageToDict(entry)
+        return JsonResponse(entry)
+    elif request.method == "PUT":
+        data = JSONParser().parse(request)
+        updated_entry = stub.UpdateEntry(merchy_pb2.Entry(**data, id=id))
+        updated_entry = MessageToDict(updated_entry)
+        return JsonResponse(updated_entry)
+    elif request.method == "DELETE":
+        response = stub.DeleteEntry(merchy_pb2.EntryId(id=id))
+        response = MessageToDict(response)
+        return JsonResponse(response)
 
-# render an entry
-def render_entry(request, entry_id):
-    entry = stub.GetEntry(merchy_pb2.EntryId(id=entry_id))
-    entry = MessageToDict(entry)
-    items = stub.GetAllItems(merchy_pb2.Empty()).items
-    return render(request, 'inventory/entry.html', {'entry': entry, 'items': items})
-
-
-def create_entry(request):
-    if(request.method == 'POST'):
-        data = request.POST
-        createdEntry = stub.CreateEntry(merchy_pb2.Entry(
-            item={
-                "id": data['item']
-            },
-            price=float(data['price']),
-            amount=int(data['amount']),
-            note=data['note'],
-            date=data['date']
-        ))
-        return redirect('/inventory')
-
-
-def update_entry(request):
-    if(request.method == 'POST'):
-        data = request.POST
-        updatedEntry = stub.UpdateEntry(merchy_pb2.Entry(
-            id=data['id'],
-            price=float(data['price']),
-            amount=int(data['amount']),
-            date=data['date'],
-            note=data['note']
-        ))
-        return redirect(f'/inventory/{data["id"]}')
-
-
-def delete_entry(request):
-    data = request.POST
-    stub.DeleteEntry(merchy_pb2.EntryId(id=data['id']))
-    return redirect('/inventory')
-
-
-def get_item(request):
-    return HttpResponse('get item')
-
-
-def get_items(request):
-    if(request.method == 'GET'):
+@api_view(["GET", "POST"])
+def item_list(request):
+    if request.method == "GET":
         items = stub.GetAllItems(merchy_pb2.Empty())
-        return HttpResponse(items)
-    return HttpResponse('get items')
+        items = MessageToDict(items)
+        return JsonResponse(items)
 
+    elif request.method == "POST":
+        data = JSONParser().parse(request)
+        created_item = stub.CreateItem(merchy_pb2.Item(**data))
+        created_item = MessageToDict(created_item)
+        return JsonResponse(created_item)
 
-def create_item(request):
-    if(request.method == 'POST'):
-        created_item = stub.CreateItem(merchy_pb2.Item(
-            name=request.POST['name'],
-            description=request.POST['description']
-        ))
-        return redirect('/inventory')
-    return HttpResponse('create item')
-
-
-def update_item(request):
-    return HttpResponse('update item')
-
-
-def delete_item(request):
-    return HttpResponse('delete item')
+@api_view(["GET", "PUT", "DELETE"])
+def item_detail(request, id):
+    if request.method == "GET":
+        item = stub.GetItem(merchy_pb2.ItemId(id=id))
+        item = MessageToDict(item)
+        return JsonResponse(item)
+    elif request.method == "PUT":
+        data = JSONParser().parse(request)
+        updated_item = stub.UpdateItem(merchy_pb2.Item(**data, id=id))
+        updated_item = MessageToDict(updated_item)
+        return JsonResponse(updated_item)
+    elif request.method == "DELETE":
+        response = stub.DeleteItem(merchy_pb2.ItemId(id=id))
+        response = MessageToDict(response)
+        return JsonResponse(response)
