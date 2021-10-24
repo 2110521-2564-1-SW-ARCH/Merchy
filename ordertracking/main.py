@@ -1,15 +1,32 @@
-from typing import Optional
-from fastapi import FastAPI
+from dotenv import load_dotenv
+load_dotenv()
+
+from typing import Optional, List
+from fastapi import FastAPI, Query
+from enum import Enum
+import os
+import uvicorn
+
 import thpost
+
 
 app = FastAPI()
 
+
+class Courier(str, Enum):
+    thpost = "thpost"
+
+
 @app.get("/")
 def read_root():
-    a = 123
-    return {"Hello": "World"}
+    return "order tracking works"
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/trackbybarcodes/{courier}")
+def thpost_track_by_barcodes(courier: Courier, barcodes: List[str] = Query(...)):
+    if courier == Courier.thpost:
+        return thpost.track_by_barcodes(barcodes)
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=3003, reload=True)
