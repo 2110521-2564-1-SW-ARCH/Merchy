@@ -5,5 +5,6 @@ from authentication import views
 urlpatterns = [ 
     path('', views.user_list),
     path('login', views.login),
+    path('logout', views.logout),
     path('<str:pk>', views.user_detail),
 ]
