@@ -1,6 +1,8 @@
 specification.txt
 node_modules
 .env
+*.un*
+*~
 *pycache*
 foke_token
 goorm.manifest
