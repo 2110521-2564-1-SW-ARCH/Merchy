@@ -20,7 +20,6 @@ PORT = int(os.getenv("PORT"))
 
 @app.get("/")
 def read_root():
-    print(thpost.get_token(thpost.STATIC_TOKEN))
     return "order tracking works"
 
 

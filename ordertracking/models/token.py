@@ -14,9 +14,8 @@ class Token(BaseModel):
     token: str
     type: Type
 
-    def insert_or_update(self):
-        token_collection = db[Collection.TOKEN]
-        t = token_collection.find_one_and_update(
-            {"type": self.type}, {"$set": self.dict()}
-        )
-        return t if t != None else token_collection.insert_one(self.dict())
+
+def insert_or_update(token: Token):
+    token_collection = db[Collection.TOKEN]
+    t = token_collection.find_one_and_update({"type": token.type}, {"$set": token.dict()})
+    return t if t != None else token_collection.insert_one(token.dict())
