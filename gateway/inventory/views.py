@@ -1,7 +1,7 @@
 #  for grpc
 import grpc
-import merchy_pb2
-import merchy_pb2_grpc
+from inventory import merchy_pb2
+from inventory import merchy_pb2_grpc
 from google.protobuf.json_format import MessageToDict, MessageToJson
 
 channel = grpc.insecure_channel("127.0.0.1:3002")  # should be closed by channel.close()
