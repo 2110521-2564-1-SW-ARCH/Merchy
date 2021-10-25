@@ -86,22 +86,15 @@ export default {
 
         async loginUser(e){
             e.preventDefault()
-            
-            await axios
-              .post(`http://localhost:4000/api/user/login`, {
-                "email": this.email,
-                "password": this.password
-              })
-                .then((res) => {
-                    console.log(res)
-                    this.user = res.user
-                    this.token = res.token
-                })
-                .catch((error) => {
-                    this.message = "Error!" + error
-                }).finally(() => {
-                    console.log(user, token)
-                });
+            await axios.post('http://localhost:3000/api/user/login',
+              {email: this.email, password: this.password},
+              {withCredentials: true}
+            ).then((res) => {
+                console.log(res)
+                this.$router.push('/status');
+            }).catch((error) => {
+                this.message = "Error!" + error
+            })
         }
     }
 }

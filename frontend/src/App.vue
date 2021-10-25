@@ -141,6 +141,9 @@
           <router-link to="/register" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Sign up
           </router-link>
+          <button @click="logoutUser" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+            Sign out
+          </button>
         </div>
       </div>
     </div>
@@ -206,6 +209,7 @@
 </template>
 
 <script>
+import {useStore} from "vuex";
 import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue'
 import {
   BookmarkAltIcon,
@@ -222,6 +226,7 @@ import {
   XIcon,
 } from '@heroicons/vue/outline'
 import { ChevronDownIcon } from '@heroicons/vue/solid'
+import axios from 'axios';
 
 const solutions = [
   {
@@ -282,6 +287,7 @@ const recentPosts = [
 ]
 
 export default {
+  
   components: {
     Popover,
     PopoverButton,
@@ -300,12 +306,29 @@ export default {
     }
   },
   computed: {
+    isLogin() {
+      const store = useStore();
+      return store.state.authenticated
+    },
     notRegierPageOrLoginPage() {
       if(this.$route.path !== '/login' && this.$route.path !== '/register') {
         return true
       } else {
         return false
       }
+    },
+  },
+  methods: {
+    async logoutUser(e){
+      e.preventDefault()
+      await axios.get('http://localhost:3000/api/user/logout',
+        {withCredentials: true}
+      ).then((res) => {
+          console.log(res)
+          this.$router.push('/');
+      }).catch((error) => {
+          this.message = "Error!" + error
+      })
     }
   }
 }
