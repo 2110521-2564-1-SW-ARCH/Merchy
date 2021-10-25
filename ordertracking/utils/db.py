@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 from enum import Enum
 import os
-from signal import signal, SIGINT
 
 DB_URL = os.getenv("DB_URL")
 DB_NAME = "sa"
