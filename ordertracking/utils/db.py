@@ -4,8 +4,6 @@ import os
 
 DB_URL = os.getenv("DB_URL")
 DB_NAME = "sa"
-ORDER_COLLECTION = "orders"
-TOKEN_COLLECTION = "tokens"
 
 class Collection(str, Enum):
     ORDER = "orders"
