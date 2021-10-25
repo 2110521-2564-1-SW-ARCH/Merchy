@@ -34,9 +34,9 @@ const User = db.define('User', {
         allowNull: false
     }
 },{
-    defaultScope: {
-        attributes: { exclude: ['hash', 'salt'] },
-    }
+    // defaultScope: {
+    //     attributes: { exclude: ['hash', 'salt'] },
+    // }
 })
 
 User.sync({alter: true})
