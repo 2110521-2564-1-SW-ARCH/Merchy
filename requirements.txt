@@ -1,0 +1,9 @@
+django
+djangorestframework
+django-cors-headers
+pika
+pymysql
+protobuf
+grpcio
+fastapi
+uvicorn
