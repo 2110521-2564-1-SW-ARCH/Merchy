@@ -8,7 +8,7 @@ test_barcodes = ["EY145587896TH", "RC338848854TH"]
 
 
 def track_by_barcodes(barcodes):
-    request_token = "test"
+    request_token = get_dynamic_token(Type.THPOST_REQUEST_TOKEN)
     headers = {
         "Authorization": f"Token {request_token}",
         "Content-type": "application/json",

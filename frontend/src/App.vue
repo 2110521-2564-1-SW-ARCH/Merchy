@@ -205,6 +205,7 @@
     </transition>
   </Popover>
   <router-view/>
+  <Footer v-show='notRegierPageOrLoginPage'/>
 
 </template>
 
@@ -227,6 +228,7 @@ import {
 } from '@heroicons/vue/outline'
 import { ChevronDownIcon } from '@heroicons/vue/solid'
 import axios from 'axios';
+import Footer from './components/Footer'
 
 const solutions = [
   {
@@ -289,6 +291,7 @@ const recentPosts = [
 export default {
   
   components: {
+    Footer,
     Popover,
     PopoverButton,
     PopoverGroup,
