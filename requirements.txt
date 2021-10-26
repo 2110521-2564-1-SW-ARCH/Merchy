@@ -7,3 +7,4 @@ protobuf
 grpcio
 fastapi
 uvicorn
+pymongo[srv]
