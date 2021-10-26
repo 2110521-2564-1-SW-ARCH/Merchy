@@ -16,10 +16,14 @@ module.exports.consume = (queue, cb) => {
             });
 
             console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+            try {
+                channel.consume(queue, cb, {
+                    noAck: true
+                });
+            } catch(e) {
+                print(e)
+            }
 
-            channel.consume(queue, cb, {
-                noAck: true
-            });
         });
     });
 }
