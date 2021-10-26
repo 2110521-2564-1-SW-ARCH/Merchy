@@ -1,8 +1,3 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .forms import EntryForm
-from datetime import datetime
-
 #  for grpc
 import grpc
 from inventory import merchy_pb2
@@ -16,9 +11,11 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.decorators import api_view
+from utils.decorators import jwt_verified
 
 
 @api_view(["GET", "POST"])
+@jwt_verified(["GET","POST"])
 def entry_list(request):
     if request.method == "GET":
         entries = stub.GetAllEntries(merchy_pb2.Empty())
@@ -31,6 +28,7 @@ def entry_list(request):
         return JsonResponse(created_entry)
 
 @api_view(["GET", "PUT", "DELETE"])
+@jwt_verified(["GET", "PUT", "DELETE"])
 def entry_detail(request, id):
     if request.method == "GET":
         entry = stub.GetEntry(merchy_pb2.EntryId(id=id))
@@ -47,6 +45,7 @@ def entry_detail(request, id):
         return JsonResponse(response)
 
 @api_view(["GET", "POST"])
+@jwt_verified(["GET", "POST"])
 def item_list(request):
     if request.method == "GET":
         items = stub.GetAllItems(merchy_pb2.Empty())
@@ -60,6 +59,7 @@ def item_list(request):
         return JsonResponse(created_item)
 
 @api_view(["GET", "PUT", "DELETE"])
+@jwt_verified(["GET", "PUT", "DELETE"])
 def item_detail(request, id):
     if request.method == "GET":
         item = stub.GetItem(merchy_pb2.ItemId(id=id))

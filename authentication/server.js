@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt
@@ -15,6 +16,7 @@ app.use(cors())
 // Parse Request Body
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // Initialize Passport
 app.use(passport.initialize())
@@ -23,9 +25,15 @@ app.use(passport.initialize())
 passport.use("local", User.createStrategy())
 
 // JWT Strategy
+const cookieExtractor = function(req) {
+    let token = null
+    if (req?.cookies) token = req.cookies['token']
+    return token
+}
+
 const opts = {
     secretOrKey: process.env.SECRET,
-    jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest:cookieExtractor,
 }
 
 passport.use("jwt", new JwtStrategy(opts, async function(jwtPayload, done){
@@ -47,9 +55,10 @@ passport.deserializeUser(User.deserializeUser())
 app.use('/api/user', require('./routes/users'))
 app.use('/api', require('./routes/auth'))
 
-app.use((err, req, res, next) => {
-    res.json(err)
-})
+// app.use((err, req, res, next) => {
+//     res.json(err)
+//     next()
+// })
 
 const PORT = process.env.PORT || 3001
 
