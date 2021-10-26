@@ -18,9 +18,13 @@ let orders = require("./mock_order")
 */
 
 function consumeHandler(msg) {
-    let request = JSON.parse(msg.content.toString())
-    produce("response", {"test": "haha"})
-    // if (request.resourceType == "sales") produce("response", calculateSales(request))
+    let request = null
+    try{
+        request = JSON.parse(msg.content.toString())
+    } catch(e) {
+        console.log(e)
+    }
+    if (request.resourceType == "sales") produce("response", calculateSales(request))
 }
 
 consume("request", consumeHandler)

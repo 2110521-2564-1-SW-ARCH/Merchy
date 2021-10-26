@@ -1,36 +1,44 @@
-from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
 import json
-import pika
+import threading
+from time import sleep
+from django.http.response import HttpResponse, JsonResponse
+from rest_framework.decorators import api_view
+from accounting.amqp import produce, consume
+
+response = None
+
+
+def fill_response(ch, method, properties, body):
+    global response
+    response = json.loads(body.decode())
+
+
+def _consume(queue, cb, timeout=2):
+    global response
+
+    consumer_thread = threading.Thread(target=lambda: consume("response", cb))
+    consumer_thread.start()
+    time = 0
+    while response == None:
+        if time > timeout:
+            break
+        time += 0.5
+        sleep(0.5)
+    consumer_thread.join(timeout=0.1)
 
 
 # Create your views here.
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(["GET", "POST", "DELETE"])
 def getSales(request):
+    global response
+    msg = {
+        "resourceType": request.GET.get("resourceType"),
+        "startDate": request.GET.get("startDate"),
+        "endDate": request.GET.get("endDate"),
+        "scale": request.GET.get("scale"),
+    }
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
-    channel = connection.channel()
-
-    channel.queue_declare(queue="request")
-
-    channel.basic_publish(exchange="", routing_key="request", body=json.dumps({"test": 1}))
-
-    connection.close()
-
-
+    produce("request", msg)
+    _consume("response", fill_response)
     
-
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
-
-    channel.queue_declare(queue='hello')
-
-    def callback(ch, method, properties, body):
-        print(" [x] Received %r" % body.decode())
-
-    channel.basic_consume(queue='response', on_message_callback=callback, auto_ack=True)
-
-    print(' [*] Waiting for messages. To exit press CTRL+C')
-    channel.start_consuming()
-    return JsonResponse({"message": "yay"})
+    return JsonResponse(response, safe=False) if response != None else HttpResponse("JSON please")
