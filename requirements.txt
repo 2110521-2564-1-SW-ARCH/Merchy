@@ -8,3 +8,4 @@ grpcio
 fastapi
 uvicorn
 pymongo[srv]
+pyjwt

@@ -26,6 +26,7 @@ def read_root():
 @app.get("/trackbybarcodes/{courier}")
 def thpost_track_by_barcodes(courier: Courier, barcodes: List[str] = Query(...)):
     if courier == Courier.THPOST:
+        print(barcodes)
         return thpost.track_by_barcodes(barcodes)
 
 

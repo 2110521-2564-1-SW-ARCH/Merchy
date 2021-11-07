@@ -19,3 +19,8 @@ def insert_or_update(token: Token):
     token_collection = db[Collection.TOKEN]
     t = token_collection.find_one_and_update({"type": token.type}, {"$set": token.dict()})
     return t if t != None else token_collection.insert_one(token.dict())
+
+def get_dynamic_token(type: Type):
+    token_collection = db[Collection.TOKEN]
+    t = token_collection.find_one({"type": type})
+    return t['token']
