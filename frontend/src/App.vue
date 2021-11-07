@@ -141,7 +141,7 @@
           <router-link to="/register" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Sign up
           </router-link>
-          <button @click="logoutUser" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+          <button v-show="isLogin" @click="logoutUser" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Sign out
           </button>
         </div>
@@ -209,7 +209,7 @@
 </template>
 
 <script>
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue'
 import {
   BookmarkAltIcon,
@@ -319,16 +319,28 @@ export default {
     },
   },
   methods: {
+
+
+
     async logoutUser(e){
+      const store = useStore();
       e.preventDefault()
-      await axios.get('http://localhost:3000/api/user/logout',
-        {withCredentials: true}
-      ).then((res) => {
-          console.log(res)
-          this.$router.push('/');
-      }).catch((error) => {
-          this.message = "Error!" + error
-      })
+      try {
+
+        await axios.post('http://localhost:3000/api/user/logout',
+          {email: this.email, password: this.password},
+          {withCredentials: true}
+        ).then((res) => {
+            console.log(res)
+        })
+
+        await store.dispatch('setAuth', false)
+        this.$router.push('/status');
+
+      } catch (e) {
+          this.message = "e" + error
+      }
+
     }
   }
 }
