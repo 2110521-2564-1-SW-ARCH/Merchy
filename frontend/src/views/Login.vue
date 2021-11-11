@@ -66,6 +66,8 @@
 
 import { LockClosedIcon } from '@heroicons/vue/solid'
 import axios from 'axios';
+import { useStore, mapMutations } from 'vuex'
+import jwt from 'jsonwebtoken'
 
 export default {
     components: {
@@ -85,21 +87,41 @@ export default {
     methods:{
 
         async loginUser(e){
+            const store = useStore();
             e.preventDefault()
-            await axios.post('http://localhost:3000/api/user/login',
-              {email: this.email, password: this.password},
-              {withCredentials: true}
-            ).then((res) => {
-                console.log(res)
-                if(res.data.message === "Unauthorized") {
-                  alert("invalid email or password")
-                  this.$router.push('/login');
-                } else {
-                  this.$router.push('/status');
-                }
-            }).catch((error) => {
-                this.message = "Error!" + error
-            })
+            try {
+
+              const response = await axios.post('http://localhost:3000/api/user/login',
+                {email: this.email, password: this.password},
+                {withCredentials: true}
+              )
+              console.log(response)
+              const {token} = response.data
+              const user = jwt.decode(token)
+              // id, fname, lname, email
+
+
+              await useStore().commit('setAuth', true)
+              this.$router.push('/status');
+
+            } catch (e) {
+              this.message = "error" + e
+              console.log(this.message)
+            }
+//            await axios.post('http://localhost:3000/api/user/login',
+//              {email: this.email, password: this.password},
+//              {withCredentials: true}
+//            ).then((res) => {
+//                console.log(res)
+//                if(res.data.message === "Unauthorized") {
+//                  alert("invalid email or password")
+//                  this.$router.push('/login');
+//                } else {
+//                  this.$router.push('/status');
+//                }
+//            }).catch((error) => {
+//                this.message = "Error!" + error
+//            })
         }
     }
 }
