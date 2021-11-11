@@ -6,9 +6,7 @@ def jwt_verified(methods):
         @wraps(view_func)
         def wrapper(request, *args, **kwargs):
             if request.method in methods:
-                # verify token validity
-                token = request.COOKIES.get('token')
-                if (verify_token(token)): return view_func(request, *args, **kwargs)
+                if request.decoded_user: return view_func(request, *args, **kwargs)
                 else: return JsonResponse({"message": "Unauthorized"})
             else: return view_func(request, *args, **kwargs)
         return wrapper
