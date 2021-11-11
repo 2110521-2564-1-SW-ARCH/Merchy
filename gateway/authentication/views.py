@@ -4,7 +4,7 @@ from rest_framework import status
  
 from authentication.models import User
 from authentication.serializers import UserSerializer
-from utils.http_local import create_requests_with_header
+from utils.http_local import create_requests_with_header, AuthService
 from utils.auth import verify_token
 from utils.decorators import jwt_verified
 from rest_framework.decorators import api_view
@@ -13,70 +13,48 @@ import requests,os
 
 # MUST implement authorization header for every path
 
-@api_view(['GET', 'POST', 'DELETE'])
-def user_list(request):
-    r = create_requests_with_header(request)
+AuthService = AuthService()
 
-    # GET list of users
-    if request.method == 'GET':
-        data = r.get('http://localhost:3001/api/user').json()
-        # users_serializer = UserSerializer(data, many=True)
-        return JsonResponse(data, safe=False)
-        
-        # email = request.GET.get('email', None)
-        # if email is not None:
-        #     users = users.filter(email__icontains=title)
-        
-        # users_serializer = UserSerializer(users, many=True)
-        # return JsonResponse(users_serializer.data, safe=False)
+# /user one_user
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_verified(['GET', 'PUT', 'DELETE'])
+def user_list(request):
+    id = request.decoded_user["id"]
     
-    # POST a new user
+    if request.method == 'GET':
+        data = AuthService.get_one_user(id)
+        return JsonResponse(data, safe=False)
+
     elif request.method == 'POST':
         user_data = JSONParser().parse(request)
-        created_user = r.post('http://localhost:3001/api/user',data=user_data).json()
-        # user_serializer = UserSerializer(data=user_data)
-        # if user_serializer.is_valid():
-            # created_user = requests.post('http://localhost:3001/api/user',data=user_data).json()
-            # user_serializer.save()
-            # return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
-            # return JsonResponse({'msg': 'yay'}, status=status.HTTP_201_CREATED) 
+        created_user = AuthService.create_user(user_data)
         return JsonResponse(created_user, status=status.HTTP_201_CREATED) 
-        # return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # DELETE all users
+    elif request.method == 'PUT':
+        user_data = JSONParser().parse(request) 
+        updated_user = AuthService.update_user(id, user_data)
+        return JsonResponse(updated_user)
+
     elif request.method == 'DELETE':
-        count = User.objects.all().delete()
-        return JsonResponse({'message': '{} Users were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        data = AuthService.delete_user(id)
+        return JsonResponse(data)
  
  
 @api_view(['GET', 'PUT', 'DELETE'])
-@jwt_verified(['PUT','DELETE'])
+@jwt_verified(['GET', 'PUT', 'DELETE'])
 def user_detail(request, pk):
-
     r = create_requests_with_header(request)
-    # find tutorial by pk (id)
-    # try: 
-    #     user = User.objects.get(pk=pk) 
-    # except User.DoesNotExist: 
-    #     return JsonResponse({'message': 'The user does not exist'}, status=status.HTTP_404_NOT_FOUND) 
  
-    # GET / PUT / DELETE tutorial
+    # GET / PUT / DELETE
     if request.method == 'GET':
         user = r.get(f'http://localhost:3001/api/user/{pk}').json()
         return JsonResponse(user)
-        # user_serializer = UserSerializer(user) 
-        # return JsonResponse(user_serializer.data)
 
     elif request.method == 'PUT':
         token = request.COOKIES.get('token')
         user_data = JSONParser().parse(request) 
         updated_user = r.put(f'http://localhost:3001/api/user/{pk}', data=user_data).json()
         return JsonResponse(updated_user)
-        # user_serializer = UserSerializer(user, data=user_data) 
-        # if user_serializer.is_valid(): 
-        #     user_serializer.save() 
-        #     return JsonResponse(user_serializer.data) 
-        # return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE': 
         data = r.delete(f'http://localhost:3001/api/user/{pk}').json()
@@ -87,7 +65,8 @@ def login(request):
     r = create_requests_with_header(request)
     if request.method == 'POST':
         credential = JSONParser().parse(request)
-        data = r.post('http://localhost:3001/api/login',data=credential)
+        data = AuthService.login(credential)
+        # data = r.post('http://localhost:3001/api/login',data=credential)
         if data.text == "Unauthorized": return JsonResponse({"message": data.text})
         else: 
             response = JsonResponse(data.json())
