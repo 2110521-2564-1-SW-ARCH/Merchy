@@ -1,8 +1,8 @@
 const Item = require('../models/Item');
 const grpc = require('@grpc/grpc-js');
 
-module.exports.getAllItems = async function ({ request }, cb) {
-    const items = await Item.find();
+module.exports.getAllItems = async function ({ request: { id } }, cb) {
+    const items = await Item.find({ userId: id });
     cb(null, { items });
 };
 
