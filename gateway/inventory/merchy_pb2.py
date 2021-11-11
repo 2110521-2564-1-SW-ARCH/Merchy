@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0cmerchy.proto\"\x07\n\x05\x45mpty\"5\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\"c\n\x05\x45ntry\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04item\x18\x02 \x01(\x0b\x32\x05.Item\x12\r\n\x05price\x18\x03 \x01(\x02\x12\x0e\n\x06\x61mount\x18\x04 \x01(\x05\x12\x0c\n\x04\x64\x61te\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\"$\n\tEntryList\x12\x17\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x06.Entry\" \n\x08ItemList\x12\x14\n\x05items\x18\x01 \x03(\x0b\x32\x05.Item\"\x15\n\x07\x45ntryId\x12\n\n\x02id\x18\x01 \x01(\t\"\x14\n\x06ItemId\x12\n\n\x02id\x18\x01 \x01(\t2\xdc\x02\n\x10InventoryService\x12%\n\rGetAllEntries\x12\x06.Empty\x1a\n.EntryList\"\x00\x12\x1e\n\x08GetEntry\x12\x08.EntryId\x1a\x06.Entry\"\x00\x12\x1f\n\x0b\x43reateEntry\x12\x06.Entry\x1a\x06.Entry\"\x00\x12\x1f\n\x0bUpdateEntry\x12\x06.Entry\x1a\x06.Entry\"\x00\x12!\n\x0b\x44\x65leteEntry\x12\x08.EntryId\x1a\x06.Empty\"\x00\x12\"\n\x0bGetAllItems\x12\x06.Empty\x1a\t.ItemList\"\x00\x12\x1b\n\x07GetItem\x12\x07.ItemId\x1a\x05.Item\"\x00\x12\x1c\n\nCreateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1c\n\nUpdateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1f\n\nDeleteItem\x12\x07.ItemId\x1a\x06.Empty\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0cmerchy.proto\"\x07\n\x05\x45mpty\"\x14\n\x06UserId\x12\n\n\x02id\x18\x01 \x01(\t\"E\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0e\n\x06userId\x18\x04 \x01(\t\"s\n\x05\x45ntry\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04item\x18\x02 \x01(\x0b\x32\x05.Item\x12\r\n\x05price\x18\x03 \x01(\x02\x12\x0e\n\x06\x61mount\x18\x04 \x01(\x05\x12\x0c\n\x04\x64\x61te\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\x12\x0e\n\x06userId\x18\x07 \x01(\t\"$\n\tEntryList\x12\x17\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x06.Entry\" \n\x08ItemList\x12\x14\n\x05items\x18\x01 \x03(\x0b\x32\x05.Item\"\x15\n\x07\x45ntryId\x12\n\n\x02id\x18\x01 \x01(\t\"\x14\n\x06ItemId\x12\n\n\x02id\x18\x01 \x01(\t2\xde\x02\n\x10InventoryService\x12&\n\rGetAllEntries\x12\x07.UserId\x1a\n.EntryList\"\x00\x12\x1e\n\x08GetEntry\x12\x08.EntryId\x1a\x06.Entry\"\x00\x12\x1f\n\x0b\x43reateEntry\x12\x06.Entry\x1a\x06.Entry\"\x00\x12\x1f\n\x0bUpdateEntry\x12\x06.Entry\x1a\x06.Empty\"\x00\x12!\n\x0b\x44\x65leteEntry\x12\x08.EntryId\x1a\x06.Empty\"\x00\x12#\n\x0bGetAllItems\x12\x07.UserId\x1a\t.ItemList\"\x00\x12\x1b\n\x07GetItem\x12\x07.ItemId\x1a\x05.Item\"\x00\x12\x1c\n\nCreateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1c\n\nUpdateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1f\n\nDeleteItem\x12\x07.ItemId\x1a\x06.Empty\"\x00\x62\x06proto3'
 )
 
 
@@ -47,6 +47,38 @@ _EMPTY = _descriptor.Descriptor(
   ],
   serialized_start=16,
   serialized_end=23,
+)
+
+
+_USERID = _descriptor.Descriptor(
+  name='UserId',
+  full_name='UserId',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='UserId.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=25,
+  serialized_end=45,
 )
 
 
@@ -79,6 +111,13 @@ _ITEM = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='Item.userId', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -91,8 +130,8 @@ _ITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=25,
-  serialized_end=78,
+  serialized_start=47,
+  serialized_end=116,
 )
 
 
@@ -146,6 +185,13 @@ _ENTRY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='Entry.userId', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -158,8 +204,8 @@ _ENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=80,
-  serialized_end=179,
+  serialized_start=118,
+  serialized_end=233,
 )
 
 
@@ -190,8 +236,8 @@ _ENTRYLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=181,
-  serialized_end=217,
+  serialized_start=235,
+  serialized_end=271,
 )
 
 
@@ -222,8 +268,8 @@ _ITEMLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=219,
-  serialized_end=251,
+  serialized_start=273,
+  serialized_end=305,
 )
 
 
@@ -254,8 +300,8 @@ _ENTRYID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=253,
-  serialized_end=274,
+  serialized_start=307,
+  serialized_end=328,
 )
 
 
@@ -286,14 +332,15 @@ _ITEMID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=276,
-  serialized_end=296,
+  serialized_start=330,
+  serialized_end=350,
 )
 
 _ENTRY.fields_by_name['item'].message_type = _ITEM
 _ENTRYLIST.fields_by_name['entries'].message_type = _ENTRY
 _ITEMLIST.fields_by_name['items'].message_type = _ITEM
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
+DESCRIPTOR.message_types_by_name['UserId'] = _USERID
 DESCRIPTOR.message_types_by_name['Item'] = _ITEM
 DESCRIPTOR.message_types_by_name['Entry'] = _ENTRY
 DESCRIPTOR.message_types_by_name['EntryList'] = _ENTRYLIST
@@ -308,6 +355,13 @@ Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:Empty)
   })
 _sym_db.RegisterMessage(Empty)
+
+UserId = _reflection.GeneratedProtocolMessageType('UserId', (_message.Message,), {
+  'DESCRIPTOR' : _USERID,
+  '__module__' : 'merchy_pb2'
+  # @@protoc_insertion_point(class_scope:UserId)
+  })
+_sym_db.RegisterMessage(UserId)
 
 Item = _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
   'DESCRIPTOR' : _ITEM,
@@ -360,15 +414,15 @@ _INVENTORYSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=299,
-  serialized_end=647,
+  serialized_start=353,
+  serialized_end=703,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetAllEntries',
     full_name='InventoryService.GetAllEntries',
     index=0,
     containing_service=None,
-    input_type=_EMPTY,
+    input_type=_USERID,
     output_type=_ENTRYLIST,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
@@ -399,7 +453,7 @@ _INVENTORYSERVICE = _descriptor.ServiceDescriptor(
     index=3,
     containing_service=None,
     input_type=_ENTRY,
-    output_type=_ENTRY,
+    output_type=_EMPTY,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -418,7 +472,7 @@ _INVENTORYSERVICE = _descriptor.ServiceDescriptor(
     full_name='InventoryService.GetAllItems',
     index=5,
     containing_service=None,
-    input_type=_EMPTY,
+    input_type=_USERID,
     output_type=_ITEMLIST,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
