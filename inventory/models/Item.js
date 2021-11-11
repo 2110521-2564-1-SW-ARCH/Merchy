@@ -9,6 +9,10 @@ const itemSchema = new Schema({
 	description: {
 		type: String,
 	},
+	userId: {
+		type: String,
+		required: true
+	}
 });
 
 module.exports = mongoose.model("Item", itemSchema);
