@@ -11,7 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .get(getUser)
-    .put(isJwtLoggedIn, updateUser)
-    .delete(isJwtLoggedIn, deleteUser)
+    .put(updateUser)
+    .delete(deleteUser)
 
 module.exports = router
