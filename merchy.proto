@@ -1,14 +1,14 @@
 syntax = "proto3";
 
 service InventoryService {
-    rpc GetAllEntries(Empty) returns (EntryList) {}
-    rpc GetEntry (EntryId) returns (Entry){}
+    rpc GetAllEntries (UserId) returns (EntryList) {}
+    rpc GetEntry (EntryId) returns (Entry) {}
     rpc CreateEntry (Entry) returns (Entry) {}
-    rpc UpdateEntry (Entry) returns (Entry) {}
+    rpc UpdateEntry (Entry) returns (Empty) {}
     rpc DeleteEntry (EntryId) returns (Empty) {}
     
-    rpc GetAllItems(Empty) returns (ItemList) {}
-    rpc GetItem (ItemId) returns (Item){}
+    rpc GetAllItems (UserId) returns (ItemList) {}
+    rpc GetItem (ItemId) returns (Item) {}
     rpc CreateItem (Item) returns (Item) {}
     rpc UpdateItem (Item) returns (Item) {}
     rpc DeleteItem (ItemId) returns (Empty) {}
@@ -16,10 +16,15 @@ service InventoryService {
 
 message Empty {}
 
+message UserId {
+    string id = 1;
+}
+
 message Item {
     string id = 1;
     string name = 2;
     string description = 3;
+    string userId = 4;
 }
 
 message Entry {
@@ -29,6 +34,7 @@ message Entry {
     int32 amount = 4;
     string date = 5;
     string note = 6;
+    string userId = 7;
 }
 
 message EntryList{

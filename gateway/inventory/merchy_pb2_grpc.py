@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from inventory import merchy_pb2 as merchy__pb2
+import merchy_pb2 as merchy__pb2
 
 
 class InventoryServiceStub(object):
@@ -16,7 +16,7 @@ class InventoryServiceStub(object):
         """
         self.GetAllEntries = channel.unary_unary(
                 '/InventoryService/GetAllEntries',
-                request_serializer=merchy__pb2.Empty.SerializeToString,
+                request_serializer=merchy__pb2.UserId.SerializeToString,
                 response_deserializer=merchy__pb2.EntryList.FromString,
                 )
         self.GetEntry = channel.unary_unary(
@@ -32,7 +32,7 @@ class InventoryServiceStub(object):
         self.UpdateEntry = channel.unary_unary(
                 '/InventoryService/UpdateEntry',
                 request_serializer=merchy__pb2.Entry.SerializeToString,
-                response_deserializer=merchy__pb2.Entry.FromString,
+                response_deserializer=merchy__pb2.Empty.FromString,
                 )
         self.DeleteEntry = channel.unary_unary(
                 '/InventoryService/DeleteEntry',
@@ -41,7 +41,7 @@ class InventoryServiceStub(object):
                 )
         self.GetAllItems = channel.unary_unary(
                 '/InventoryService/GetAllItems',
-                request_serializer=merchy__pb2.Empty.SerializeToString,
+                request_serializer=merchy__pb2.UserId.SerializeToString,
                 response_deserializer=merchy__pb2.ItemList.FromString,
                 )
         self.GetItem = channel.unary_unary(
@@ -134,7 +134,7 @@ def add_InventoryServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetAllEntries': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllEntries,
-                    request_deserializer=merchy__pb2.Empty.FromString,
+                    request_deserializer=merchy__pb2.UserId.FromString,
                     response_serializer=merchy__pb2.EntryList.SerializeToString,
             ),
             'GetEntry': grpc.unary_unary_rpc_method_handler(
@@ -150,7 +150,7 @@ def add_InventoryServiceServicer_to_server(servicer, server):
             'UpdateEntry': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateEntry,
                     request_deserializer=merchy__pb2.Entry.FromString,
-                    response_serializer=merchy__pb2.Entry.SerializeToString,
+                    response_serializer=merchy__pb2.Empty.SerializeToString,
             ),
             'DeleteEntry': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteEntry,
@@ -159,7 +159,7 @@ def add_InventoryServiceServicer_to_server(servicer, server):
             ),
             'GetAllItems': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllItems,
-                    request_deserializer=merchy__pb2.Empty.FromString,
+                    request_deserializer=merchy__pb2.UserId.FromString,
                     response_serializer=merchy__pb2.ItemList.SerializeToString,
             ),
             'GetItem': grpc.unary_unary_rpc_method_handler(
@@ -204,7 +204,7 @@ class InventoryService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/InventoryService/GetAllEntries',
-            merchy__pb2.Empty.SerializeToString,
+            merchy__pb2.UserId.SerializeToString,
             merchy__pb2.EntryList.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -256,7 +256,7 @@ class InventoryService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/InventoryService/UpdateEntry',
             merchy__pb2.Entry.SerializeToString,
-            merchy__pb2.Entry.FromString,
+            merchy__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -289,7 +289,7 @@ class InventoryService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/InventoryService/GetAllItems',
-            merchy__pb2.Empty.SerializeToString,
+            merchy__pb2.UserId.SerializeToString,
             merchy__pb2.ItemList.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
