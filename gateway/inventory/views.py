@@ -1,7 +1,6 @@
 #  for grpc
 import grpc
-from inventory import merchy_pb2
-from inventory import merchy_pb2_grpc
+from inventory import merchy_pb2, merchy_pb2_grpc
 from google.protobuf.json_format import MessageToDict, MessageToJson
 
 channel = grpc.insecure_channel("127.0.0.1:3002")  # should be closed by channel.close()
@@ -15,20 +14,24 @@ from utils.decorators import jwt_verified
 
 
 @api_view(["GET", "POST"])
-@jwt_verified(["GET","POST"])
+@jwt_verified(["GET", "POST"])
+# /inventory
 def entry_list(request):
+    user_id = str(request.decoded_user["id"])
     if request.method == "GET":
-        entries = stub.GetAllEntries(merchy_pb2.Empty())
+        entries = stub.GetAllEntries(merchy_pb2.UserId(id=user_id))
         entries = MessageToDict(entries)
         return JsonResponse(entries)
     elif request.method == "POST":
         data = JSONParser().parse(request)
-        created_entry = stub.CreateEntry(merchy_pb2.Entry(**data))
+        created_entry = stub.CreateEntry(merchy_pb2.Entry(**data, userId=user_id))
         created_entry = MessageToDict(created_entry)
         return JsonResponse(created_entry)
 
+
 @api_view(["GET", "PUT", "DELETE"])
 @jwt_verified(["GET", "PUT", "DELETE"])
+# /inventory/:entry_id
 def entry_detail(request, id):
     if request.method == "GET":
         entry = stub.GetEntry(merchy_pb2.EntryId(id=id))
@@ -44,19 +47,22 @@ def entry_detail(request, id):
         response = MessageToDict(response)
         return JsonResponse(response)
 
+
 @api_view(["GET", "POST"])
 @jwt_verified(["GET", "POST"])
 def item_list(request):
+    user_id = str(request.decoded_user["id"])
     if request.method == "GET":
-        items = stub.GetAllItems(merchy_pb2.Empty())
+        items = stub.GetAllItems(merchy_pb2.UserId(id=user_id))
         items = MessageToDict(items)
         return JsonResponse(items)
 
     elif request.method == "POST":
         data = JSONParser().parse(request)
-        created_item = stub.CreateItem(merchy_pb2.Item(**data))
+        created_item = stub.CreateItem(merchy_pb2.Item(**data, userId=user_id)) 
         created_item = MessageToDict(created_item)
         return JsonResponse(created_item)
+
 
 @api_view(["GET", "PUT", "DELETE"])
 @jwt_verified(["GET", "PUT", "DELETE"])

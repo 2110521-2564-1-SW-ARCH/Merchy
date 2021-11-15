@@ -19,7 +19,7 @@ AuthService = AuthService()
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @jwt_verified(['GET', 'PUT', 'DELETE'])
 def user_list(request):
-    id = request.decoded_user["id"]
+    id = request.decoded_user["id"] if request.decoded_user else None
     
     if request.method == 'GET':
         data = AuthService.get_one_user(id)
