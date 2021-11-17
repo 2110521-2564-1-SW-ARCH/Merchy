@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class AuthDataService {
     async login(data) {
-        return await http.post("/login", data,{withCredentials:true})
+        return await http.post("/login", data)
     }
 
     logout() {

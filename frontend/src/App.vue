@@ -32,7 +32,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 
 <template>
-  <Popover v-show='notRegierPageOrLoginPage' class="relative bg-white">
+<!--  <Popover v-show='notRegierPageOrLoginPage' class="relative bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <div class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
         <div class="flex justify-start lg:w-0 lg:flex-1">
@@ -203,7 +203,7 @@
         </div>
       </PopoverPanel>
     </transition>
-  </Popover>
+  </Popover> -->
   <router-view/>
   <Footer v-show='notRegierPageOrLoginPage'/>
 
