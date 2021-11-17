@@ -4,17 +4,10 @@
       <div>
         <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
+          Log in to your account
         </h2>
-        <p class="mt-2 text-center text-sm text-gray-600">
-          Or
-          {{ ' ' }}
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-            start your 14-day free trial
-          </a>
-        </p>
       </div>
-      <form class="mt-8 space-y-6" @submit="loginUser">
+      <form class="mt-8 space-y-6" @submit="login">
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
@@ -27,27 +20,12 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-              Remember me
-            </label>
-          </div>
-
-          <div class="text-sm">
-            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-              Forgot your password?
-            </a>
-          </div>
-        </div>
-
         <div>
           <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
               <LockClosedIcon class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
             </span>
-            Sign in
+            Login
           </button>
         </div>
       </form>
@@ -55,75 +33,36 @@
   </div>
 </template>
 
-// body require for login
-
-// body = {
-//     email: gark@gark.com,
-//     password: garkgark
-// }
-
 <script>
+  import { LockClosedIcon } from '@heroicons/vue/solid'
+  import { useStore, mapMutations } from 'vuex'
+  import AuthDataService from "../services/AuthDataService"
 
-import { LockClosedIcon } from '@heroicons/vue/solid'
-import axios from 'axios';
-import { useStore, mapMutations } from 'vuex'
-import jwt from 'jsonwebtoken'
-
-export default {
-    components: {
-      LockClosedIcon,
-    },
-    name: 'loginUser',
-    data(){
-        return{
-            user: {},
+  export default {
+      components: {
+        LockClosedIcon,
+      },
+      name: 'Login',
+      data(){
+          return{
             email: '',
             password: '',
-            token: "",
             message: ""
-        }
-    },
-    
-    methods:{
-
-        async loginUser(e){
-            const store = useStore();
+          }
+      },
+      
+      methods:{
+        async login(e){
             e.preventDefault()
             try {
-
-              const response = await axios.post('http://localhost:3000/api/user/login',
-                {email: this.email, password: this.password},
-                {withCredentials: true}
-              )
-              console.log(response)
-              const {token} = response.data
-              const user = jwt.decode(token)
-              // id, fname, lname, email
-
-
-              await useStore().commit('setAuth', true)
-              this.$router.push('/status');
-
-            } catch (e) {
-              this.message = "error" + e
-              console.log(this.message)
+              const response = await AuthDataService.login({email: this.email, password: this.password})
+              this.$router.push('/status')
+            } catch (error) {
+              this.$router.push('/login')
+              console.log(error.response)
             }
-//            await axios.post('http://localhost:3000/api/user/login',
-//              {email: this.email, password: this.password},
-//              {withCredentials: true}
-//            ).then((res) => {
-//                console.log(res)
-//                if(res.data.message === "Unauthorized") {
-//                  alert("invalid email or password")
-//                  this.$router.push('/login');
-//                } else {
-//                  this.$router.push('/status');
-//                }
-//            }).catch((error) => {
-//                this.message = "Error!" + error
-//            })
-        }
-    }
+          }
+      }
 }
 
 </script>
