@@ -1,38 +1,30 @@
 import http from "../http-common";
 
-class UserDataService {
-    login(data) {
-        return http.post("/user/login", data);
+class AuthDataService {
+    async login(data) {
+        return await http.post("/login", data,{withCredentials:true})
     }
 
-    getAll() {
-        return http.get("/user");
+    logout() {
+        return http.get("/logout")
     }
 
-    get(id) {
-        return http.get(`/tutorials/${id}`);
+    get() {
+        return http.get("/user")
     }
 
     create(data) {
-        return http.post("/tutorials", data);
+        return http.post("/user", data)
     }
 
-    update(id, data) {
-        return http.put(`/tutorials/${id}`, data);
+    update(data) {
+        return http.put(`/user/`, data)
     }
 
-    delete(id) {
-        return http.delete(`/tutorials/${id}`);
+    delete() {
+        return http.delete(`/user`)
     }
 
-    deleteAll() {
-        return http.delete(`/tutorials`);
-    }
-
-    findByTitle(title) {
-        return http.get(`/tutorials?title=${title}`);
-    }
 }
 
 export default new AuthDataService();
-UserUser
