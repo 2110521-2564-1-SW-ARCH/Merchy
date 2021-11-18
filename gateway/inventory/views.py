@@ -4,42 +4,29 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from utils.decorators import jwt_verified
 
-from inventory.adapter import InventoryService
+from inventory.adapter import InventoryService, OrderService
 
 InventoryService = InventoryService()
+OrderService = OrderService()
 
 
 @api_view(["GET", "POST"])
 @jwt_verified(["GET", "POST"])
 # /inventory
-def entry_list(request):
+def order_list(request):
     user_id = str(request.decoded_user["id"])
     if request.method == "GET":
-        entries = InventoryService.get_all_entries(user_id)
-        return JsonResponse(entries)
-    # elif request.method == "POST":
-    #     data = JSONParser().parse(request)
-    #     created_entry = stub.CreateEntry(merchy_pb2.Entry(**data, userId=user_id))
-    #     created_entry = MessageToDict(created_entry)
-    #     return JsonResponse(created_entry)
-
+        orders = OrderService.get_all_orders(user_id)
+        return JsonResponse(orders, safe=False)
 
 @api_view(["GET", "PUT", "DELETE"])
 @jwt_verified(["GET", "PUT", "DELETE"])
-# /inventory/:entry_id
-def entry_detail(request, id):
+# /inventory/:order_id
+def order_detail(request, id):
     if request.method == "GET":
-        entry = InventoryService.get_one_entry(id)
-        return JsonResponse(entry)
-    # elif request.method == "PUT":
-    #     data = JSONParser().parse(request)
-    #     updated_entry = stub.UpdateEntry(merchy_pb2.Entry(**data, id=id))
-    #     updated_entry = MessageToDict(updated_entry)
-    #     return JsonResponse(updated_entry)
-    # elif request.method == "DELETE":
-    #     response = stub.DeleteEntry(merchy_pb2.EntryId(id=id))
-    #     response = MessageToDict(response)
-    #     return JsonResponse(response)
+        order = OrderService.get_one_order(id)
+        return JsonResponse(order)
+
 
 @api_view(["GET", "POST"])
 @jwt_verified(["GET", "POST"])
@@ -54,6 +41,7 @@ def item_list(request):
         created_item = InventoryService.create_item(user_id, data)
         return JsonResponse(created_item)
 
+
 @api_view(["GET", "PUT", "DELETE"])
 @jwt_verified(["GET", "PUT", "DELETE"])
 def item_detail(request, id):
@@ -62,7 +50,7 @@ def item_detail(request, id):
         return JsonResponse(item)
     elif request.method == "PUT":
         data = JSONParser().parse(request)
-        updated_item = InventoryService.update_item(id,data)
+        updated_item = InventoryService.update_item(id, data)
         return JsonResponse(updated_item)
     elif request.method == "DELETE":
         response = InventoryService.delete_item(id)
