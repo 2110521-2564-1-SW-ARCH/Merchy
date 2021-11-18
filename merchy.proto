@@ -3,9 +3,9 @@ syntax = "proto3";
 service InventoryService {
     rpc GetAllEntries (UserId) returns (EntryList) {}
     rpc GetEntry (EntryId) returns (Entry) {}
-    rpc CreateEntry (Entry) returns (Entry) {}
-    rpc UpdateEntry (Entry) returns (Empty) {}
-    rpc DeleteEntry (EntryId) returns (Empty) {}
+    // rpc CreateEntry (Entry) returns (Entry) {}
+    // rpc UpdateEntry (Entry) returns (Empty) {}
+    // rpc DeleteEntry (EntryId) returns (Empty) {}
     
     rpc GetAllItems (UserId) returns (ItemList) {}
     rpc GetItem (ItemId) returns (Item) {}
@@ -17,38 +17,100 @@ service InventoryService {
 message Empty {}
 
 message UserId {
-    string id = 1;
+    string userId = 1;
+}
+
+// ================= ITEM =====================
+
+message Attribute {
+    string name = 1;
+    string description = 2;
+    string shortDescription = 3;
+    string brand = 4;
+}
+
+message Sku {
+    string sellerSku = 1;
+    string quantity = 2;
+    string price = 3;
+    string skuId = 4;
+    repeated string images = 5;
+    int32 packageHeight = 6;
+    int32 packageLength = 7;
+    int32 packageWidth = 8;
+    int32 packageWeight = 9;
 }
 
 message Item {
     string id = 1;
-    string name = 2;
-    string description = 3;
-    string userId = 4;
-}
-
-message Entry {
-    string id = 1;
-    Item item = 2;
-    float price = 3;
-    int32 amount = 4;
-    string date = 5;
-    string note = 6;
-    string userId = 7;
-}
-
-message EntryList{
-    repeated Entry entries = 1;
+    string itemId = 2;
+    string userId = 3;
+    string platform = 4;
+    int32 primaryCategory = 5;
+    string createdAt = 6;
+    string updatedAt = 7;
+    Attribute attributes = 8;
+    repeated Sku skus = 9;
 }
 
 message ItemList{
     repeated Item items = 1;
 }
 
+message ItemId{
+    string id = 1;
+}
+
+
+// ================= ENTRY =====================
+
+message AddressBilling {
+    string firstName = 1;
+    string postCode = 2;
+    string country = 3;
+    string city = 4;
+}
+
+message AddressShipping {
+    string firstName = 1;
+    string postCode = 2;
+    string country = 3;
+    string city = 4;
+}
+
+message OrderItem {
+    Item item = 1;
+    string itemPrice = 2;
+    string taxAmount = 3;
+    string buyerId = 4;
+    string shippingProvider = 5;
+    string trackingCode = 6;
+    string skuId = 7;
+    repeated string statuses = 8;
+}
+
+message Entry {
+    string id = 1;
+    string userId = 2;
+    string platform = 3;
+    string shippingFee = 4;
+    string paymentMethod = 5;
+    string orderId = 6;
+    int32 itemsCount = 7;
+    string price = 8;
+    string createdAt = 9;
+    string updatedAt = 10;
+    AddressBilling adressBilling = 11;
+    AddressShipping addressShipping = 12;
+    repeated OrderItem orderItems = 13;
+}
+
+message EntryList{
+    repeated Entry entries = 1;
+}
+
+
 message EntryId{
     string id = 1;
 }
 
-message ItemId{
-    string id = 1;
-}
