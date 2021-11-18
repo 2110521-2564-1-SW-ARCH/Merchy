@@ -53,9 +53,11 @@
       
       methods:{
         async login(e){
+            const store = useStore()
             e.preventDefault()
             try {
               const response = await AuthDataService.login({email: this.email, password: this.password})
+              await store.dispatch('setAuth', true)
               this.$router.push('/status')
             } catch (error) {
               this.$router.push('/login')
