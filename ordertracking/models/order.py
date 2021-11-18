@@ -1,21 +1,78 @@
+from datetime import datetime
 from pydantic import BaseModel
 from utils.db import db, Collection
+from typing import List, Optional
+
+
+class AddressBilling(BaseModel):
+    firstName: str
+    postCode: str
+    country: str
+    city: str
+
+
+class AddressShipping(BaseModel):
+    firstName: str
+    postCode: str
+    country: str
+    city: str
+
+
+class OrderItem(BaseModel):
+    item: dict
+    itemPrice: str
+    taxAmount: str
+    buyerId: str
+    shippingProvier: str
+    trackingCode: str
+    skuId: str
+    statuses: List[str]
 
 
 class Order(BaseModel):
-    arg1: str
-    arg2: int
+    userId: str
+    platform: str
+    shippingFee: str
+    paymentMethod: str
+    orderId: str
+    itemsCount: int
+    price: str
+    createdAt: Optional[datetime]
+    updatedAt: Optional[datetime]
+    addressBilling: AddressBilling
+    addressShipping: AddressShipping
 
-    def __str__(self):
-        return f"Haha {self.arg1} {self.arg2}"
+
+def order_helper(order: Order):
+    return {
+        "_id": str(order["_id"]),
+        "platform": str(order["platform"]),
+        "shippingFee": str(order["shippingFee"]),
+        "paymentMethod": str(order["paymentMethod"]),
+        "orderId": str(order["orderId"]),
+        "itemsCount": int(order["itemsCount"]),
+        "price": str(order["price"]),
+        "createdAt": order["createdAt"],
+        "updatedAt": order["updatedAt"],
+        "addressBilling": order["addressBilling"],
+        "addressShipping": order["addressShipping"],
+    }
 
 
-def insert_order(self):
+def create(order: Order):
     order_collection = db[Collection.ORDER]
     order_collection.find_one_and_update()
-    return order_collection.insert_one(self.dict())
+    return order_collection.insert_one(order.dict())
 
 
-def find_order():
+def get_all(user_id: str):
     order_collection = db[Collection.ORDER]
-    return list(order_collection.find())
+    orders = order_collection.find({"userId": user_id})
+    output = []
+    for order in orders:
+        for order_item in order["orderItems"]:
+            item_id = order_item["item"]
+            item_collection = db[Collection.ITEM]
+            order_item["item"] = item_collection.find_one({"_id": item_id})
+        output.append(order_helper(order))
+    return output
