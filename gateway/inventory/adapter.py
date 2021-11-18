@@ -1,6 +1,10 @@
 import grpc
+import requests
+import os
 from inventory import merchy_pb2, merchy_pb2_grpc
 from google.protobuf.json_format import MessageToDict, MessageToJson
+
+
 
 class InventoryService:
     def __init__(self):
@@ -34,14 +38,21 @@ class InventoryService:
         response = MessageToDict(response)
         return response
 
-    ##### Utility Function for Entry #####
 
-    def get_all_entries(self,user_id):
-        entries = self.stub.GetAllEntries(merchy_pb2.UserId(userId=user_id))
-        entries = MessageToDict(entries)
-        return entries
+class OrderService:
+    order_tracking_url: str
 
-    def get_one_entry(self,entry_id):
-        entry = self.stub.GetEntry(merchy_pb2.EntryId(id=id))
-        entry = MessageToDict(entry)
-        return entry
+    def __init__(self):
+        order_tracking_service_ip = os.getenv("ORDER_TRACKING_SERVICE_IP")
+        order_tracking_service_port = os.getenv("ORDER_TRACKING_SERVICE_PORT")
+        order_tracking_service_protocol = os.getenv("ORDER_TRACKING_SERVICE_PROTOCOL")
+        self.order_tracking_service_url = f"{order_tracking_service_protocol}://{order_tracking_service_ip}:{order_tracking_service_port}"
+
+    ##### Utility Function for Items #####
+
+    def get_all_orders(self, user_id):
+        orders = requests.get(f"{self.order_tracking_service_url}/orders", params={"user_id": user_id})
+        return orders.json()
+
+    def get_one_order(self, order_id):
+        pass
