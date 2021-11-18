@@ -34,32 +34,32 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="entry in entries">
+                <tr v-for="order in orders">
                   <td class="whitespace-nowrap">
-                      {{ entry.platform }}
+                      {{ order.platform }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    {{ entry.orderId }}
+                    {{ order.orderId }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    {{ dayjs(entry.createdAt).format("DD MMM YYYY HH:mm:ss") }}
+                    {{ dayjs(order.createdAt).format("DD MMM YYYY HH:mm:ss") }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap ">
-                      <ul v-for="orderItem in entry.orderItems" class="list-disc">
+                      <ul v-for="orderItem in order.orderItems" class="list-disc">
                         <li> {{orderItem.item.attributes.name}} </li>
                       </ul>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {{ entry.addressShipping.firstName }}
+                    {{ order.addressShipping.firstName }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {{ entry.addressShipping.country }} - {{entry.addressShipping.city}}
+                    {{ order.addressShipping.country }} - {{order.addressShipping.city}}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {{ entry.paymentMethod }}
+                    {{ order.paymentMethod }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {{ entry.price }} ฿
+                    {{ order.price }} ฿
                   </td>
                   <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <a href="#" class="text-indigo-600 hover:text-indigo-900">Details</a>
@@ -80,18 +80,19 @@ export default {
     name: 'Inventory',
     data() {
         return {
-            entries: [],
+            orders: [],
             dayjs
         }
     },
     methods: {
-        getAllEntries: async function() {
+        getAllOrders: async function() {
             const response = await InventoryDataService.getAllEntries()
-            this.entries = response.data.entries
+            console.log(response)
+            this.orders = response.data.orders
         }
     },
     mounted: async function(){
-        this.getAllEntries()
+        this.getAllOrders()
     }
 }
 </script>

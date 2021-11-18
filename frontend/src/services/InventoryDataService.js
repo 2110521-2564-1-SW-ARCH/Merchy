@@ -3,11 +3,11 @@ import http from "../http-common";
 class InventoryDataService {
 
     async getAllEntries() {
-        return await http.get("/entry")
+        return await http.get("/order")
     }
 
     async getOneEntry(entryId) {
-        return await http.get(`/entry/${entryId}`)
+        return await http.get(`/order/${entryId}`)
     }
 
     async getAllItems() {
