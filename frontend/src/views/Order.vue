@@ -87,7 +87,6 @@ export default {
     methods: {
         getAllOrders: async function() {
             const response = await InventoryDataService.getAllEntries()
-            console.log(response)
             this.orders = response.data.orders
         }
     },
