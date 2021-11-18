@@ -1,13 +1,27 @@
 const Entry = require('../models/Entry');
 const grpc = require('@grpc/grpc-js');
 
-module.exports.getAllEntries = async function ({ request: { id } }, cb) {
-    const entries = await Entry.find({ userId: id }).populate('item');
+module.exports.getAllEntries = async function ({ request: { userId } }, cb) {
+    if (!userId) cb({ code: grpc.status.NOT_FOUND, details: 'missing userId' });
+    const entries = await Entry.find({ userId })
+        .populate({
+            path: "orderItems",
+            populate: {
+                "path": "item"
+            }
+        })
     cb(null, { entries });
 };
 
-module.exports.getEntry = async function ({ request }, cb) {
-    const entry = await Entry.findById(request.id).populate('item');
+module.exports.getEntry = async function ({ request: { id } }, cb) {
+    if (!id) cb({ code: grpc.status.NOT_FOUND, details: 'missing id' });
+    const entry = await Entry.findById(id)
+        .populate({
+            path: "orderItems",
+            populate: {
+                "path": "item"
+            }
+        })
     if (entry) cb(null, entry);
     else cb({ code: grpc.status.NOT_FOUND, details: 'Not found' });
 };
