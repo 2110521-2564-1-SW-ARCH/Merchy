@@ -7,3 +7,4 @@ node_modules
 foke_token
 goorm.manifest
 config.txt
+mock/
