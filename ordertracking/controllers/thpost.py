@@ -1,14 +1,14 @@
 import requests
 import json
 import os
-from models.token import *
+from models import token as Token
 
 STATIC_TOKEN = os.getenv("THPOST_STATIC_TOKEN")
 test_barcodes = ["EY145587896TH", "RC338848854TH"]
 
 
 def track_by_barcodes(barcodes):
-    request_token = get_dynamic_token(Type.THPOST_REQUEST_TOKEN)
+    request_token = Token.get_dynamic_token(Token.Type.THPOST_REQUEST_TOKEN)
     headers = {
         "Authorization": f"Token {request_token}",
         "Content-type": "application/json",
@@ -39,7 +39,7 @@ def get_token(static_token):
         "https://trackapi.thailandpost.co.th/post/api/v1/authenticate/token",
         headers=headers,
     ).json()
-    return insert_or_update(Token(**token, type=Type.THPOST_REQUEST_TOKEN))
+    return Token.insert_or_update(Token.Token(**token, type=Token.Type.THPOST_REQUEST_TOKEN))
 
 
 def get_webhook_token(static_token):
@@ -51,7 +51,7 @@ def get_webhook_token(static_token):
         "https://trackwebhook.thailandpost.co.th/post/api/v1/authenticate/token",
         headers=headers,
     ).json()
-    return insert_or_update(Token(**token, type=Type.THPOST_WEBHOOK_TOKEN))
+    return Token.insert_or_update(Token.Token(**token, type=Token.Type.THPOST_WEBHOOK_TOKEN))
 
 
 def subscribe_barcodes(barcodes):
