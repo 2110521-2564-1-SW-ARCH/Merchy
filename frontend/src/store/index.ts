@@ -2,7 +2,7 @@ import {Commit, createStore} from 'vuex'
 
 export default createStore({
     state: {
-        authenticated: true,
+        authenticated: false,
     },
     mutations: {
         SET_AUTH: (state, auth) => state.authenticated = auth
