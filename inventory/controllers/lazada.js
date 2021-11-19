@@ -33,4 +33,10 @@ LAZADA.createItem = async function (request) {
     return await item.save()
 }
 
+LAZADA.updateItem = async function ({ id, ...others }) {
+    let updatedItem = await Item.findByIdAndUpdate(id, others, { new: true })
+    if (!updatedItem) return { success: false }
+    return { success: true, updatedItem }
+}
+
 module.exports = LAZADA
