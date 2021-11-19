@@ -9,6 +9,7 @@ import os
 import uvicorn
 from controllers import thpost
 from utils.db import close_conn
+from datetime import datetime
 
 app = FastAPI(on_shutdown=[close_conn])
 PORT = int(os.getenv("PORT"))
@@ -26,8 +27,21 @@ def thpost_track_by_barcodes(courier: Courier, barcodes: List[str] = Query(...))
 
 
 @app.get("/orders")
-def get_all_orders(user_id: str):
+def get_all_orders(user_id: str, start_date: str = None, end_date: str = None):
+    if start_date is not None and end_date is not None:
+        return {
+            "orders": Order.get_all(
+                user_id,
+                datetime.fromisoformat(start_date),
+                datetime.fromisoformat(end_date),
+            )
+        }
     return {"orders": Order.get_all(user_id)}
+
+
+@app.get("/orders/{order_id}")
+def get_one_order(order_id: str):
+    return Order.get_one(order_id)
 
 
 if __name__ == "__main__":
