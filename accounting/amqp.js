@@ -1,5 +1,5 @@
 const amqp = require('amqplib/callback_api');
-const HOST = process.env.AMQP_HOST
+const HOST = process.env.AMQP_IP
 
 module.exports.consume = (queue, cb) => {
     amqp.connect(`amqp://${HOST}`, function (error0, connection) {
