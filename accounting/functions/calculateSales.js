@@ -48,9 +48,7 @@ module.exports.calculateSales = async function (request) {
         let orderPrice = Number(order.price)
         let orderCreatedAt = order.createdAt
         let scaleNotation = getScaleNotation(orderCreatedAt, scale)
-        // if response.year exists then add orderPrice
         if (response[scaleNotation]) response[scaleNotation] += orderPrice
-        // else create response.year with orderPrice
         else response[scaleNotation] = orderPrice
     }
 
