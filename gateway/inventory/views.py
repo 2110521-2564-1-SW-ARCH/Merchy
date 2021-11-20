@@ -4,28 +4,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from utils.decorators import jwt_verified
 
-from inventory.adapter import InventoryService, OrderService
+from inventory.adapter import InventoryService
 
 InventoryService = InventoryService()
-OrderService = OrderService()
-
-
-@api_view(["GET", "POST"])
-@jwt_verified(["GET", "POST"])
-# /inventory
-def order_list(request):
-    user_id = str(request.decoded_user["id"])
-    if request.method == "GET":
-        orders = OrderService.get_all_orders(user_id)
-        return JsonResponse(orders, safe=False)
-
-@api_view(["GET", "PUT", "DELETE"])
-@jwt_verified(["GET", "PUT", "DELETE"])
-# /inventory/:order_id
-def order_detail(request, id):
-    if request.method == "GET":
-        order = OrderService.get_one_order(id)
-        return JsonResponse(order)
 
 
 @api_view(["GET", "POST"])
