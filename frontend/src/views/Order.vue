@@ -14,7 +14,7 @@
                   Date
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Items
+                  Item
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Buyer name
@@ -44,10 +44,8 @@
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ dayjs(order.createdAt).format("DD MMM YYYY HH:mm:ss") }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap ">
-                      <ul v-for="orderItem in order.orderItems" class="list-disc">
-                        <li> {{orderItem.item.attributes.name}} </li>
-                      </ul>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{ order.orderItems[0].item.attributes.name}} - {{ order.itemsCount }} Pieces
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {{ order.addressShipping.firstName }}
