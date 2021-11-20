@@ -86,6 +86,7 @@ def get_all(user_id: str, start_date: datetime = None, end_date: datetime = None
 def get_one(order_id: str):
     order_collection = db[Collection.ORDER]
     order = order_collection.find_one({"_id": ObjectId(order_id)})
+    if(order == None): return "Not found"
     order["orderItems"] = populate_order_items(order["orderItems"])
     return order_helper(order)
 
