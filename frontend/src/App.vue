@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 
