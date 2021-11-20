@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "dev": "nodemon server.js",
     "rabbitmq": "docker run -it -d --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management"
   },
   "keywords": [],
@@ -15,7 +16,9 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.8.0",
+    "axios": "^0.24.0",
     "dayjs": "^1.10.7",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15"
   }
 }

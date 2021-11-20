@@ -1,7 +1,8 @@
-from django.contrib import admin
 from django.urls import path
-from ordertracking import views
+from . import views
 
 urlpatterns = [
-    path('', views.get_ordertracking_detail)
+    path('trackbybarcodes', views.shipping_status_list),
+    path('order', views.order_list),
+    path('order/<str:id>', views.order_detail),
 ]

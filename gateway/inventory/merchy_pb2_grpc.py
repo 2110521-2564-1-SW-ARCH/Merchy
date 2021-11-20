@@ -24,21 +24,6 @@ class InventoryServiceStub(object):
                 request_serializer=merchy__pb2.EntryId.SerializeToString,
                 response_deserializer=merchy__pb2.Entry.FromString,
                 )
-        self.CreateEntry = channel.unary_unary(
-                '/InventoryService/CreateEntry',
-                request_serializer=merchy__pb2.Entry.SerializeToString,
-                response_deserializer=merchy__pb2.Entry.FromString,
-                )
-        self.UpdateEntry = channel.unary_unary(
-                '/InventoryService/UpdateEntry',
-                request_serializer=merchy__pb2.Entry.SerializeToString,
-                response_deserializer=merchy__pb2.Empty.FromString,
-                )
-        self.DeleteEntry = channel.unary_unary(
-                '/InventoryService/DeleteEntry',
-                request_serializer=merchy__pb2.EntryId.SerializeToString,
-                response_deserializer=merchy__pb2.Empty.FromString,
-                )
         self.GetAllItems = channel.unary_unary(
                 '/InventoryService/GetAllItems',
                 request_serializer=merchy__pb2.UserId.SerializeToString,
@@ -76,24 +61,6 @@ class InventoryServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetEntry(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def CreateEntry(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateEntry(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteEntry(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -141,21 +108,6 @@ def add_InventoryServiceServicer_to_server(servicer, server):
                     servicer.GetEntry,
                     request_deserializer=merchy__pb2.EntryId.FromString,
                     response_serializer=merchy__pb2.Entry.SerializeToString,
-            ),
-            'CreateEntry': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateEntry,
-                    request_deserializer=merchy__pb2.Entry.FromString,
-                    response_serializer=merchy__pb2.Entry.SerializeToString,
-            ),
-            'UpdateEntry': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateEntry,
-                    request_deserializer=merchy__pb2.Entry.FromString,
-                    response_serializer=merchy__pb2.Empty.SerializeToString,
-            ),
-            'DeleteEntry': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteEntry,
-                    request_deserializer=merchy__pb2.EntryId.FromString,
-                    response_serializer=merchy__pb2.Empty.SerializeToString,
             ),
             'GetAllItems': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllItems,
@@ -223,57 +175,6 @@ class InventoryService(object):
         return grpc.experimental.unary_unary(request, target, '/InventoryService/GetEntry',
             merchy__pb2.EntryId.SerializeToString,
             merchy__pb2.Entry.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def CreateEntry(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/InventoryService/CreateEntry',
-            merchy__pb2.Entry.SerializeToString,
-            merchy__pb2.Entry.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UpdateEntry(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/InventoryService/UpdateEntry',
-            merchy__pb2.Entry.SerializeToString,
-            merchy__pb2.Empty.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def DeleteEntry(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/InventoryService/DeleteEntry',
-            merchy__pb2.EntryId.SerializeToString,
-            merchy__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

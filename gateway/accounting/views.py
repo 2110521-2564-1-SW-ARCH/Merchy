@@ -13,24 +13,23 @@ def fill_response(ch, method, properties, body):
     response = json.loads(body.decode())
 
 
-def _consume(queue, cb, timeout=2):
-    global response
-
-    consumer_thread = threading.Thread(target=lambda: consume("response", cb))
-    consumer_thread.start()
+def wait_for_response(timeout=5):
     time = 0
     while response == None:
         if time > timeout:
             break
         time += 0.5
         sleep(0.5)
-    consumer_thread.join(timeout=0.1)
+
+consumer_thread = threading.Thread(target=lambda: consume(fill_response))
+consumer_thread.start()
 
 
 # Create your views here.
 @api_view(["GET", "POST", "DELETE"])
 def getSales(request):
     global response
+    response = None
     msg = {
         "resourceType": request.GET.get("resourceType"),
         "startDate": request.GET.get("startDate"),
@@ -38,7 +37,7 @@ def getSales(request):
         "scale": request.GET.get("scale"),
     }
 
-    produce("request", msg)
-    _consume("response", fill_response)
+    produce(msg)
+    wait_for_response()
     
     return JsonResponse(response, safe=False) if response != None else HttpResponse("JSON please")

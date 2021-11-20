@@ -8,6 +8,7 @@ DB_NAME = "sa"
 class Collection(str, Enum):
     ORDER = "orders"
     TOKEN = "tokens"
+    ITEM = "items"
 
 
 conn = MongoClient(DB_URL)
