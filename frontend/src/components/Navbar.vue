@@ -15,14 +15,25 @@
             <MenuIcon class="h-6 w-6" aria-hidden="true" />
           </PopoverButton>
         </div>
-        <PopoverGroup as="nav" class="hidden md:flex space-x-10">
+        <PopoverGroup v-show="!isLogin" as="nav" class="hidden md:flex space-x-10">
 
-          <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">
+          <router-link to="/" class="text-base font-medium text-gray-500 hover:text-gray-900">
             Pricing
-          </a>
-          <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">
+          </router-link>
+          <router-link to="/" class="text-base font-medium text-gray-500 hover:text-gray-900">
             Docs
-          </a>
+          </router-link>
+        </PopoverGroup>
+        <PopoverGroup v-show="isLogin" as="nav" class="hidden md:flex space-x-10">
+          <router-link to="/item" class="text-base font-medium text-gray-500 hover:text-gray-900">
+            Stock
+          </router-link>
+          <router-link to="/order" class="text-base font-medium text-gray-500 hover:text-gray-900">
+            Order
+          </router-link>
+          <router-link to="/status" class="text-base font-medium text-gray-500 hover:text-gray-900">
+            Accounting
+          </router-link>
         </PopoverGroup>
         <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
           <router-link v-show="!isLogin" to="/login" class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
