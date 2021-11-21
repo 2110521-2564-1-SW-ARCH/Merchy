@@ -22,17 +22,15 @@ async function getAccessToken(code) {
     const apiName = "/auth/token/create"
     const timestamp = Date.now()
     const signMethod = "sha256"
-    let paramsString = `${apiName}app_key${APP_KEY}code${code}sign_method${signMethod}timestamp${timestamp}`
     let params = {
         app_key: APP_KEY,
         code,
         sign_method: signMethod,
         timestamp
     }
-    let sign = signRequest(apiName, params, APP_SECRET)
-    params.sign = sign
-    let {data: token} = await axios.get(`${getAccessTokenUrl}${apiName}`, {params})
-    return {success: true, token}
+    params.sign = signRequest(apiName, params, APP_SECRET)
+    let { data: token } = await axios.get(`${getAccessTokenUrl}${apiName}`, { params })
+    return { success: true, token }
 }
 
 LAZADA.getAuthorizeSellerLink = (req, res) => {
@@ -48,7 +46,7 @@ LAZADA.getAuthorizeSellerLink = (req, res) => {
 
 LAZADA.handleAuthorizeCallback = async (req, res) => {
     let result = await getAccessToken(req.query.code)
-    if(result.success) {
+    if (result.success) {
         // store token in the database
         return res.send(result)
     }
