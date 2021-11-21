@@ -6,7 +6,7 @@
         <div class="flex justify-start lg:w-0 lg:flex-1">
           <router-link to="/">
             <span class="sr-only">Workflow</span>
-            <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
+            <img class="h-10 w-auto sm:h-10" src="../assets/Merchy.png" alt="" />
           </router-link>
         </div>
         <div class="-mr-2 -my-2 md:hidden">
