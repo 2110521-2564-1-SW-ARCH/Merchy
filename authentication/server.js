@@ -6,6 +6,7 @@ const JwtStrategy = require('passport-jwt').Strategy,
 
 const cors = require('cors')
 require('dotenv').config()
+const LAZADA = require('./controllers/lazada')
 const User = require('./models/User')
 const app = express()
 
@@ -54,6 +55,10 @@ passport.deserializeUser(User.deserializeUser())
 // Register Routes
 app.use('/api/user', require('./routes/users'))
 app.use('/api', require('./routes/auth'))
+
+app.get('/api/lazada/login', (req, res) => {
+    return res.redirect(LAZADA.getAuthorizeSellerLink())
+})
 
 // app.use((err, req, res, next) => {
 //     res.json(err)
