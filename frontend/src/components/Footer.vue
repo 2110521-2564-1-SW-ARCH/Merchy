@@ -1,11 +1,11 @@
 <template>
     <div>
-        <footer id="footer" class="relative z-50 dark:bg-gray-900">
+        <footer id="footer" class="relative z-30 dark:bg-gray-900">
             <div class="py-12 flex flex-col justify-center items-center">
                 <a href="javascript:void(0)">
                     <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
                 </a>
-                <p class="mt-6 text-xs lg:text-sm leading-none text-gray-900 dark:text-gray-50">2021 Tailwind UI Kit. All Rights Reserved.</p>
+                <p class="mt-6 text-xs lg:text-sm leading-none text-gray-900 dark:text-gray-50">2021 Merchy system developed by the Nisit Chana team. All Rights Reserved.</p>
             </div>
         </footer>
     </div>

@@ -63,7 +63,7 @@
                     </ul>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
+                    <button @click="openModal" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
                       Click me
                     </button>
                   </td>
@@ -77,12 +77,15 @@
       </div>
     </div>
   </div>
+  <Modal/>
 </template>
 
 
 
 <script>
 import InventoryDataService from '../services/InventoryDataService'
+import Modal from '../components/Modal'
+import { useStore } from "vuex";
 
 const Mock_items = [
   {
@@ -135,6 +138,9 @@ const Mock_items = [
 
 export default {
     name: 'Inventory',
+    components: {
+      Modal
+    },
     data() {
       return {
           items: [],
@@ -149,7 +155,11 @@ export default {
         getAllItems: async function() {
             const response = await InventoryDataService.getAllItems()
             this.items = response.data.items
-        }
+        },
+        async openModal() {
+          const store = useStore()
+          await store.dispatch('setModal', true)
+        },
     },
     mounted: async function(){
         this.getAllItems()
