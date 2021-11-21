@@ -55,10 +55,8 @@ passport.deserializeUser(User.deserializeUser())
 // Register Routes
 app.use('/api/user', require('./routes/users'))
 app.use('/api', require('./routes/auth'))
+app.use('/api/lazada', require('./routes/lazada'))
 
-app.get('/api/lazada/login', (req, res) => {
-    return res.redirect(LAZADA.getAuthorizeSellerLink())
-})
 
 // app.use((err, req, res, next) => {
 //     res.json(err)
