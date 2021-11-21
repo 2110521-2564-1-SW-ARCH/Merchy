@@ -7,20 +7,30 @@ const APP_SECRET = process.env.LAZADA_APP_SECRET
 
 LAZADA = {}
 
+function signRequest(apiName, params, secret) {
+    // only accepts the sha256 sign method
+    let paramsString = apiName
+    for (let [param, value] of Object.entries(params)) {
+        paramsString += `${param}${value}`
+    }
+    return crypto.createHmac("sha256", secret).update(paramsString).digest("hex").toUpperCase()
+}
+
+
 async function getAccessToken(code) {
     const getAccessTokenUrl = "https://api.lazada.com/rest"
     const apiName = "/auth/token/create"
     const timestamp = Date.now()
     const signMethod = "sha256"
     let paramsString = `${apiName}app_key${APP_KEY}code${code}sign_method${signMethod}timestamp${timestamp}`
-    let sign = crypto.createHmac("sha256", APP_SECRET).update(paramsString).digest("hex").toUpperCase()
     let params = {
         app_key: APP_KEY,
         code,
         sign_method: signMethod,
-        timestamp,
-        sign
+        timestamp
     }
+    let sign = signRequest(apiName, params, APP_SECRET)
+    params.sign = sign
     let {data: token} = await axios.get(`${getAccessTokenUrl}${apiName}`, {params})
     return {success: true, token}
 }
