@@ -1,6 +1,7 @@
 const Item = require('../models/Item');
 const grpc = require('@grpc/grpc-js');
 const LAZADA = require("./lazada")
+const { Platform } = require("../models/enum")
 
 module.exports.getAllItems = async function ({ request: { userId } }, cb) {
     if (!userId) return cb({ code: grpc.status.NOT_FOUND, details: 'Missing userId' });
@@ -16,8 +17,8 @@ module.exports.getItem = async function ({ request: { id } }, cb) {
 };
 
 module.exports.createItem = async function ({ request }, cb) {
-    const createdItem = await LAZADA.createItem(request);
-    cb(null, createdItem);
+    if(request.platform == Platform.LAZADA) return cb(null, await LAZADA.createItem(request))
+    cb({ code: grpc.status.NOT_FOUND, details: 'Platform is invalid' })
 };
 
 module.exports.updateItem = async function ({ request }, cb) {
