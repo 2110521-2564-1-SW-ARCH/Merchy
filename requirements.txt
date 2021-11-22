@@ -10,3 +10,4 @@ uvicorn
 pymongo[srv]
 pyjwt
 grpcio-tools
+python-dotenv
