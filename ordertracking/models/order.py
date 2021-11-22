@@ -20,14 +20,14 @@ class AddressShipping(BaseModel):
 
 
 class OrderItem(BaseModel):
+    orderItemId: str
     item: dict
     itemPrice: str
     taxAmount: str
     buyerId: str
-    shippingProvier: str
+    shipmentProvider: str
     trackingCode: str
     skuId: str
-    statuses: List[str]
 
 
 class Order(BaseModel):
@@ -35,6 +35,7 @@ class Order(BaseModel):
     platform: str
     shippingFee: str
     paymentMethod: str
+    status: str
     orderId: str
     itemsCount: int
     price: str
@@ -63,8 +64,8 @@ def order_helper(order: Order):
 
 
 def create(order: Order):
+    print("creating order")
     order_collection = db[Collection.ORDER]
-    order_collection.find_one_and_update()
     return order_collection.insert_one(order.dict())
 
 
@@ -86,8 +87,15 @@ def get_all(user_id: str, start_date: datetime = None, end_date: datetime = None
 def get_one(order_id: str):
     order_collection = db[Collection.ORDER]
     order = order_collection.find_one({"_id": ObjectId(order_id)})
-    if(order == None): return "Not found"
+    if(order == None): return None
     order["orderItems"] = populate_order_items(order["orderItems"])
+    return order_helper(order)
+
+def get_one_by_trade_order_id(trade_order_id: str):
+    order_collection = db[Collection.ORDER]
+    order = order_collection.find_one({"orderId": trade_order_id})
+    print(order)
+    if(order == None): return None
     return order_helper(order)
 
 

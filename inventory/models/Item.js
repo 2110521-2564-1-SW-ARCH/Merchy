@@ -10,10 +10,6 @@ const attributeSchema = new Schema({
 		type: String,
 		required: true
 	},
-	shortDescription: {
-		type: String,
-		required: true
-	},
 	brand: {
 		type: String,
 		required: true
