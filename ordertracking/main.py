@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 from typing import List
 from fastapi import FastAPI, Query
-from models.enum import Courier
+from models.enum import Courier, Platform
 from models import order as Order
 import os
 import uvicorn
@@ -42,6 +42,13 @@ def get_all_orders(user_id: str, start_date: str = None, end_date: str = None):
 @app.get("/orders/{order_id}")
 def get_one_order(order_id: str):
     return Order.get_one(order_id)
+
+
+@app.post("/webhook/{platform}")
+def handle_webhook(platform: Platform, body: dict):
+    print(platform)
+    print(body)
+    return {"success": True}
 
 
 if __name__ == "__main__":
