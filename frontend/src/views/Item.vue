@@ -63,21 +63,87 @@
                     </ul>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button @click="openModal" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
+                    <button @click="isOpen = true" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
                       Click me
                     </button>
                   </td>
-                  <!--<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Details</a>
-                  </td> -->
                 </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <Modal :is-open='isOpen' v-on:close-modal="isOpen = false">
+      <form action="#" method="POST">
+        <div class="bg-white px-4 pt-5 pb-4 sm:px-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
+                Edit item
+              </DialogTitle>
+              <div class="mt-2">
+                <div class="pr-4 py-5 bg-white sm:py-6">
+                  <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6 sm:col-span-3">
+                      <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                      <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
+                      <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                      <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-4">
+                      <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
+                      <input type="text" name="email-address" id="email-address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
+                      <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                      <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option>United States</option>
+                        <option>Canada</option>
+                        <option>Mexico</option>
+                      </select>
+                    </div>
+
+                    <div class="col-span-6">
+                      <label for="street-address" class="block text-sm font-medium text-gray-700">Street address</label>
+                      <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                      <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                      <input type="text" name="city" id="city" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                      <label for="region" class="block text-sm font-medium text-gray-700">State / Province</label>
+                      <input type="text" name="region" id="region" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                      <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
+                      <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
+            Save
+          </button>
+          <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false" ref="cancelButtonRef">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </Modal>
   </div>
-  <Modal/>
 </template>
 
 
@@ -85,7 +151,9 @@
 <script>
 import InventoryDataService from '../services/InventoryDataService'
 import Modal from '../components/Modal'
-import { useStore } from "vuex";
+import {
+  DialogTitle,
+} from '@headlessui/vue'
 
 const Mock_items = [
   {
@@ -139,27 +207,21 @@ const Mock_items = [
 export default {
     name: 'Inventory',
     components: {
+      DialogTitle,
       Modal
     },
     data() {
       return {
           items: [],
-      }
-    },
-    setup() {
-      return {
-        Mock_items
+          Mock_items,
+          isOpen: false
       }
     },
     methods: {
-        getAllItems: async function() {
-            const response = await InventoryDataService.getAllItems()
-            this.items = response.data.items
-        },
-        async openModal() {
-          const store = useStore()
-          await store.dispatch('setModal', true)
-        },
+      getAllItems: async function() {
+          const response = await InventoryDataService.getAllItems()
+          this.items = response.data.items
+      },
     },
     mounted: async function(){
         this.getAllItems()
