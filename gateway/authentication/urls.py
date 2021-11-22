@@ -7,4 +7,5 @@ urlpatterns = [
     # path('user/<str:pk>', views.user_detail),
     path('login', views.login),
     path('logout', views.logout),
+    path('webhook/<str:platform>', views.webhookHandler)
 ]

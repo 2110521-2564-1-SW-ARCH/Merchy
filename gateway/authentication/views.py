@@ -50,3 +50,8 @@ def logout(request):
     response = JsonResponse({'message': "Logout sucessful"})
     response.delete_cookie('token')
     return response
+
+@api_view(['POST'])
+def webhookHandler(request, platform):
+    print(platform)
+    return JsonResponse({"success": True})
