@@ -34,6 +34,7 @@ LAZADA.createItem = async function (request) {
     payload += "</Skus></Product></Request>"
 
     let lazadaItem = await lazadaApi.createProduct({payload}).catch(console.log)
+    if(! lazadaItem) return {}
 
     // attach itemId and skuIds from lazadaItem to item
     let item = new Item(request)

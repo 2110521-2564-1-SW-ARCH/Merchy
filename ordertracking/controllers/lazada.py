@@ -14,6 +14,10 @@ client = lazop.LazopClient(URL, APP_KEY, APP_SECRET)
 InventoryService = InventoryService()
 
 
+def get_acess_token_by_user_id(user_id: str):
+    pass
+
+
 def get_user_id_by_seller_id(seller_id: str):
     # send platform along with it
     return 5
@@ -22,7 +26,8 @@ def get_user_id_by_seller_id(seller_id: str):
 def get_item_id_by_sku_id(sku_id):
     try:
         return InventoryService.get_item_id_by_sku_id(str(sku_id))["id"]
-    except:
+    except Exception as e:
+        print(e)
         return -1
 
 
@@ -48,6 +53,7 @@ def create_or_update_order(body):
 
         new_order_items = []
         for order_item in order_items:
+            print(order_item["sku_id"])
             new_order_items.append(
                 {
                     "orderItemId": order_item["order_item_id"],
@@ -67,7 +73,7 @@ def create_or_update_order(body):
             status=order_status,
             shippingFee=order["shipping_fee"],
             paymentMethod=order["payment_method"],
-            orderId=order["order_id"],
+            orderId=trade_order_id,
             itemsCount=order["items_count"],
             price=order["price"],
             orderItems=new_order_items,
