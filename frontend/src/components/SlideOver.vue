@@ -34,17 +34,17 @@
                               <div class="pr-4 py-5 bg-white sm:py-6">
                                 <div class="grid grid-cols-6 gap-6">
                                   <div class="col-span-6 sm:col-span-3">
-                                    <label for="first-name" class="block text-sm font-medium text-gray-700">First name : {{ this.user.fname }}</label>
+                                    <label for="first-name" class="block text-sm font-medium text-gray-700">First Name : {{ this.user.fname }}</label>
                                     <!-- <input type="text" name="first-name" id="first-name" value="testFirstName" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
                                   <div class="col-span-6 sm:col-span-3">
-                                    <label for="last-name" class="block text-sm font-medium text-gray-700">Last name : {{ this.user.lname }}</label>
+                                    <label for="last-name" class="block text-sm font-medium text-gray-700">Last Name : {{ this.user.lname }}</label>
                                    <!--  <input type="text" name="last-name" id="last-name" value="testLastName" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
                                   <div class="col-span-6">
-                                    <label for="email-address" class="block text-sm font-medium text-gray-700">Email address : {{ this.user.email }}</label>
+                                    <label for="email-address" class="block text-sm font-medium text-gray-700">Email Address : {{ this.user.email }}</label>
                                    <!--  <input type="text" name="email-address" id="email-address" value="testEmail" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
@@ -59,13 +59,10 @@
 
                                 </div>
                               </div>
-                              <div class="pb-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
-                                  Login to LAZADA
-                                </button>
-                              </div>
                             </div>
+                            
                           </div>
+                          
                         </div>
                         <!-- <div class="pb-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                           <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
@@ -76,6 +73,11 @@
                           </button>
                         </div> -->
                       </form>
+                    </div>
+                    <div class="pb-4 py-8 sm:px-6 sm:flex sm:justify-center">
+                      <button type="button" @click="getLazadaLink()" class="w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                        Login to LAZADA
+                      </button>
                     </div>
                   </div>
                   <!-- /End replace -->
@@ -109,18 +111,26 @@ export default {
   data() {
     return {
       user: null,
+      lazadaUrl: null,
       name: 'UserDetail',
     } 
   },
   methods: {
-      getUser: async function() {
-          const response = await AuthDataService.get()
-          this.user = response.data
-          
-      }
+      getUser: async function(){
+        const response = await AuthDataService.get()
+        this.user = response.data
+        // console.log("this.user = ", this.user)
+      },
+      getLazadaLink: async function(){
+        const response = await AuthDataService.loginLazada()
+        this.lazadaUrl = response.data
+        window.location.href = this.lazadaUrl.url
+        console.log("this.response lazada", response.data)
+      },
   },
   mounted: async function(){
       this.getUser()
+      // this.getLazadaLink()
       // console.log(user)
   },
 }

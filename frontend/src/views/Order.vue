@@ -90,7 +90,6 @@ export default {
     methods: {
         getAllOrders: async function() {
             const response = await InventoryDataService.getAllEntries()
-            console.log(await axios.get("http://localhost:3000/api/accounting?resourceType=sales&startDate=2020-11-19T00:00:00&endDate=2021-11-19T23:59:59&scale=year", {withCredentials: true}))
             this.orders = response.data.orders
         }
     },
