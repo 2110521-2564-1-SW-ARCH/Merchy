@@ -34,7 +34,7 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="item in Mock_items" :key="item.id">
+                <tr v-for="(item, index) in Mock_items" :key="item.id">
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ item.platform }}
                   </td>
@@ -63,7 +63,7 @@
                     </ul>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button @click="isOpen = true" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
+                    <button @click="openModal(index)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
                       Click me
                     </button>
                   </td>
@@ -81,54 +81,43 @@
               <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
                 Edit item
               </DialogTitle>
-              <div class="mt-2">
-                <div class="pr-4 py-5 bg-white sm:py-6">
+              <div class="mt-2 pr-4 py-5 bg-white sm:py-6">
+                <div class="col-span-6 mb-6">
+                  <DialogTitle as="h4" class="text-lg leading-6 font-medium text-gray-900 mb-3">
+                    Attribute
+                  </DialogTitle>
                   <div class="grid grid-cols-6 gap-6">
-                    <div class="col-span-6 sm:col-span-3">
-                      <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                      <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
+                      
+                      <!-- <div class="col-span-6 sm:col-span-3">
+                        <label for="platform" class="block text-sm font-medium text-gray-700">Platform</label>
+                        <select id="platform" name="platform" autocomplete="platform-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <option>Lazada</option>
+                          <option>Shopee</option>
+                        </select>
+                      </div> -->
 
-                    <div class="col-span-6 sm:col-span-3">
-                      <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                      <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" name="name" :value="selectedItem.attributes.name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
 
-                    <div class="col-span-6 sm:col-span-4">
-                      <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
-                      <input type="text" name="email-address" id="email-address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-3">
-                      <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                      <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option>United States</option>
-                        <option>Canada</option>
-                        <option>Mexico</option>
-                      </select>
-                    </div>
-
-                    <div class="col-span-6">
-                      <label for="street-address" class="block text-sm font-medium text-gray-700">Street address</label>
-                      <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                      <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                      <input type="text" name="city" id="city" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                      <label for="region" class="block text-sm font-medium text-gray-700">State / Province</label>
-                      <input type="text" name="region" id="region" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                      <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
-                      <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    </div>
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="brand" class="block text-sm font-medium text-gray-700">Brand</label>
+                        <input type="text" name="brand" id="brand" :value="selectedItem.attributes.brand" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
                   </div>
                 </div>
+                <div class="col-span-6 mb-3">
+                  <DialogTitle as="h4" class="text-lg leading-6 font-medium text-gray-900 mb-3">
+                    Sku
+                  </DialogTitle>
+                  <div class='grid grid-cols-6 gap-6'>
+                    <div v-for='(sku, index) in selectedItem.skus' :key="index" class="col-span-6 sm:col-span-3">
+                      <label for="sku" class="block text-sm font-medium text-gray-700">Price</label>
+                      <input type="number" name="sku" id="sku" :value="sku.price" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+                  </div>
+                </div> 
               </div>
             </div>
           </div>
@@ -184,7 +173,7 @@ const Mock_items = [
     platform: "lazada",
     primaryCategory: "666",
     attributes: {
-      name: "atr_name",
+      name: "atr_name2",
       brand: "gucci",
     },
     skus: [
@@ -214,14 +203,19 @@ export default {
       return {
           items: [],
           Mock_items,
-          isOpen: false
+          isOpen: false,
+          selectedItem: Mock_items[0]
       }
     },
     methods: {
       getAllItems: async function() {
-          const response = await InventoryDataService.getAllItems()
-          this.items = response.data.items
+        const response = await InventoryDataService.getAllItems()
+        this.items = response.data.items
       },
+      openModal: function(index) {
+        this.selectedItem = Mock_items[index]
+        this.isOpen = true
+      }
     },
     mounted: async function(){
         this.getAllItems()
