@@ -12,5 +12,6 @@ const db = {sequelize}
 
 db.User = require("./User.js")(sequelize, DataTypes)
 db.LazadaInfo = require("./LazadaInfo.js")(sequelize, DataTypes)
+db.User.hasOne(db.LazadaInfo)
 
 module.exports = db
