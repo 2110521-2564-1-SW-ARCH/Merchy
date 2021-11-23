@@ -39,6 +39,8 @@
 <script>
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
+import AuthDataService from './services/AuthDataService'
+import store from './store/index.ts'
 
 export default {
   components: {
@@ -54,6 +56,21 @@ export default {
       }
     },
   },
+  beforeMount: async function() {
+    try {
+      const response = await AuthDataService.get()
+      console.log("response", response)
+      if (response.status != 200) {
+        this.$router.push('/');
+      } if (response.data.message == "Unauthorized") {
+        this.$router.push('/');
+      }else {
+        store.dispatch('setAuth', true)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 

@@ -37,6 +37,7 @@
   import { LockClosedIcon } from '@heroicons/vue/solid'
   import { useStore, mapMutations } from 'vuex'
   import AuthDataService from "../services/AuthDataService"
+  import store from '../store/index.ts'
 
   export default {
       components: {
@@ -50,20 +51,27 @@
             message: ""
           }
       },
-      
       methods:{
         async login(e){
-            const store = useStore()
-            e.preventDefault()
-            try {
-              const response = await AuthDataService.login({email: this.email, password: this.password})
-              await store.dispatch('setAuth', true)
-              this.$router.push('/status')
-            } catch (error) {
+          e.preventDefault()
+          try {
+            const response = await AuthDataService.login({email: this.email, password: this.password})
+            console.log("response", response)
+            if (response.status != 200) {
+              alert("wrong email or password")
               this.$router.push('/login')
-              console.log(error.response)
+            } else {
+              store.dispatch('setAuth', true)
+              this.$router.push('/status')
             }
+          } catch (error) {
+            alert("wrong email or password")
+            this.$router.push('/login')
+            this.email = ""
+            this.password = ""
+            console.log("error response", error.response)
           }
+        }
       }
 }
 

@@ -45,7 +45,7 @@
           <!-- <button v-show="isLogin" @click="logoutUser" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Sign out
           </button> -->
-          <Menu as="div" class="h-full relative">
+          <Menu v-show="isLogin" as="div" class="h-full relative">
             <div>
               <MenuButton class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span class="sr-only">Open user menu</span>
@@ -61,7 +61,7 @@
                         class="w-5 h-5 mr-2 text-violet-400"
                         aria-hidden="true"
                     />
-                    Edit Profile
+                    My Profile
                   </button>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
+import store from '../store/index.ts'
 import axios from 'axios';
 import {
   MenuIcon,
@@ -145,6 +145,7 @@ import {
 import { 
   LogoutIcon,
 } from '@heroicons/vue/outline'
+import AuthDataService from "../services/AuthDataService"
 
 export default {
     components: {
@@ -168,32 +169,28 @@ export default {
     },
     data() {
       return {
-        openSlide: false
+        openSlide: false,
       }
     },
     computed: {
-      isLogin() {
-        const store = useStore()
+      isLogin () {
         return store.state.authenticated
       }
     },
     methods: {
       async logoutUser(e){
-        const store = useStore()
         e.preventDefault()
         try {
-          await axios.post('http://localhost:3000/api/user/logout',
-            {email: this.email, password: this.password},
-            {withCredentials: true}
-          ).then((res) => {
-              console.log(res)
-          })
-
-          await store.dispatch('setAuth', false)
-          this.$router.push('/');
+          const response = await AuthDataService.logout()
+          if (response.status != 200) {
+            alert("something wrong")
+          } else {
+            store.dispatch('setAuth', false)
+            this.$router.push('/');
+          }
 
         } catch (e) {
-            this.message = "e" + error
+          this.message = "e" + error
         }
       }
     }

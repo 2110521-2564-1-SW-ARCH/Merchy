@@ -25,6 +25,10 @@ class AuthDataService {
         return http.delete(`/user`)
     }
 
+    loginLazada() {
+        return http.get('/lazada/login')
+    }
+
 }
 
 export default new AuthDataService();
