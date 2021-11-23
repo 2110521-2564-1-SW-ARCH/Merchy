@@ -11,7 +11,7 @@ router.route('/callback')
 router.route('/access-token/:userId')
     .get(LAZADA.getAccessTokenByUserId)
 
-router.route('/seller-id/:userId')
-    .get(LAZADA.getSellerIdByUserId)
+router.route('/user-id/:sellerId')
+    .get(LAZADA.getUserIdBySellerId)
 
 module.exports = router

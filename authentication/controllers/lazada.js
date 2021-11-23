@@ -52,23 +52,25 @@ LAZADA.getAuthorizeSellerLink = (req, res) => {
 // get access token by user id (Merchy)
 LAZADA.getAccessTokenByUserId = async (req, res) => {
     const { userId } = req.params
-    const result = await LazadaInfo.findAll({
+    const result = await LazadaInfo.findOne({
         attributes: ['accessToken'],
         where: {UserId: userId}
     })
-    const accessToken = result[0].accessToken
+    if (!result) return res.json({message: "Not Found"})
+    const accessToken = result.accessToken
     return res.json({accessToken})
 }
 
 // get seller id by user id
-LAZADA.getSellerIdByUserId = async (req, res) => {
-    const { userId } = req.params
-    const result = await LazadaInfo.findAll({
-        attributes: ['sellerId'],
-        where: {UserId: userId}
+LAZADA.getUserIdBySellerId = async (req, res) => {
+    const { sellerId } = req.params
+    const result = await LazadaInfo.findOne({
+        attributes: ['UserId'],
+        where: {sellerId}
     })
-    const sellerId = result[0].sellerId
-    return res.json({sellerId})
+    if (!result) return res.json({message: "Not Found"})
+    const userId = result.UserId
+    return res.json({userId})
 }
 
 LAZADA.handleAuthorizeCallback = async (req, res) => {
