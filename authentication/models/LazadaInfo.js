@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         expiresIn: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {isEmail: true}
         },
         refreshExpiresIn: {
             type: DataTypes.INTEGER,

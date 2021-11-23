@@ -3,7 +3,7 @@ import threading
 from time import sleep
 from django.http.response import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
-from accounting.amqp import produce, consume
+# from accounting.amqp import produce, consume
 
 response = None
 
@@ -21,8 +21,8 @@ def wait_for_response(timeout=5):
         time += 0.5
         sleep(0.5)
 
-consumer_thread = threading.Thread(target=lambda: consume(fill_response))
-consumer_thread.start()
+# consumer_thread = threading.Thread(target=lambda: consume(fill_response))
+# consumer_thread.start()
 
 
 # Create your views here.
