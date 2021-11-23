@@ -27,4 +27,17 @@ class AuthService:
     def login(self, credential):
         data = self.r.post('http://localhost:3001/api/login', data=credential)
         return data
+
+    def get_lazada_login_link(self,user_id):
+        data = self.r.get('http://localhost:3001/api/lazada/login', params={'user_id': user_id}).json()
+        return data
+
+    def get_lazada_access_token(self,user_id):
+        data = self.r.get(f'http://localhost:3001/api/lazada/access-token/{user_id}').json()
+        return data
+
+    def get_lazada_seller_id(self,user_id):
+        data = self.r.get(f'http://localhost:3001/api/lazada/seller-id/{user_id}').json()
+        return data
+
         
