@@ -19,6 +19,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+const db = require("./models")
+db.sequelize.sync({alter: true});
+
+
 // Initialize Passport
 app.use(passport.initialize())
 
