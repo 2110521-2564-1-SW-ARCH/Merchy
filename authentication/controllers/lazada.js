@@ -48,6 +48,18 @@ LAZADA.handleAuthorizeCallback = async (req, res) => {
     let result = await getAccessToken(req.query.code)
     if (result.success) {
         // store token in the database
+        const {token} = result
+        const lazadaInfo = {
+            accessToken: token.access_token,
+            refreshToken: token.refresh_token,
+            expiresIn: token.expires_in,
+            refreshExpiresIn: token.refresh_expires_in,
+            lazadaUserId: token.country_user_info.user_id,
+            sellerId: token.country_user_info.user_id,
+            userId: req.query.userId
+        }
+        await LazadaInfo.create(lazadaInfo)
+        
         return res.send(result)
     }
     return res.send("Error")
