@@ -2,6 +2,7 @@ import lazop
 import os
 from models import order as Order
 from models.enum import Platform
+from datetime import datetime
 
 APP_KEY = os.getenv("LAZADA_APP_KEY")
 APP_SECRET = os.getenv("LAZADA_APP_SECRET")
@@ -27,11 +28,11 @@ def get_iso_from_lazada_date(string):
 
 
 def create_or_update_order(body):
-    print("updating order")
     seller_id = body["seller_id"]
     trade_order_id = body["data"]["trade_order_id"]
     trade_order_item_id = body["data"]["trade_order_line_id"]
     order_status = body["data"]["order_status"]
+    update_time = body["data"]["status_update_time"]
     user_id = get_user_id_from_seller_id(seller_id)
     
     existing_order = Order.get_one_by_trade_order_id(trade_order_id)
@@ -80,12 +81,11 @@ def create_or_update_order(body):
                 "city": order["address_shipping"]["city"]
             }
         )
-        
-        print(new_order)
+        Order.delete_one_by_trade_order_id(trade_order_id)
         return Order.create(new_order)
     # update
     else :
-        pass
+        return Order.update_order_status_by_trade_order_id(trade_order_id, order_status, datetime.fromtimestamp(update_time))
     
 def get_order(order_id):
     request = lazop.LazopRequest("/order/get", "GET")
