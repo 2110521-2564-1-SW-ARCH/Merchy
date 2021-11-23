@@ -14,6 +14,10 @@ async function getCategoryTree() {
     fs.writeFile("categoryTree.js", JSON.stringify(categoryTree, null, 4), () => {})
 }
 
+async function getAccessTokenByUserId(userId) {
+    return
+}
+
 LAZADA.createItem = async function (request) {
     const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION, ACCESS_TOKEN)
 
@@ -48,6 +52,31 @@ LAZADA.createItem = async function (request) {
 }
 
 LAZADA.updateItem = async function ({ id, ...others }) {
+    // update to lazada
+    // getAccessTokenByUserId(others.userId)
+    const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION, ACCESS_TOKEN)
+
+    // create payload
+    let payload = "<Request><Product>"
+    payload += `<PrimaryCategory>${others.primaryCategory}</PrimaryCategory>`
+    payload += "<SPUId></SPUId><AssociatedSku></AssociatedSku>"
+    payload += `<Attributes><name>${others.attributes.name}</name><description>${others.attributes.description}</description><brand>${others.attributes.brand}</brand></Attributes>`
+    payload += "<Skus>"
+    for (const sku of others.skus) {
+        payload += `<Sku><SellerSku>${sku.sellerSku}</SellerSku><quantity>${sku.quantity}</quantity><price>${sku.price}</price><package_length>${sku.packageLength}</package_length><package_height>${sku.packageHeight}</package_height><package_weight>${sku.packageWeight}</package_weight><package_width>${sku.packageWidth}</package_width>`
+        payload += "<Images>"
+        for (const image of sku.images) {
+            payload += `<Image>${encodeURIComponent(image)}</Image>`
+        }
+        payload += "</Images></Sku>"
+    }
+    payload += "</Skus></Product></Request>"
+    console.log(payload)
+
+    let lazadaUpdatedItem = await lazadaApi.updateProduct({payload}).catch(console.log)
+    console.log(lazadaUpdatedItem)
+    // if(! lazadaUpdatedItem) return {}
+
     let updatedItem = await Item.findByIdAndUpdate(id, others, { new: true })
     if (!updatedItem) return { success: false }
     return { success: true, updatedItem }
