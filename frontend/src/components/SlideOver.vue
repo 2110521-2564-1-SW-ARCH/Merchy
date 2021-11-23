@@ -20,7 +20,7 @@
               <div class="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
                 <div class="px-4 sm:px-6">
                   <DialogTitle class="text-lg font-medium text-gray-900">
-                    Edit Profile
+                    My Profile
                   </DialogTitle>
                 </div>
                 <div class="mt-6 relative flex-1 px-4 sm:px-6">
@@ -34,41 +34,47 @@
                               <div class="pr-4 py-5 bg-white sm:py-6">
                                 <div class="grid grid-cols-6 gap-6">
                                   <div class="col-span-6 sm:col-span-3">
-                                    <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                                    <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                    <label for="first-name" class="block text-sm font-medium text-gray-700">First name : {{ this.user.fname }}</label>
+                                    <!-- <input type="text" name="first-name" id="first-name" value="testFirstName" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
                                   <div class="col-span-6 sm:col-span-3">
-                                    <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                    <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                    <label for="last-name" class="block text-sm font-medium text-gray-700">Last name : {{ this.user.lname }}</label>
+                                   <!--  <input type="text" name="last-name" id="last-name" value="testLastName" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
-                                  <div class="col-span-6 sm:col-span-4">
-                                    <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
-                                    <input type="text" name="email-address" id="email-address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                  <div class="col-span-6">
+                                    <label for="email-address" class="block text-sm font-medium text-gray-700">Email address : {{ this.user.email }}</label>
+                                   <!--  <input type="text" name="email-address" id="email-address" value="testEmail" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
-                                  <div class="col-span-6 sm:col-span-3">
+                                  <!-- <div class="col-span-6 sm:col-span-3">
                                     <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
                                     <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                       <option>United States</option>
                                       <option>Canada</option>
                                       <option>Mexico</option>
                                     </select>
-                                  </div>
+                                  </div> -->
+
                                 </div>
+                              </div>
+                              <div class="pb-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
+                                  Login to LAZADA
+                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="pb-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <!-- <div class="pb-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                           <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
                             Save
                           </button>
                           <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false" ref="cancelButtonRef">
                             Cancel
                           </button>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
@@ -86,6 +92,7 @@
 <script>
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
+import AuthDataService from '../services/AuthDataService'
 
 export default {
   components: {
@@ -99,5 +106,23 @@ export default {
   props: [
     'isOpen',
   ],
+  data() {
+    return {
+      user: null,
+      name: 'UserDetail',
+    } 
+  },
+  methods: {
+      getUser: async function() {
+          const response = await AuthDataService.get()
+          this.user = response.data
+          
+      }
+  },
+  mounted: async function(){
+      this.getUser()
+      // console.log(user)
+  },
 }
+
 </script>
