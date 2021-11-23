@@ -39,6 +39,7 @@ async function getAccessToken(code) {
 LAZADA.getAuthorizeSellerLink = (req, res) => {
     const authorizeUrl = "https://auth.lazada.com/oauth/authorize"
     const callbackUrl = `https://authenmerchy.run.goorm.io/api/lazada/callback?userId=${req.query.userId}`
+    console.log(req.query.userId)
     let queryString = qs.stringify({
         client_id: APP_KEY,
         redirect_uri: callbackUrl,
@@ -53,9 +54,9 @@ LAZADA.getAccessTokenByUserId = async (req, res) => {
     const { userId } = req.params
     const result = await LazadaInfo.findAll({
         attributes: ['accessToken'],
-        where: {userId}
+        where: {UserId: userId}
     })
-    const accessToken = result.accessToken
+    const accessToken = result[0].accessToken
     return res.json({accessToken})
 }
 
@@ -64,14 +65,16 @@ LAZADA.getSellerIdByUserId = async (req, res) => {
     const { userId } = req.params
     const result = await LazadaInfo.findAll({
         attributes: ['sellerId'],
-        where: {userId}
+        where: {UserId: userId}
     })
-    const sellerId = result.sellerId
+    const sellerId = result[0].sellerId
     return res.json({sellerId})
 }
 
 LAZADA.handleAuthorizeCallback = async (req, res) => {
+    console.log(req.query.userId)
     let result = await getAccessToken(req.query.code)
+    console.log(JSON.stringify(result, null, 4))
     if (result.success) {
         // store token in the database
         const {token} = result
@@ -80,9 +83,9 @@ LAZADA.handleAuthorizeCallback = async (req, res) => {
             refreshToken: token.refresh_token,
             expiresIn: token.expires_in,
             refreshExpiresIn: token.refresh_expires_in,
-            lazadaUserId: token.country_user_info.user_id,
-            sellerId: token.country_user_info.user_id,
-            userId: req.query.userId
+            lazadaUserId: token.country_user_info[0].user_id,
+            sellerId: token.country_user_info[0].seller_id,
+            UserId: req.query.userId
         }
         await LazadaInfo.create(lazadaInfo)
         
