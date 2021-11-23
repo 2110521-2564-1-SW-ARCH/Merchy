@@ -5,6 +5,9 @@ const crypto = require("crypto")
 const APP_KEY = process.env.LAZADA_APP_KEY
 const APP_SECRET = process.env.LAZADA_APP_SECRET
 
+const db = require("../models");
+const {User, LazadaInfo} = db
+
 LAZADA = {}
 
 function signRequest(apiName, params, secret) {
