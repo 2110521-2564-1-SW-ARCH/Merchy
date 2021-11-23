@@ -7,7 +7,7 @@ const JwtStrategy = require('passport-jwt').Strategy,
 const cors = require('cors')
 require('dotenv').config()
 const LAZADA = require('./controllers/lazada')
-const User = require('./models/User')
+// const User = require('./models/User')
 const app = express()
 
 // require('./db')
@@ -20,7 +20,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 const db = require("./models")
-db.sequelize.sync({alter: true});
+db.sequelize.sync({alter: true})
+const {User} = db
 
 
 // Initialize Passport
@@ -61,11 +62,6 @@ app.use('/api/user', require('./routes/users'))
 app.use('/api', require('./routes/auth'))
 app.use('/api/lazada', require('./routes/lazada'))
 
-
-// app.use((err, req, res, next) => {
-//     res.json(err)
-//     next()
-// })
 
 const PORT = process.env.PORT || 3001
 
