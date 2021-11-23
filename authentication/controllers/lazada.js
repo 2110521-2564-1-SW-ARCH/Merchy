@@ -39,6 +39,7 @@ async function getAccessToken(code) {
 LAZADA.getAuthorizeSellerLink = (req, res) => {
     const authorizeUrl = "https://auth.lazada.com/oauth/authorize"
     const callbackUrl = `https://authenmerchy.run.goorm.io/api/lazada/callback?userId=${req.query.userId}`
+    console.log(req.query.userId)
     let queryString = qs.stringify({
         client_id: APP_KEY,
         redirect_uri: callbackUrl,
@@ -51,27 +52,31 @@ LAZADA.getAuthorizeSellerLink = (req, res) => {
 // get access token by user id (Merchy)
 LAZADA.getAccessTokenByUserId = async (req, res) => {
     const { userId } = req.params
-    const result = await LazadaInfo.findAll({
+    const result = await LazadaInfo.findOne({
         attributes: ['accessToken'],
-        where: {userId}
+        where: {UserId: userId}
     })
+    if (!result) return res.json({message: "Not Found"})
     const accessToken = result.accessToken
     return res.json({accessToken})
 }
 
 // get seller id by user id
-LAZADA.getSellerIdByUserId = async (req, res) => {
-    const { userId } = req.params
-    const result = await LazadaInfo.findAll({
-        attributes: ['sellerId'],
-        where: {userId}
+LAZADA.getUserIdBySellerId = async (req, res) => {
+    const { sellerId } = req.params
+    const result = await LazadaInfo.findOne({
+        attributes: ['UserId'],
+        where: {sellerId}
     })
-    const sellerId = result.sellerId
-    return res.json({sellerId})
+    if (!result) return res.json({message: "Not Found"})
+    const userId = result.UserId
+    return res.json({userId})
 }
 
 LAZADA.handleAuthorizeCallback = async (req, res) => {
+    console.log(req.query.userId)
     let result = await getAccessToken(req.query.code)
+    console.log(JSON.stringify(result, null, 4))
     if (result.success) {
         // store token in the database
         const {token} = result
@@ -80,9 +85,9 @@ LAZADA.handleAuthorizeCallback = async (req, res) => {
             refreshToken: token.refresh_token,
             expiresIn: token.expires_in,
             refreshExpiresIn: token.refresh_expires_in,
-            lazadaUserId: token.country_user_info.user_id,
-            sellerId: token.country_user_info.user_id,
-            userId: req.query.userId
+            lazadaUserId: token.country_user_info[0].user_id,
+            sellerId: token.country_user_info[0].seller_id,
+            UserId: req.query.userId
         }
         await LazadaInfo.create(lazadaInfo)
         

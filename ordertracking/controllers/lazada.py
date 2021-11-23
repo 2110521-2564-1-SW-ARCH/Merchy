@@ -1,5 +1,6 @@
 import lazop
 import os
+import requests
 from models import order as Order
 from models.enum import Platform
 from datetime import datetime
@@ -10,17 +11,24 @@ APP_SECRET = os.getenv("LAZADA_APP_SECRET")
 ACCESS_TOKEN = os.getenv("MY_ACCESS_TOKEN")
 URL = "https://api.lazada.co.th/rest"
 
+AUTHENTICATION_SERVICE_IP = os.getenv("AUTHENTICATION_SERVICE_IP")
+AUTHENTICATION_SERVICE_PORT = os.getenv("AUTHENTICATION_SERVICE_PORT")
+AUTHENTICATION_SERVICE_PROTOCOL = os.getenv("AUTHENTICATION_SERVICE_PROTOCOL")
+AUTHENTICATION_SERVICE_URL = f"{AUTHENTICATION_SERVICE_PROTOCOL}://{AUTHENTICATION_SERVICE_IP}"
+if AUTHENTICATION_SERVICE_PORT is not "": AUTHENTICATION_SERVICE_URL += f":{AUTHENTICATION_SERVICE_PORT}"
+
 client = lazop.LazopClient(URL, APP_KEY, APP_SECRET)
 InventoryService = InventoryService()
 
 
-def get_acess_token_by_user_id(user_id: str):
-    pass
+def get_access_token_by_user_id(user_id: str):
+    response = requests.get(f"{AUTHENTICATION_SERVICE_URL}/api/lazada/access-token/{user_id}")
+    return response.json()["accessToken"]
 
 
 def get_user_id_by_seller_id(seller_id: str):
-    # send platform along with it
-    return 5
+    response = requests.get(f"{AUTHENTICATION_SERVICE_URL}/api/lazada/user-id/{seller_id}")
+    return response.json()["userId"]
 
 
 def get_item_id_by_sku_id(sku_id):
@@ -48,16 +56,17 @@ def create_or_update_order(body):
     existing_order = Order.get_one_by_trade_order_id(trade_order_id)
     # create
     if existing_order == None:
-        order = get_order(trade_order_id)["data"]
-        order_items = get_order_items(trade_order_id)["data"]
+        order = get_order(trade_order_id, user_id)["data"]
+        order_items = get_order_items(trade_order_id, user_id)["data"]
 
         new_order_items = []
         for order_item in order_items:
-            print(order_item["sku_id"])
+            item_id = get_item_id_by_sku_id(order_item["sku_id"])
+            if item_id == -1: return {}
             new_order_items.append(
                 {
                     "orderItemId": order_item["order_item_id"],
-                    "item": {"id": get_item_id_by_sku_id(order_item["sku_id"])},
+                    "item": {"id": item_id},
                     "itemPrice": order_item["item_price"],
                     "taxAmount": order_item["tax_amount"],
                     "buyerId": order_item["buyer_id"],
@@ -101,22 +110,36 @@ def create_or_update_order(body):
         )
 
 
-def get_order(order_id):
+def get_order(order_id, user_id):
+    access_token = get_access_token_by_user_id(user_id)
     request = lazop.LazopRequest("/order/get", "GET")
     request.add_api_param("order_id", order_id)
-    response = client.execute(request, ACCESS_TOKEN)
+    response = client.execute(request, access_token)
     return response.body
 
 
-def get_orders():
+def get_orders(user_id):
+    access_token = get_access_token_by_user_id(user_id)
     request = lazop.LazopRequest("/orders/get", "GET")
     request.add_api_param("created_after", "1999-11-12T00:00:00")
-    response = client.execute(request, ACCESS_TOKEN)
+    response = client.execute(request, access_token)
     return response.body
 
 
-def get_order_items(order_id):
+def get_order_items(order_id, user_id):
+    access_token = get_access_token_by_user_id(user_id)
     request = lazop.LazopRequest("/order/items/get", "GET")
     request.add_api_param("order_id", order_id)
-    response = client.execute(request, ACCESS_TOKEN)
+    response = client.execute(request, access_token)
     return response.body
+
+
+def update_item(request):
+    print("updating")
+    
+    pass
+
+
+def remove_item(request):
+    print("removing")
+    pass

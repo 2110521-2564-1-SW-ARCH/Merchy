@@ -1,12 +1,18 @@
+const axios = require("axios")
 const Item = require('../models/Item');
 const LazadaAPI = require("lazada-open-platform-sdk")
 const fs = require("fs")
 
 const LAZADA = {}
-ACCESS_TOKEN = process.env.MY_ACCESS_TOKEN
+
 APP_KEY = process.env.LAZADA_APP_KEY
 APP_SECRET = process.env.LAZADA_APP_SECRET
 REGION = "THAILAND"
+AUTHENTICATION_SERVICE_IP = process.env.AUTHENTICATION_SERVICE_IP
+AUTHENTICATION_SERVICE_PORT = process.env.AUTHENTICATION_SERVICE_PORT
+AUTHENTICATION_SERVICE_PROTOCOL = process.env.AUTHENTICATION_SERVICE_PROTOCOL
+AUTHENTICATION_SERVICE_URL = `${AUTHENTICATION_SERVICE_PROTOCOL}://${AUTHENTICATION_SERVICE_IP}`
+if(AUTHENTICATION_SERVICE_PORT) AUTHENTICATION_SERVICE_URL += `:${AUTHENTICATION_SERVICE_PORT}`
 
 async function getCategoryTree() {
     const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION)
@@ -15,11 +21,14 @@ async function getCategoryTree() {
 }
 
 async function getAccessTokenByUserId(userId) {
-    return
+    let url = `${AUTHENTICATION_SERVICE_URL}/api/lazada/access-token/${userId}`
+    let { data } = await axios.get(url).catch()
+    return data.accessToken
 }
 
 LAZADA.createItem = async function (request) {
-    const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION, ACCESS_TOKEN)
+    let accessToken = await getAccessTokenByUserId(request.userId)
+    const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION, accessToken)
 
     // create payload
     let payload = "<Request><Product>"
@@ -53,8 +62,8 @@ LAZADA.createItem = async function (request) {
 
 LAZADA.updateItem = async function ({ id, ...others }) {
     // update to lazada
-    // getAccessTokenByUserId(others.userId)
-    const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION, ACCESS_TOKEN)
+    let accessToken = await getAccessTokenByUserId(others.userId)
+    const lazadaApi = new LazadaAPI(APP_KEY, APP_SECRET, REGION, accessToken)
 
     // create payload
     let payload = "<Request><Product>"
@@ -72,8 +81,8 @@ LAZADA.updateItem = async function ({ id, ...others }) {
     }
     payload += "</Skus></Product></Request>"
 
-    let lazadaUpdatedItem = await lazadaApi.updateProduct({payload}).catch(console.log)
-    if(lazadaUpdatedItem.code != 0) return {}
+    let response = await lazadaApi.updateProduct({payload}).catch(console.log)
+    if(response.code != "0") return {}
 
     let updatedItem = await Item.findByIdAndUpdate(id, others, { new: true })
     if (!updatedItem) return { success: false }
