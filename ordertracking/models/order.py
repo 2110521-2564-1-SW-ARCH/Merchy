@@ -52,6 +52,7 @@ def order_helper(order: Order):
         "platform": str(order["platform"]),
         "shippingFee": str(order["shippingFee"]),
         "paymentMethod": str(order["paymentMethod"]),
+        "status": str(order["status"]),
         "orderId": str(order["orderId"]),
         "itemsCount": int(order["itemsCount"]),
         "price": str(order["price"]),
@@ -64,7 +65,6 @@ def order_helper(order: Order):
 
 
 def create(order: Order):
-    print("creating order")
     order_collection = db[Collection.ORDER]
     return order_collection.insert_one(order.dict())
 
@@ -94,9 +94,18 @@ def get_one(order_id: str):
 def get_one_by_trade_order_id(trade_order_id: str):
     order_collection = db[Collection.ORDER]
     order = order_collection.find_one({"orderId": trade_order_id})
-    print(order)
     if(order == None): return None
     return order_helper(order)
+
+
+def delete_one_by_trade_order_id(trade_order_id: str):
+    order_collection = db[Collection.ORDER]
+    return order_collection.delete_one({"orderId": trade_order_id})
+
+
+def update_order_status_by_trade_order_id(trade_order_id: str, order_status: str, update_time: datetime):
+    order_collection = db[Collection.ORDER]
+    return order_collection.find_one_and_update({"orderId": trade_order_id}, { "$set": { "status": order_status, "updatedAt": update_time } })
 
 
 def populate_order_items(order_items: List[OrderItem]):
