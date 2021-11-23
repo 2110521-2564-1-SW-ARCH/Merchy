@@ -9,10 +9,10 @@
           </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 mt-6 mb-4">
-          <StateReport/>
-          <StateReport/>
-          <StateReport/>
-          <StateReport/>
+          <StateReport :is-up='true'/>
+          <StateReport :is-up='false'/>
+          <StateReport :is-up='true'/>
+          <StateReport :is-up='false'/>
         </div>
       </div>
   </div>
@@ -101,7 +101,7 @@
           
           },
           title: {
-            text: 'Monthly Accounting in 2020',
+            text: 'business revenue',
             floating: true,
             offsetY: 330,
             align: 'center',

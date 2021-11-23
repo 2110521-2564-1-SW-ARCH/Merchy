@@ -3,12 +3,12 @@
   <div class="pb-40 pt-32 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="lg:text-center">
-        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Transactions</h2>
+        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Features</h2>
         <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          A better way to track your orders
+          A better way to management
         </p>
         <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-          Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.
+          Merchy allows the merchants to see all of their orders. Additionally, it provides a stock management system to allow the merchants to easily keep track of their stocks across a variety of platforms.
         </p>
       </div>
 
@@ -32,32 +32,32 @@
 </template>
 
 <script>
-import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, ScaleIcon } from '@heroicons/vue/outline'
+import { CollectionIcon, ChartBarIcon, LightningBoltIcon, SearchIcon } from '@heroicons/vue/outline'
 
 const features = [
   {
-    name: 'Competitive exchange rates',
+    name: 'View business revenue',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: GlobeAltIcon,
+      'This feature display incomes and expenses in the timeframe by the user.',  
+    icon: ChartBarIcon,
   },
   {
-    name: 'No hidden fees',
+    name: 'Products tracking system',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: ScaleIcon,
+      'This feature track all orders that in the merchant’s account.',
+    icon: SearchIcon,
   },
   {
-    name: 'Transfers are instant',
+    name: 'Order tracking system',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'This feature obtain all orders’s tracking numbers from all selling platforms and display their shipping status retrieved via APIs.',
     icon: LightningBoltIcon,
   },
   {
-    name: 'Mobile notifications',
+    name: 'Stock management',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: AnnotationIcon,
+      'This feature allow a user to manually add, delete items and modify the amount of each item and display the stock of each item in the store.',
+    icon: CollectionIcon,
   },
 ]
 
