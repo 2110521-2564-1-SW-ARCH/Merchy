@@ -1,6 +1,6 @@
 import grpc
 import os
-from inventory import merchy_pb2, merchy_pb2_grpc
+import merchy_pb2, merchy_pb2_grpc
 from google.protobuf.json_format import MessageToDict
 
 
@@ -38,5 +38,10 @@ class InventoryService:
 
     def delete_item(self, item_id):
         response = self.stub.DeleteItem(merchy_pb2.ItemId(id=item_id))
+        response = MessageToDict(response)
+        return response
+
+    def get_item_id_by_sku_id(self, sku_id):
+        response = self.stub.GetItemIdBySkuId(merchy_pb2.SkuId(id=sku_id))
         response = MessageToDict(response)
         return response

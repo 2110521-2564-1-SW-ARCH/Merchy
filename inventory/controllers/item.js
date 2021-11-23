@@ -1,7 +1,7 @@
 const Item = require('../models/Item');
 const grpc = require('@grpc/grpc-js');
 const LAZADA = require("./lazada")
-const { Platform } = require("../models/enum")
+const { Platform } = require("../models/enum");
 
 module.exports.getAllItems = async function ({ request: { userId } }, cb) {
     if (!userId) return cb({ code: grpc.status.NOT_FOUND, details: 'Missing userId' });
@@ -17,14 +17,14 @@ module.exports.getItem = async function ({ request: { id } }, cb) {
 };
 
 module.exports.createItem = async function ({ request }, cb) {
-    if(request.platform == Platform.LAZADA) return cb(null, await LAZADA.createItem(request))
+    if (request.platform == Platform.LAZADA) return cb(null, await LAZADA.createItem(request))
     cb({ code: grpc.status.NOT_FOUND, details: 'Platform is invalid' })
 };
 
 module.exports.updateItem = async function ({ request }, cb) {
     if (!request.id) return cb({ code: grpc.status.NOT_FOUND, details: 'Missing id' });
     const response = await LAZADA.updateItem(request)
-    if(response.success) return cb(null, response.updatedItem)
+    if (response.success) return cb(null, response.updatedItem)
     else return cb({ code: grpc.status.NOT_FOUND, details: 'Not Found' });
 };
 
@@ -33,3 +33,13 @@ module.exports.deleteItem = async function ({ request: { id } }, cb) {
     if (deletedEntryItem) return cb(null, {});
     else return cb({ code: grpc.status.NOT_FOUND, details: 'NOT Found' });
 };
+
+module.exports.getItemIdBySkuId = async function ({ request: { id: skuId } }, cb) {
+    let items = await Item.find()
+    for (const item of items) {
+        for (const sku of item.skus) {
+            if (sku.skuId == skuId) return cb(null, { id: item.itemId })
+        }
+    }
+    return cb({ code: grpc.status.NOT_FOUND, details: 'NOT Found' })
+}
