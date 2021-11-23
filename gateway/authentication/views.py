@@ -56,18 +56,18 @@ def logout(request):
 def get_lazada_login_link(request):
     user_id = str(request.decoded_user["id"])
     data = AuthService.get_lazada_login_link(user_id)
-    return data
+    return JsonResponse(data)
 
 @api_view(['GET'])
 @jwt_verified(['GET'])
 def get_lazada_access_token(request):
     user_id = str(request.decoded_user["id"])
     data = AuthService.get_lazada_access_token(user_id)
-    return data
+    return JsonResponse(data)
     
 @api_view(['GET'])
 @jwt_verified(['GET'])
 def get_lazada_seller_id(request):
     user_id = str(request.decoded_user["id"])
     data = AuthService.get_lazada_seller_id(user_id)
-    return data
+    return JsonResponse(data)
