@@ -15,7 +15,6 @@ def item_list(request):
     user_id = str(request.decoded_user["id"])
     if request.method == "GET":
         items = InventoryService.get_all_items(user_id)
-        print(items)
         return JsonResponse(items)
 
     elif request.method == "POST":
@@ -27,7 +26,6 @@ def item_list(request):
 @api_view(["GET", "PUT", "DELETE"])
 @jwt_verified(["GET", "PUT", "DELETE"])
 def item_detail(request, id):
-    user_id = str(request.decoded_user["id"])
     if request.method == "GET":
         item = InventoryService.get_one_item(id)
         return JsonResponse(item)

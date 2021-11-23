@@ -71,11 +71,9 @@ LAZADA.updateItem = async function ({ id, ...others }) {
         payload += "</Images></Sku>"
     }
     payload += "</Skus></Product></Request>"
-    console.log(payload)
 
     let lazadaUpdatedItem = await lazadaApi.updateProduct({payload}).catch(console.log)
-    console.log(lazadaUpdatedItem)
-    // if(! lazadaUpdatedItem) return {}
+    if(lazadaUpdatedItem.code != 0) return {}
 
     let updatedItem = await Item.findByIdAndUpdate(id, others, { new: true })
     if (!updatedItem) return { success: false }
