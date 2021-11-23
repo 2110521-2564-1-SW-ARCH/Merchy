@@ -34,7 +34,7 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="item in Mock_items" :key="item.id">
+                <tr v-for="(item, index) in Mock_items" :key="item.id">
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ item.platform }}
                   </td>
@@ -63,21 +63,76 @@
                     </ul>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button @click="openModal" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
+                    <button @click="openModal(index)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
                       Click me
                     </button>
                   </td>
-                  <!--<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Details</a>
-                  </td> -->
                 </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <Modal :is-open='isOpen' v-on:close-modal="isOpen = false">
+      <form action="#" method="POST">
+        <div class="bg-white px-4 pt-5 pb-4 sm:px-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
+                Edit item
+              </DialogTitle>
+              <div class="mt-2 pr-4 py-5 bg-white sm:py-6">
+                <div class="col-span-6 mb-6">
+                  <DialogTitle as="h4" class="text-lg leading-6 font-medium text-gray-900 mb-3">
+                    Attribute
+                  </DialogTitle>
+                  <div class="grid grid-cols-6 gap-6">
+                      
+                      <!-- <div class="col-span-6 sm:col-span-3">
+                        <label for="platform" class="block text-sm font-medium text-gray-700">Platform</label>
+                        <select id="platform" name="platform" autocomplete="platform-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <option>Lazada</option>
+                          <option>Shopee</option>
+                        </select>
+                      </div> -->
+
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" name="name" :value="selectedItem.attributes.name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
+
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="brand" class="block text-sm font-medium text-gray-700">Brand</label>
+                        <input type="text" name="brand" id="brand" :value="selectedItem.attributes.brand" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
+                  </div>
+                </div>
+                <div class="col-span-6 mb-3">
+                  <DialogTitle as="h4" class="text-lg leading-6 font-medium text-gray-900 mb-3">
+                    Sku
+                  </DialogTitle>
+                  <div class='grid grid-cols-6 gap-6'>
+                    <div v-for='(sku, index) in selectedItem.skus' :key="index" class="col-span-6 sm:col-span-3">
+                      <label for="sku" class="block text-sm font-medium text-gray-700">Price</label>
+                      <input type="number" name="sku" id="sku" :value="sku.price" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
+            Save
+          </button>
+          <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false" ref="cancelButtonRef">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </Modal>
   </div>
-  <Modal/>
 </template>
 
 
@@ -85,7 +140,9 @@
 <script>
 import InventoryDataService from '../services/InventoryDataService'
 import Modal from '../components/Modal'
-import { useStore } from "vuex";
+import {
+  DialogTitle,
+} from '@headlessui/vue'
 
 const Mock_items = [
   {
@@ -116,7 +173,7 @@ const Mock_items = [
     platform: "lazada",
     primaryCategory: "666",
     attributes: {
-      name: "atr_name",
+      name: "atr_name2",
       brand: "gucci",
     },
     skus: [
@@ -139,27 +196,26 @@ const Mock_items = [
 export default {
     name: 'Inventory',
     components: {
+      DialogTitle,
       Modal
     },
     data() {
       return {
           items: [],
-      }
-    },
-    setup() {
-      return {
-        Mock_items
+          Mock_items,
+          isOpen: false,
+          selectedItem: Mock_items[0]
       }
     },
     methods: {
-        getAllItems: async function() {
-            const response = await InventoryDataService.getAllItems()
-            this.items = response.data.items
-        },
-        async openModal() {
-          const store = useStore()
-          await store.dispatch('setModal', true)
-        },
+      getAllItems: async function() {
+        const response = await InventoryDataService.getAllItems()
+        this.items = response.data.items
+      },
+      openModal: function(index) {
+        this.selectedItem = Mock_items[index]
+        this.isOpen = true
+      }
     },
     mounted: async function(){
         this.getAllItems()

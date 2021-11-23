@@ -12,6 +12,7 @@ service InventoryService {
     rpc CreateItem (Item) returns (Item) {}
     rpc UpdateItem (Item) returns (Item) {}
     rpc DeleteItem (ItemId) returns (Empty) {}
+    rpc GetItemIdBySkuId (SkuId) returns (ItemId) {}
 }
 
 message Empty {}
@@ -58,6 +59,10 @@ message ItemList{
 }
 
 message ItemId{
+    string id = 1;
+}
+
+message SkuId {
     string id = 1;
 }
 
