@@ -38,13 +38,36 @@ async function getAccessToken(code) {
 
 LAZADA.getAuthorizeSellerLink = (req, res) => {
     const authorizeUrl = "https://auth.lazada.com/oauth/authorize"
-    const callbackUrl = "https://authenmerchy.run.goorm.io/api/lazada/callback"
+    const callbackUrl = `https://authenmerchy.run.goorm.io/api/lazada/callback?userId=${req.query.userId}`
     let queryString = qs.stringify({
         client_id: APP_KEY,
         redirect_uri: callbackUrl,
         response_type: "code"
     })
-    return res.redirect(`${authorizeUrl}?${queryString}`)
+    return res.json({url: `${authorizeUrl}?${queryString}`})
+    // return res.redirect(`${authorizeUrl}?${queryString}`)
+}
+
+// get access token by user id (Merchy)
+LAZADA.getAccessTokenByUserId = async (req, res) => {
+    const { userId } = req.params
+    const result = await LazadaInfo.findAll({
+        attributes: ['accessToken'],
+        where: {userId}
+    })
+    const accessToken = result.accessToken
+    return res.json({accessToken})
+}
+
+// get seller id by user id
+LAZADA.getSellerIdByUserId = async (req, res) => {
+    const { userId } = req.params
+    const result = await LazadaInfo.findAll({
+        attributes: ['sellerId'],
+        where: {userId}
+    })
+    const sellerId = result.sellerId
+    return res.json({sellerId})
 }
 
 LAZADA.handleAuthorizeCallback = async (req, res) => {
