@@ -5,7 +5,7 @@ const User = require('./User')
 // Define a User yourself and use attachToUser
 
 module.exports = (sequelize, DataTypes) => {
-    const LazadaInfo = db.define('LazadaInfo', {
+    const LazadaInfo = sequelize.define('LazadaInfo', {
         accessToken: {
             type: DataTypes.STRING,
             allowNull: false
