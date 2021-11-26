@@ -27,7 +27,10 @@ SECRET_KEY = 'django-insecure-l#wga3c9)r1*_4eagsw&poa1@$6k6ej_eucs(^6)3mb5l-0!#q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "merchy.run.goorm.io",
+    "gatewaymerchy.run.goorm.io"
+]
 
 
 # Application definition
@@ -42,6 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication.apps.AuthenticationConfig',
     'inventory.apps.InventoryConfig',
+    'accounting.apps.AccountingConfig',
+    'ordertracking.apps.OrdertrackingConfig',
     # CORS
     'corsheaders',
 ]
@@ -64,6 +69,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
+    'https://merchy.run.goorm.io',
+    'https://gatewaymerchymerchy.run.goorm.io'
 )
 
 ROOT_URLCONF = 'backend.urls'

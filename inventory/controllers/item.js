@@ -43,3 +43,8 @@ module.exports.getItemIdBySkuId = async function ({ request: { id: skuId } }, cb
     }
     return cb({ code: grpc.status.NOT_FOUND, details: 'NOT Found' })
 }
+
+module.exports.refreshItems = async function ({ request }, cb) {
+    await LAZADA.refreshItems(request)
+    return cb(null, {})
+}

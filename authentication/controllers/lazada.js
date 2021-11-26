@@ -74,9 +74,7 @@ LAZADA.getUserIdBySellerId = async (req, res) => {
 }
 
 LAZADA.handleAuthorizeCallback = async (req, res) => {
-    console.log(req.query.userId)
     let result = await getAccessToken(req.query.code)
-    console.log(JSON.stringify(result, null, 4))
     if (result.success) {
         // store token in the database
         const {token} = result

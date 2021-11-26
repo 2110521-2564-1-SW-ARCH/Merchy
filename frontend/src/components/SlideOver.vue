@@ -32,30 +32,30 @@
                           <div class="sm:flex sm:items-start">
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                               <div class="pr-4 py-5 bg-white sm:py-6">
-                                <div class="grid grid-cols-6 gap-6">
+                                <h5 class="mb-3">Personal Info:</h5>
+                                <div class="grid grid-cols-6 gap-4">
                                   <div class="col-span-6 sm:col-span-3">
                                     <label for="first-name" class="block text-sm font-medium text-gray-700">First Name : {{ this.user.fname }}</label>
-                                    <!-- <input type="text" name="first-name" id="first-name" value="testFirstName" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
                                   <div class="col-span-6 sm:col-span-3">
                                     <label for="last-name" class="block text-sm font-medium text-gray-700">Last Name : {{ this.user.lname }}</label>
-                                   <!--  <input type="text" name="last-name" id="last-name" value="testLastName" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
 
                                   <div class="col-span-6">
                                     <label for="email-address" class="block text-sm font-medium text-gray-700">Email Address : {{ this.user.email }}</label>
-                                   <!--  <input type="text" name="email-address" id="email-address" value="testEmail" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
                                   </div>
-
-                                  <!-- <div class="col-span-6 sm:col-span-3">
-                                    <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                                    <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                      <option>United States</option>
-                                      <option>Canada</option>
-                                      <option>Mexico</option>
-                                    </select>
-                                  </div> -->
+                                  <div class="col-span-6">
+                                        <h5 class="mt-6 mb-3">Connected Platforms:</h5>
+                                        <div v-if="user.platforms.length==0">
+                                            <span class="text-sm font-medium text-gray-700">None</span>
+                                        </div>
+                                        <div v-else>
+                                            <ul v-for="platform in user.platforms">
+                                               <li class="text-sm font-medium text-gray-700">{{platform.charAt(0).toUpperCase() + platform.slice(1)}}: connected</li> 
+                                            </ul>
+                                        </div>
+                                  </div>
 
                                 </div>
                               </div>
@@ -64,17 +64,9 @@
                           </div>
                           
                         </div>
-                        <!-- <div class="pb-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                          <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false">
-                            Save
-                          </button>
-                          <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="isOpen = false" ref="cancelButtonRef">
-                            Cancel
-                          </button>
-                        </div> -->
                       </form>
                     </div>
-                    <div class="pb-4 py-8 sm:px-6 sm:flex sm:justify-center">
+                    <div v-if="!user.platforms.some(x => x=='lazada')" class="pb-4 py-8 sm:px-6 sm:flex sm:justify-center">
                       <button type="button" @click="getLazadaLink()" class="w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
                         Login to LAZADA
                       </button>
@@ -119,13 +111,11 @@ export default {
       getUser: async function(){
         const response = await AuthDataService.get()
         this.user = response.data
-        // console.log("this.user = ", this.user)
       },
       getLazadaLink: async function(){
         const response = await AuthDataService.loginLazada()
         this.lazadaUrl = response.data
         window.location.href = this.lazadaUrl.url
-        console.log("this.response lazada", response.data)
       },
   },
   mounted: async function(){

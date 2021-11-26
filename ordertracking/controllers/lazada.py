@@ -52,6 +52,8 @@ def create_or_update_order(body):
     order_status = body["data"]["order_status"]
     update_time = body["data"]["status_update_time"]
     user_id = get_user_id_by_seller_id(seller_id)
+    
+    refresh_items(user_id)
 
     existing_order = Order.get_one_by_trade_order_id(trade_order_id)
     # create
@@ -108,6 +110,8 @@ def create_or_update_order(body):
         return Order.update_order_status_by_trade_order_id(
             trade_order_id, order_status, datetime.fromtimestamp(update_time)
         )
+    
+    
 
 
 def get_order(order_id, user_id):
@@ -134,10 +138,32 @@ def get_order_items(order_id, user_id):
     return response.body
 
 
-def update_item(request):
-    print("updating")
+def refresh_items(user_id):
+    # return
+    access_token = get_access_token_by_user_id(user_id)
+    request = lazop.LazopRequest("/products/get", "GET")
+    request.add_api_param("filter", "all")
+    response = client.execute(request, access_token)
     
-    pass
+    if response.body["code"] != "0" : return
+    
+    quantities = []
+    
+    try:
+        items = response.body["data"]["products"]
+    except:
+        print("error here")
+        return
+    
+    for item in items:
+        temp = {"itemId": str(item["item_id"]), "skus": []}
+        for sku in item["skus"]:
+            temp["skus"].append({
+                "skuId": str(sku["SkuId"]),
+                "quantity": str(sku["quantity"])
+            })
+        quantities.append(temp)
+    return InventoryService.refresh_items(user_id, quantities)
 
 
 def remove_item(request):

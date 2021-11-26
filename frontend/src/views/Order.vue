@@ -7,17 +7,26 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
+                
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Platform
+                  Order Status
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Order ID
                 </th>
+                
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Platform
+                </th>
+                              
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Item
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Category
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Buyer name
@@ -35,17 +44,45 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 <tr v-for="order in orders">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                      {{ order.platform }}
+                  
+                  <td class="flex justify-center px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <span v-if="order.status == 'unpaid'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"> 
+                      {{ order.status }}
+                    </span>
+                     <span  v-else-if="order.status == 'pending'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> 
+                      {{ order.status }}
+                    </span>
+                     <span  v-else-if="order.status == 'canceled'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"> 
+                      {{ order.status }}
+                    </span>
+                      <span  v-else class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800"> 
+                      error status
+                    </span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ order.orderId }}
                   </td>
+                  
                   <td class="px-6 py-4 whitespace-nowrap">
-                    {{ dayjs(order.createdAt).format("DD MMM YYYY HH:mm:ss") }}
+                      {{ order.platform }}
+                  </td>
+                  
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    {{ dayjs(order.createdAt).add(0, 'hour').format("DD MMM YYYY HH:mm:ss") }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {{ order.orderItems[0].item.attributes.name}} - {{ order.itemsCount }} Pieces
+                    <ul v-for="orderItem in order.orderItems">
+                        <li>{{ orderItem.item.attributes.name}}</li>
+                    </ul>
+                    <!-- {{ order.orderItems[0].item.attributes.name}} - {{ order.itemsCount }} Pieces -->
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <ul v-for="orderItem in order.orderItems">
+                        
+                        <li>{{ categoryList.filter( 
+(currentValue, index, arr) => currentValue.value == orderItem.item.primaryCategory)[0].text }}</li>
+
+                    </ul>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {{ order.addressShipping.firstName }}
@@ -84,6 +121,15 @@ export default {
     data() {
         return {
             orders: [],
+            categoryList:[{
+                    value:"12393", 
+                    text: "Hoodies"
+                    },
+                    {
+                    value:"3603", 
+                    text: "Shorts"
+                    }
+            ],
             dayjs
         }
     },

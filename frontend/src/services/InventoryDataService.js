@@ -30,8 +30,10 @@ class InventoryDataService {
         return await http.delete(`/item/${itemId}`)
     }
 
-    async getAllAccount() {
-        return await http.get("/accounting?resourceType=sales&startDate=2020-11-19T00:00:00&endDate=2021-11-19T23:59:59&scale=year")
+    async getAllAccount(start, end, scale) {
+        return await http.get(`/accounting/?resourceType=sales&startDate=${start}T00:00:00&endDate=${end}T23:59:59&scale=${scale}`)
+        // return await http.get("/accounting/")
+        // return await http.get("/idk/wow")
     }
 
 }

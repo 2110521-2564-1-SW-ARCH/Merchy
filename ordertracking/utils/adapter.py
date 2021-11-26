@@ -45,3 +45,9 @@ class InventoryService:
         response = self.stub.GetItemIdBySkuId(merchy_pb2.SkuId(id=sku_id))
         response = MessageToDict(response)
         return response
+    
+    
+    def refresh_items(self, item_id, quantities):
+        response = self.stub.RefreshItems(merchy_pb2.RefreshItemList(itemList=quantities))
+        response = MessageToDict(response)
+        return response

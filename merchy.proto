@@ -13,6 +13,7 @@ service InventoryService {
     rpc UpdateItem (Item) returns (Item) {}
     rpc DeleteItem (ItemId) returns (Empty) {}
     rpc GetItemIdBySkuId (SkuId) returns (ItemId) {}
+    rpc RefreshItems (RefreshItemList) returns (Empty) {}
 }
 
 message Empty {}
@@ -22,6 +23,25 @@ message UserId {
 }
 
 // ================= ITEM =====================
+
+message RefreshItemList {
+    repeated RefreshItem itemList = 1;
+}
+
+message RefreshItem {
+    string itemId = 1;
+    repeated MiniSku skus = 2;
+}
+
+message MiniSku {
+    string skuId = 1;
+    string quantity = 2;
+}
+
+message Quantity {
+    string skuId = 1;
+    string quantity = 2;
+}
 
 message Attribute {
     string name = 1;

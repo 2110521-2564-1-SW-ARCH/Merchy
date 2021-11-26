@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0cmerchy.proto\"\x07\n\x05\x45mpty\"\x18\n\x06UserId\x12\x0e\n\x06userId\x18\x01 \x01(\t\"W\n\tAttribute\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x18\n\x10shortDescription\x18\x03 \x01(\t\x12\r\n\x05\x62rand\x18\x04 \x01(\t\"\xb3\x01\n\x03Sku\x12\x11\n\tsellerSku\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\t\x12\r\n\x05price\x18\x03 \x01(\t\x12\r\n\x05skuId\x18\x04 \x01(\t\x12\x0e\n\x06images\x18\x05 \x03(\t\x12\x15\n\rpackageHeight\x18\x06 \x01(\x05\x12\x15\n\rpackageLength\x18\x07 \x01(\x05\x12\x14\n\x0cpackageWidth\x18\x08 \x01(\x05\x12\x15\n\rpackageWeight\x18\t \x01(\x05\"\xb7\x01\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06itemId\x18\x02 \x01(\t\x12\x0e\n\x06userId\x18\x03 \x01(\t\x12\x10\n\x08platform\x18\x04 \x01(\t\x12\x17\n\x0fprimaryCategory\x18\x05 \x01(\x05\x12\x11\n\tcreatedAt\x18\x06 \x01(\t\x12\x11\n\tupdatedAt\x18\x07 \x01(\t\x12\x1e\n\nattributes\x18\x08 \x01(\x0b\x32\n.Attribute\x12\x12\n\x04skus\x18\t \x03(\x0b\x32\x04.Sku\" \n\x08ItemList\x12\x14\n\x05items\x18\x01 \x03(\x0b\x32\x05.Item\"\x14\n\x06ItemId\x12\n\n\x02id\x18\x01 \x01(\t\"\x13\n\x05SkuId\x12\n\n\x02id\x18\x01 \x01(\t\"T\n\x0e\x41\x64\x64ressBilling\x12\x11\n\tfirstName\x18\x01 \x01(\t\x12\x10\n\x08postCode\x18\x02 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x03 \x01(\t\x12\x0c\n\x04\x63ity\x18\x04 \x01(\t\"U\n\x0f\x41\x64\x64ressShipping\x12\x11\n\tfirstName\x18\x01 \x01(\t\x12\x10\n\x08postCode\x18\x02 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x03 \x01(\t\x12\x0c\n\x04\x63ity\x18\x04 \x01(\t\"\xa8\x01\n\tOrderItem\x12\x13\n\x04item\x18\x01 \x01(\x0b\x32\x05.Item\x12\x11\n\titemPrice\x18\x02 \x01(\t\x12\x11\n\ttaxAmount\x18\x03 \x01(\t\x12\x0f\n\x07\x62uyerId\x18\x04 \x01(\t\x12\x18\n\x10shippingProvider\x18\x05 \x01(\t\x12\x14\n\x0ctrackingCode\x18\x06 \x01(\t\x12\r\n\x05skuId\x18\x07 \x01(\t\x12\x10\n\x08statuses\x18\x08 \x03(\t\"\xae\x02\n\x05\x45ntry\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06userId\x18\x02 \x01(\t\x12\x10\n\x08platform\x18\x03 \x01(\t\x12\x13\n\x0bshippingFee\x18\x04 \x01(\t\x12\x15\n\rpaymentMethod\x18\x05 \x01(\t\x12\x0f\n\x07orderId\x18\x06 \x01(\t\x12\x12\n\nitemsCount\x18\x07 \x01(\x05\x12\r\n\x05price\x18\x08 \x01(\t\x12\x11\n\tcreatedAt\x18\t \x01(\t\x12\x11\n\tupdatedAt\x18\n \x01(\t\x12&\n\radressBilling\x18\x0b \x01(\x0b\x32\x0f.AddressBilling\x12)\n\x0f\x61\x64\x64ressShipping\x18\x0c \x01(\x0b\x32\x10.AddressShipping\x12\x1e\n\norderItems\x18\r \x03(\x0b\x32\n.OrderItem\"$\n\tEntryList\x12\x17\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x06.Entry\"\x15\n\x07\x45ntryId\x12\n\n\x02id\x18\x01 \x01(\t2\xa0\x02\n\x10InventoryService\x12&\n\rGetAllEntries\x12\x07.UserId\x1a\n.EntryList\"\x00\x12\x1e\n\x08GetEntry\x12\x08.EntryId\x1a\x06.Entry\"\x00\x12#\n\x0bGetAllItems\x12\x07.UserId\x1a\t.ItemList\"\x00\x12\x1b\n\x07GetItem\x12\x07.ItemId\x1a\x05.Item\"\x00\x12\x1c\n\nCreateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1c\n\nUpdateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1f\n\nDeleteItem\x12\x07.ItemId\x1a\x06.Empty\"\x00\x12%\n\x10GetItemIdBySkuId\x12\x06.SkuId\x1a\x07.ItemId\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0cmerchy.proto\"\x07\n\x05\x45mpty\"\x18\n\x06UserId\x12\x0e\n\x06userId\x18\x01 \x01(\t\"1\n\x0fRefreshItemList\x12\x1e\n\x08itemList\x18\x01 \x03(\x0b\x32\x0c.RefreshItem\"5\n\x0bRefreshItem\x12\x0e\n\x06itemId\x18\x01 \x01(\t\x12\x16\n\x04skus\x18\x02 \x03(\x0b\x32\x08.MiniSku\"*\n\x07MiniSku\x12\r\n\x05skuId\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\t\"+\n\x08Quantity\x12\r\n\x05skuId\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\t\"W\n\tAttribute\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x18\n\x10shortDescription\x18\x03 \x01(\t\x12\r\n\x05\x62rand\x18\x04 \x01(\t\"\xb3\x01\n\x03Sku\x12\x11\n\tsellerSku\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\t\x12\r\n\x05price\x18\x03 \x01(\t\x12\r\n\x05skuId\x18\x04 \x01(\t\x12\x0e\n\x06images\x18\x05 \x03(\t\x12\x15\n\rpackageHeight\x18\x06 \x01(\x05\x12\x15\n\rpackageLength\x18\x07 \x01(\x05\x12\x14\n\x0cpackageWidth\x18\x08 \x01(\x05\x12\x15\n\rpackageWeight\x18\t \x01(\x05\"\xb7\x01\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06itemId\x18\x02 \x01(\t\x12\x0e\n\x06userId\x18\x03 \x01(\t\x12\x10\n\x08platform\x18\x04 \x01(\t\x12\x17\n\x0fprimaryCategory\x18\x05 \x01(\x05\x12\x11\n\tcreatedAt\x18\x06 \x01(\t\x12\x11\n\tupdatedAt\x18\x07 \x01(\t\x12\x1e\n\nattributes\x18\x08 \x01(\x0b\x32\n.Attribute\x12\x12\n\x04skus\x18\t \x03(\x0b\x32\x04.Sku\" \n\x08ItemList\x12\x14\n\x05items\x18\x01 \x03(\x0b\x32\x05.Item\"\x14\n\x06ItemId\x12\n\n\x02id\x18\x01 \x01(\t\"\x13\n\x05SkuId\x12\n\n\x02id\x18\x01 \x01(\t\"T\n\x0e\x41\x64\x64ressBilling\x12\x11\n\tfirstName\x18\x01 \x01(\t\x12\x10\n\x08postCode\x18\x02 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x03 \x01(\t\x12\x0c\n\x04\x63ity\x18\x04 \x01(\t\"U\n\x0f\x41\x64\x64ressShipping\x12\x11\n\tfirstName\x18\x01 \x01(\t\x12\x10\n\x08postCode\x18\x02 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x03 \x01(\t\x12\x0c\n\x04\x63ity\x18\x04 \x01(\t\"\xa8\x01\n\tOrderItem\x12\x13\n\x04item\x18\x01 \x01(\x0b\x32\x05.Item\x12\x11\n\titemPrice\x18\x02 \x01(\t\x12\x11\n\ttaxAmount\x18\x03 \x01(\t\x12\x0f\n\x07\x62uyerId\x18\x04 \x01(\t\x12\x18\n\x10shippingProvider\x18\x05 \x01(\t\x12\x14\n\x0ctrackingCode\x18\x06 \x01(\t\x12\r\n\x05skuId\x18\x07 \x01(\t\x12\x10\n\x08statuses\x18\x08 \x03(\t\"\xae\x02\n\x05\x45ntry\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06userId\x18\x02 \x01(\t\x12\x10\n\x08platform\x18\x03 \x01(\t\x12\x13\n\x0bshippingFee\x18\x04 \x01(\t\x12\x15\n\rpaymentMethod\x18\x05 \x01(\t\x12\x0f\n\x07orderId\x18\x06 \x01(\t\x12\x12\n\nitemsCount\x18\x07 \x01(\x05\x12\r\n\x05price\x18\x08 \x01(\t\x12\x11\n\tcreatedAt\x18\t \x01(\t\x12\x11\n\tupdatedAt\x18\n \x01(\t\x12&\n\radressBilling\x18\x0b \x01(\x0b\x32\x0f.AddressBilling\x12)\n\x0f\x61\x64\x64ressShipping\x18\x0c \x01(\x0b\x32\x10.AddressShipping\x12\x1e\n\norderItems\x18\r \x03(\x0b\x32\n.OrderItem\"$\n\tEntryList\x12\x17\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x06.Entry\"\x15\n\x07\x45ntryId\x12\n\n\x02id\x18\x01 \x01(\t2\xcc\x02\n\x10InventoryService\x12&\n\rGetAllEntries\x12\x07.UserId\x1a\n.EntryList\"\x00\x12\x1e\n\x08GetEntry\x12\x08.EntryId\x1a\x06.Entry\"\x00\x12#\n\x0bGetAllItems\x12\x07.UserId\x1a\t.ItemList\"\x00\x12\x1b\n\x07GetItem\x12\x07.ItemId\x1a\x05.Item\"\x00\x12\x1c\n\nCreateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1c\n\nUpdateItem\x12\x05.Item\x1a\x05.Item\"\x00\x12\x1f\n\nDeleteItem\x12\x07.ItemId\x1a\x06.Empty\"\x00\x12%\n\x10GetItemIdBySkuId\x12\x06.SkuId\x1a\x07.ItemId\"\x00\x12*\n\x0cRefreshItems\x12\x10.RefreshItemList\x1a\x06.Empty\"\x00\x62\x06proto3'
 )
 
 
@@ -82,6 +82,155 @@ _USERID = _descriptor.Descriptor(
 )
 
 
+_REFRESHITEMLIST = _descriptor.Descriptor(
+  name='RefreshItemList',
+  full_name='RefreshItemList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='itemList', full_name='RefreshItemList.itemList', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=51,
+  serialized_end=100,
+)
+
+
+_REFRESHITEM = _descriptor.Descriptor(
+  name='RefreshItem',
+  full_name='RefreshItem',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='itemId', full_name='RefreshItem.itemId', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='skus', full_name='RefreshItem.skus', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=102,
+  serialized_end=155,
+)
+
+
+_MINISKU = _descriptor.Descriptor(
+  name='MiniSku',
+  full_name='MiniSku',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='skuId', full_name='MiniSku.skuId', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='quantity', full_name='MiniSku.quantity', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=157,
+  serialized_end=199,
+)
+
+
+_QUANTITY = _descriptor.Descriptor(
+  name='Quantity',
+  full_name='Quantity',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='skuId', full_name='Quantity.skuId', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='quantity', full_name='Quantity.quantity', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=201,
+  serialized_end=244,
+)
+
+
 _ATTRIBUTE = _descriptor.Descriptor(
   name='Attribute',
   full_name='Attribute',
@@ -130,8 +279,8 @@ _ATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=51,
-  serialized_end=138,
+  serialized_start=246,
+  serialized_end=333,
 )
 
 
@@ -218,8 +367,8 @@ _SKU = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=141,
-  serialized_end=320,
+  serialized_start=336,
+  serialized_end=515,
 )
 
 
@@ -306,8 +455,8 @@ _ITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=323,
-  serialized_end=506,
+  serialized_start=518,
+  serialized_end=701,
 )
 
 
@@ -338,8 +487,8 @@ _ITEMLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=508,
-  serialized_end=540,
+  serialized_start=703,
+  serialized_end=735,
 )
 
 
@@ -370,8 +519,8 @@ _ITEMID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=542,
-  serialized_end=562,
+  serialized_start=737,
+  serialized_end=757,
 )
 
 
@@ -402,8 +551,8 @@ _SKUID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=564,
-  serialized_end=583,
+  serialized_start=759,
+  serialized_end=778,
 )
 
 
@@ -455,8 +604,8 @@ _ADDRESSBILLING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=585,
-  serialized_end=669,
+  serialized_start=780,
+  serialized_end=864,
 )
 
 
@@ -508,8 +657,8 @@ _ADDRESSSHIPPING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=671,
-  serialized_end=756,
+  serialized_start=866,
+  serialized_end=951,
 )
 
 
@@ -589,8 +738,8 @@ _ORDERITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=759,
-  serialized_end=927,
+  serialized_start=954,
+  serialized_end=1122,
 )
 
 
@@ -705,8 +854,8 @@ _ENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=930,
-  serialized_end=1232,
+  serialized_start=1125,
+  serialized_end=1427,
 )
 
 
@@ -737,8 +886,8 @@ _ENTRYLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1234,
-  serialized_end=1270,
+  serialized_start=1429,
+  serialized_end=1465,
 )
 
 
@@ -769,10 +918,12 @@ _ENTRYID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1272,
-  serialized_end=1293,
+  serialized_start=1467,
+  serialized_end=1488,
 )
 
+_REFRESHITEMLIST.fields_by_name['itemList'].message_type = _REFRESHITEM
+_REFRESHITEM.fields_by_name['skus'].message_type = _MINISKU
 _ITEM.fields_by_name['attributes'].message_type = _ATTRIBUTE
 _ITEM.fields_by_name['skus'].message_type = _SKU
 _ITEMLIST.fields_by_name['items'].message_type = _ITEM
@@ -783,6 +934,10 @@ _ENTRY.fields_by_name['orderItems'].message_type = _ORDERITEM
 _ENTRYLIST.fields_by_name['entries'].message_type = _ENTRY
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['UserId'] = _USERID
+DESCRIPTOR.message_types_by_name['RefreshItemList'] = _REFRESHITEMLIST
+DESCRIPTOR.message_types_by_name['RefreshItem'] = _REFRESHITEM
+DESCRIPTOR.message_types_by_name['MiniSku'] = _MINISKU
+DESCRIPTOR.message_types_by_name['Quantity'] = _QUANTITY
 DESCRIPTOR.message_types_by_name['Attribute'] = _ATTRIBUTE
 DESCRIPTOR.message_types_by_name['Sku'] = _SKU
 DESCRIPTOR.message_types_by_name['Item'] = _ITEM
@@ -810,6 +965,34 @@ UserId = _reflection.GeneratedProtocolMessageType('UserId', (_message.Message,),
   # @@protoc_insertion_point(class_scope:UserId)
   })
 _sym_db.RegisterMessage(UserId)
+
+RefreshItemList = _reflection.GeneratedProtocolMessageType('RefreshItemList', (_message.Message,), {
+  'DESCRIPTOR' : _REFRESHITEMLIST,
+  '__module__' : 'merchy_pb2'
+  # @@protoc_insertion_point(class_scope:RefreshItemList)
+  })
+_sym_db.RegisterMessage(RefreshItemList)
+
+RefreshItem = _reflection.GeneratedProtocolMessageType('RefreshItem', (_message.Message,), {
+  'DESCRIPTOR' : _REFRESHITEM,
+  '__module__' : 'merchy_pb2'
+  # @@protoc_insertion_point(class_scope:RefreshItem)
+  })
+_sym_db.RegisterMessage(RefreshItem)
+
+MiniSku = _reflection.GeneratedProtocolMessageType('MiniSku', (_message.Message,), {
+  'DESCRIPTOR' : _MINISKU,
+  '__module__' : 'merchy_pb2'
+  # @@protoc_insertion_point(class_scope:MiniSku)
+  })
+_sym_db.RegisterMessage(MiniSku)
+
+Quantity = _reflection.GeneratedProtocolMessageType('Quantity', (_message.Message,), {
+  'DESCRIPTOR' : _QUANTITY,
+  '__module__' : 'merchy_pb2'
+  # @@protoc_insertion_point(class_scope:Quantity)
+  })
+_sym_db.RegisterMessage(Quantity)
 
 Attribute = _reflection.GeneratedProtocolMessageType('Attribute', (_message.Message,), {
   'DESCRIPTOR' : _ATTRIBUTE,
@@ -904,8 +1087,8 @@ _INVENTORYSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1296,
-  serialized_end=1584,
+  serialized_start=1491,
+  serialized_end=1823,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetAllEntries',
@@ -984,6 +1167,16 @@ _INVENTORYSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_SKUID,
     output_type=_ITEMID,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RefreshItems',
+    full_name='InventoryService.RefreshItems',
+    index=8,
+    containing_service=None,
+    input_type=_REFRESHITEMLIST,
+    output_type=_EMPTY,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

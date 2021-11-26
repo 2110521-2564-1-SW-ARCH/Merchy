@@ -54,6 +54,11 @@ class InventoryServiceStub(object):
                 request_serializer=merchy__pb2.SkuId.SerializeToString,
                 response_deserializer=merchy__pb2.ItemId.FromString,
                 )
+        self.RefreshItems = channel.unary_unary(
+                '/InventoryService/RefreshItems',
+                request_serializer=merchy__pb2.RefreshItemList.SerializeToString,
+                response_deserializer=merchy__pb2.Empty.FromString,
+                )
 
 
 class InventoryServiceServicer(object):
@@ -107,6 +112,12 @@ class InventoryServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RefreshItems(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_InventoryServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -149,6 +160,11 @@ def add_InventoryServiceServicer_to_server(servicer, server):
                     servicer.GetItemIdBySkuId,
                     request_deserializer=merchy__pb2.SkuId.FromString,
                     response_serializer=merchy__pb2.ItemId.SerializeToString,
+            ),
+            'RefreshItems': grpc.unary_unary_rpc_method_handler(
+                    servicer.RefreshItems,
+                    request_deserializer=merchy__pb2.RefreshItemList.FromString,
+                    response_serializer=merchy__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -293,5 +309,22 @@ class InventoryService(object):
         return grpc.experimental.unary_unary(request, target, '/InventoryService/GetItemIdBySkuId',
             merchy__pb2.SkuId.SerializeToString,
             merchy__pb2.ItemId.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RefreshItems(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/InventoryService/RefreshItems',
+            merchy__pb2.RefreshItemList.SerializeToString,
+            merchy__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

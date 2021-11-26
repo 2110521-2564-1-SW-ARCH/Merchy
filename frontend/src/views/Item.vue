@@ -72,9 +72,9 @@
                     <button @click="openModal(index)" class="mx-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 hover:bg-green-500  active:bg-green-800">
                       Edit
                     </button>
-                    <button @click="deleteItem(index)" class="mx-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 hover:bg-red-500  active:bg-red-800">
+                    <!-- <button @click="deleteItem(index)" class="mx-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 hover:bg-red-500  active:bg-red-800">
                       Delete
-                    </button>
+                    </button> -->
                   </td>
                 </tr>
             </tbody>
@@ -97,13 +97,22 @@
                   </DialogTitle>
                   <div class="grid grid-cols-6 gap-6">
                       
-                      <!-- <div class="col-span-6 sm:col-span-3">
+                      <div class="col-span-6 sm:col-span-3">
                         <label for="platform" class="block text-sm font-medium text-gray-700">Platform</label>
-                        <select id="platform" name="platform" autocomplete="platform-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                          <option>Lazada</option>
-                          <option>Shopee</option>
+                        <select v-model="selectedItem.platform" id="platform" name="platform" autocomplete="platform-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <option value="lazada">Lazada</option>
+                          <!-- <option>Shopee</option> -->
                         </select>
-                      </div> -->
+                      </div>
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="primaryCategory" class="block text-sm font-medium text-gray-700">Category</label>
+                        <select v-model="selectedItem.primaryCategory" id="Category" name="Category" autocomplete="Category-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <option value='3602'>Pants</option>
+                          <option value='3603'>Shorts</option>
+                          <option value='7236'>Hoodies</option>
+                          <option value='4210'>Pyjama sets</option>
+                        </select>
+                      </div>
 
                       <div class="col-span-6 sm:col-span-3">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -205,13 +214,22 @@
                   </DialogTitle>
                   <div class="grid grid-cols-6 gap-6">
                       
-                      <!-- <div class="col-span-6 sm:col-span-3">
+                      <div class="col-span-6 sm:col-span-3">
                         <label for="platform" class="block text-sm font-medium text-gray-700">Platform</label>
-                        <select id="platform" name="platform" autocomplete="platform-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                          <option>Lazada</option>
-                          <option>Shopee</option>
+                        <select v-model="createdItem.platform" id="platform" name="platform" autocomplete="platform-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <option value="lazada">Lazada</option>
+                          <!-- <option>Shopee</option> -->
                         </select>
-                      </div> -->
+                      </div>
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="primaryCategory" class="block text-sm font-medium text-gray-700">Category</label>
+                        <select v-model.number="createdItem.primaryCategory" id="Category" name="Category" autocomplete="Category-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <!-- <option value="3602">Pants</option> -->
+                          <option value="3603">Shorts</option>
+                          <option value="12393">Hoodies</option>
+                          <!-- <option value="4210">Pyjama sets</option> -->
+                        </select>
+                      </div>
 
                       <div class="col-span-6 sm:col-span-3">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -263,6 +281,10 @@
                       <input type="number" name="sku-packageWeight" id="sku-packageWeight" v-model="sku.packageWeight" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                     <div class="col-span-6">
+                        <label for="imageURL" class="block text-sm font-medium text-gray-700">Image URL</label>
+                        <input type="text" name="imageURL" id="imageURL" v-model="sku.images[0]" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    </div>
+                    <!-- <div class="col-span-6">
                       <label for="sku-packageWeight" class="block text-sm font-medium text-gray-700">Cover photo</label>
                       <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                         <div class="space-y-1 text-center">
@@ -281,7 +303,7 @@
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div> 
               </div>
@@ -418,7 +440,9 @@ export default {
       createItem: async function(e) {
         e.preventDefault()
         this.createdItem.skus[0].price = this.createdItem.skus[0].price.toString()
+        this.createdItem.primaryCategory = parseInt(this.createdItem.primaryCategory)
         this.createdItem.skus[0].quantity = this.createdItem.skus[0].quantity.toString()
+        // this.createdItem.skus[0].images[0]
         try {
           const response = await InventoryDataService.createItem(this.createdItem)
           this.createdItem = default_item
@@ -432,6 +456,7 @@ export default {
         e.preventDefault()
         const { id, ...updatedItem } = this.selectedItem
         updatedItem.skus[0].price = updatedItem.skus[0].price.toString()
+        updatedItem.primaryCategory = parseInt(updatedItem.primaryCategory)
         updatedItem.skus[0].quantity = updatedItem.skus[0].quantity.toString()  
         try {
           const response = await InventoryDataService.updateItem(id, updatedItem)

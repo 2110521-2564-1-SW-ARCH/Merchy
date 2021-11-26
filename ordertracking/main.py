@@ -18,7 +18,7 @@ HOST = str(os.getenv("IP"))
 
 @app.get("/")
 def read_root():
-    lazada.get_user_id_by_seller_id("100197147261")
+    lazada.refresh_items(1)
     return "order tracking works"
 
 
@@ -29,7 +29,7 @@ def test1(order_id: str):
 
 @app.get("/get_orders")
 def test1():
-    return lazada.get_orders()
+    return lazada.get_orders(1)
 
 
 @app.get("/get_order_items/{order_id}")
@@ -73,9 +73,9 @@ def handle_webhook(platform: Platform, body: dict):
     print(body)
     if platform == Platform.LAZADA:
         # trade order
-        if type == 0: lazada.create_or_update_order(body)
+        if type == 0: lazada.create_or_update_order(body) # and also refresh_items
         # product edited
-        if type == 4: lazada.update_item(body)
+        # if type == 4: lazada.update_item(body)
         # product deleted
         if type == 5: lazada.remove_item(body)
     return "OK"

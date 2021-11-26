@@ -89,4 +89,19 @@ LAZADA.updateItem = async function ({ id, ...others }) {
     return { success: true, updatedItem }
 }
 
+LAZADA.refreshItems = async function ({itemList}) {
+    for(const newItem of itemList) {
+        let itemId = newItem.itemId
+        let oldItem = await Item.findOne({ itemId })
+        for(const newSku of newItem.skus) {
+            for(const oldSku of oldItem.skus) {
+                if(oldSku.skuId == newSku.skuId) oldSku.quantity = newSku.quantity
+            }
+        }
+        await oldItem.save()
+    }
+    
+    return true
+}
+
 module.exports = LAZADA

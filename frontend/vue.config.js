@@ -20,3 +20,10 @@
 //         proxy: 'http://localhost:3000'
 //     }
 // }
+
+module.exports = {
+  devServer: {
+    disableHostCheck: true,
+    proxy: 'https://gatewaymerchy.run.goorm.io',
+  }
+}

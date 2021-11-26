@@ -6,7 +6,7 @@ HOST = os.getenv("RABBIT_MQ_IP")
 PRODUCING_QUEUE = "request"
 CONSUMING_QUEUE = "response"
 
-producing_connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
+producing_connection = pika.BlockingConnection(pika.URLParameters(HOST))
 producing_channel = producing_connection.channel()
 producing_channel.queue_declare(queue=PRODUCING_QUEUE, exclusive=False)
 
@@ -16,7 +16,7 @@ def produce(msg):
 
 
 def consume(cb):
-    consuming_connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST))
+    consuming_connection = pika.BlockingConnection(pika.URLParameters(HOST))
     consuming_channel = consuming_connection.channel()
     consuming_channel.queue_declare(queue=CONSUMING_QUEUE)
     consuming_channel.basic_consume(queue=CONSUMING_QUEUE, on_message_callback=cb, auto_ack=True)

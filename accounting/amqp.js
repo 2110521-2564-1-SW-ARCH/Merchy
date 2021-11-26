@@ -2,7 +2,8 @@ const amqp = require('amqplib/callback_api');
 const HOST = process.env.AMQP_IP
 
 module.exports.consume = (queue, cb) => {
-    amqp.connect(`amqp://${HOST}`, function (error0, connection) {
+    amqp.connect(HOST, function (error0, connection) {
+    // amqp.connect(`amqp://${HOST}`, function (error0, connection) {
         if (error0) {
             throw error0;
         }
@@ -29,7 +30,7 @@ module.exports.consume = (queue, cb) => {
 }
 
 module.exports.produce = (queue, msg) => {
-    amqp.connect(`amqp://${HOST}`, function (error0, connection) {
+    amqp.connect(HOST, function (error0, connection) {
         if (error0) {
             throw error0;
         }

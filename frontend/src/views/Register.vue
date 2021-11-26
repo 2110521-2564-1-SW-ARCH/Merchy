@@ -65,7 +65,7 @@
 //   password: garkgark
 // }
 <script>
-import axios from 'axios';
+import AuthDataService from "../services/AuthDataService"
 
 export default {
     data() {
@@ -79,14 +79,7 @@ export default {
     methods: {
         async RegisterUser(e) {
             e.preventDefault()
-            // // alert(this.data)
-            console.log({
-                fname: this.fname,
-                lname: this.lname,
-                email: this.email,
-                password: this.password
-            })
-            const response = await axios.post("http://localhost:3000/api/user", {
+            const response = await AuthDataService.create({
                 fname: this.fname,
                 lname: this.lname,
                 email: this.email,

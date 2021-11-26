@@ -1,6 +1,10 @@
 require("dotenv").config()
 const { consume, produce } = require("./amqp")
 const { calculateSales } = require("./functions/calculateSales")
+// const express = require("express")
+// const app = express()
+
+// app.use(express.json())
 
 async function consumeHandler(msg) {
     let request = null
@@ -13,3 +17,6 @@ async function consumeHandler(msg) {
 }
 
 consume("request", consumeHandler)
+
+// app.get("/", (req, res) => res.send("accounting works"))
+// app.listen(3008, () => console.log("Accounting running with Express"))

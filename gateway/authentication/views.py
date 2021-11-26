@@ -71,3 +71,15 @@ def get_lazada_seller_id(request):
     user_id = str(request.decoded_user["id"])
     data = AuthService.get_lazada_seller_id(user_id)
     return JsonResponse(data)
+
+@api_view(['GET'])
+@jwt_verified(['GET'])
+def idk(request):
+    id = request.decoded_user["id"] if request.decoded_user else None
+    
+    if request.method == 'GET':
+        data = AuthService.get_one_user(id)
+        print(data)
+        return JsonResponse({"msg": "yay"})
+
+

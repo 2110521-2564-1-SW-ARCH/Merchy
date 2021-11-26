@@ -111,9 +111,16 @@ def update_order_status_by_trade_order_id(trade_order_id: str, order_status: str
 def populate_order_items(order_items: List[OrderItem]):
     output = []
     for order_item in order_items:
-        item_id = order_item["item"]
+        # item_id = order_item["item"]["id"]
+        # item_collection = db[Collection.ITEM]
+        # item = item_collection.find_one({"_id": item_id})
+        # item["_id"] = str(item["_id"])
+        # order_item["item"] = item
+        # output.append(order_item)
+        
+        item_id = int(order_item["item"]["id"])
         item_collection = db[Collection.ITEM]
-        item = item_collection.find_one({"_id": item_id})
+        item = item_collection.find_one({"itemId": item_id})
         item["_id"] = str(item["_id"])
         order_item["item"] = item
         output.append(order_item)

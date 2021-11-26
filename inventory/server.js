@@ -7,7 +7,7 @@ require('dotenv').config()
 require('./db')
 
 const IP = process.env.IP
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3002
 
 const PROTO_PATH = path.join(__dirname, '..', 'merchy.proto');
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {

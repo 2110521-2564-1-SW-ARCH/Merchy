@@ -8,10 +8,10 @@ ORDER_TRACKING_PROTOL = process.env.ORDER_TRACKING_PROTOL
 ORDER_TRACKING_URL = `${ORDER_TRACKING_PROTOL}://${ORDER_TRACKING_IP}:${ORDER_TRACKING_PORT}`
 
 // startDate and endDate must be a str of ISO8601 format
-async function getAllOrders(startDate = null, endDate = null) {
+async function getAllOrders(startDate = null, endDate = null, userId) {
     let { data } = await axios.get(`${ORDER_TRACKING_URL}/orders`, {
         params: {
-            user_id: 5,
+            user_id: userId,
             start_date: startDate,
             end_date: endDate
         }
@@ -42,7 +42,7 @@ module.exports.calculateSales = async function (request) {
     if (!request.scale) return { success: false, message: "Missing scale parameter" }
     let response = {}
     let { scale } = request
-    let { orders } = await getAllOrders(request.startDate, request.endDate)
+    let { orders } = await getAllOrders(request.startDate, request.endDate, request.userId)
 
     for (order of orders) {
         let orderPrice = Number(order.price)
